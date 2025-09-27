@@ -719,14 +719,14 @@
     <script>
         // Question Bank API Configuration - Updated to use GitHub Raw API
         const API_CONFIG = {
-            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/quizbank/main/',
+            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/quizbank/',
             ENDPOINTS: {
-                mathematics: 'jamb-mathematics.json',
-                physics: 'jamb-physics.json',
-                chemistry: 'jamb-chemistry.json',
-                english: 'jamb-english.json',
-                sat_math: 'sat-mathematics.json',
-                sat_english: 'sat-english.json'
+                mathematics: 'jamb-question-bank.tsx',
+                physics: 'jamb-physics-bank.tsx',
+                chemistry: 'jamb-chemistry-bank.tsx',
+                english: 'jamb-question-bank.tsx',
+                sat_math: 'sat-question-taxonomy.tsx',
+                sat_english: 'sat-question-taxonomy.tsx'
             },
             CACHE_DURATION: 5 * 60 * 1000 // 5 minutes
         };
@@ -1659,7 +1659,7 @@
             
             if (exam === 'jamb') {
                 subjects = [
-                    { id: 'mathematics', name: 'Mathematics', status: 'available', questions: '300+ Questions' },
+                    { id: 'mathematics', name: 'Mathematics', status: 'available', questions: '10,000+ Questions' },
                     { id: 'english', name: 'English', status: 'coming-soon', questions: 'Coming Soon' },
                     { id: 'physics', name: 'Physics', status: 'coming-soon', questions: 'Coming Soon' },
                     { id: 'chemistry', name: 'Chemistry', status: 'coming-soon', questions: 'Coming Soon' }
