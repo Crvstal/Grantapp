@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Prep Standard - MVP Demo</title>
+    <title>Grant App - Exam Preparation Platform</title>
     <style>
         :root {
             /* Unified Design System Variables */
@@ -11,9 +11,9 @@
             --font-luxury: 'Playfair Display', Georgia, serif;
             --font-mono: 'SF Mono', 'Monaco', monospace;
             
-            --primary: #000000;
+            --primary: #1a365d;
             --secondary: #FFFFFF;
-            --accent: #D4AF37;
+            --accent: #3182CE;
             --success: #059669;
             --warning: #D97706;
             --error: #DC2626;
@@ -72,6 +72,7 @@
         .grid { display: grid; gap: var(--space-lg); }
         .grid-2 { grid-template-columns: repeat(2, 1fr); }
         .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
         .items-center { align-items: center; }
@@ -91,11 +92,9 @@
         .py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
         .py-lg { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
         .py-xl { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
-        .mb-sm { margin-bottom: var(--space-sm); }
         .mb-md { margin-bottom: var(--space-md); }
         .mb-lg { margin-bottom: var(--space-lg); }
         .mb-xl { margin-bottom: var(--space-xl); }
-        .mt-sm { margin-top: var(--space-sm); }
 
         /* Buttons */
         .btn {
@@ -122,7 +121,7 @@
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .btn-primary { background: var(--primary); color: var(--secondary); border-color: var(--primary); }
-        .btn-accent { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+        .btn-accent { background: var(--accent); color: var(--secondary); border-color: var(--accent); }
         .btn-success { background: var(--success); color: var(--secondary); border-color: var(--success); }
         .btn-error { background: var(--error); color: var(--secondary); border-color: var(--error); }
         .btn-ghost { border: none; background: none; }
@@ -130,6 +129,27 @@
 
         .btn-sm { padding: var(--space-xs) var(--space-sm); font-size: 0.75rem; }
         .btn-lg { padding: var(--space-md) var(--space-xl); font-size: 1rem; }
+
+        .btn-loading {
+            color: transparent !important;
+            pointer-events: none;
+        }
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px; height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
 
         /* Cards */
         .card {
@@ -143,6 +163,32 @@
         .card-header { padding: var(--space-lg); border-bottom: var(--border); }
         .card-body { padding: var(--space-lg); }
         .card-footer { padding: var(--space-lg); border-top: var(--border); }
+
+        /* Forms */
+        .form-group { margin-bottom: var(--space-lg); }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            margin-bottom: var(--space-sm);
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: var(--space-sm) var(--space-md);
+            border: var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            background: var(--secondary);
+            transition: all var(--transition);
+        }
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
 
         /* Modals */
         .modal-overlay {
@@ -247,11 +293,6 @@
             border-top: 3px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         /* Navigation */
@@ -403,7 +444,6 @@
             align-items: center;
             gap: var(--space-sm);
             margin: var(--space-xl) 0;
-            flex-wrap: wrap;
         }
 
         .pagination-item {
@@ -417,7 +457,6 @@
             text-align: center;
             cursor: pointer;
             border-radius: var(--radius);
-            font-size: 0.875rem;
         }
 
         .pagination-item:hover {
@@ -426,11 +465,6 @@
 
         .pagination-item.active {
             background: var(--primary);
-            color: var(--secondary);
-        }
-
-        .pagination-item.answered {
-            background: var(--success);
             color: var(--secondary);
         }
 
@@ -448,18 +482,17 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
             .container { padding: 0 var(--space-sm); }
             .question-card { padding: var(--space-lg); }
             .quiz-controls { flex-direction: column; gap: var(--space-md); }
-            .modal-sm, .modal-md { width: 95vw; }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <a href="#" class="navbar-brand" onclick="goHome()">EPS</a>
+        <a href="#" class="navbar-brand" onclick="goHome()">Grant App</a>
         <div class="flex items-center gap-md">
             <button class="btn btn-ghost" onclick="showComingSoon('Analytics')">Analytics</button>
             <button class="btn btn-ghost" onclick="showComingSoon('Rankings')">Rankings</button>
@@ -471,10 +504,10 @@
         <!-- Home Screen -->
         <div id="home-screen" class="screen">
             <section class="py-2xl text-center mb-xl">
-                <h1 class="font-luxury text-4xl mb-lg">Exam Prep Standard</h1>
+                <h1 class="font-luxury text-4xl mb-lg">Grant App</h1>
                 <p class="text-lg text-muted mb-xl">Master your exams with our proprietary 5×2 taxonomy framework</p>
                 
-                <div class="grid grid-3 mb-xl">
+                <div class="grid grid-4 mb-xl">
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">JAMB/UTME</h3>
@@ -485,9 +518,17 @@
                     
                     <div class="card">
                         <div class="card-body text-center">
-                            <h3 class="text-2xl font-semibold mb-sm">SAT</h3>
-                            <p class="text-muted mb-lg">Math, Reading & Writing</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('SAT')">Coming Soon</button>
+                            <h3 class="text-2xl font-semibold mb-sm">SAT Exams</h3>
+                            <p class="text-muted mb-lg">Mathematics, English</p>
+                            <button class="btn btn-primary w-full" onclick="selectExam('sat')">Start Practice</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-2xl font-semibold mb-sm">AP Exams</h3>
+                            <p class="text-muted mb-lg">Chemistry, Physics 1, Physics C</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('AP Exams')">Coming Soon</button>
                         </div>
                     </div>
                     
@@ -495,17 +536,17 @@
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">AWS Certs</h3>
                             <p class="text-muted mb-lg">Cloud Practitioner, Solutions Architect</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('AWS')">Coming Soon</button>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('AWS Certifications')">Coming Soon</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="card" style="max-width: 600px; margin: 0 auto;">
                     <div class="card-header">
-                        <h3 class="text-xl font-semibold">Quick Demo - 5×2 Taxonomy</h3>
+                        <h3 class="text-xl font-semibold">Quick Demo</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-lg">Experience our quiz system with sample JAMB Mathematics questions across all taxonomy categories</p>
+                        <p class="text-muted mb-lg">Experience our quiz system with sample Mathematics questions</p>
                         <button class="btn btn-accent btn-lg w-full" onclick="startDemo()">Try Demo Quiz</button>
                     </div>
                 </div>
@@ -517,42 +558,12 @@
             <section class="py-xl">
                 <div class="mb-xl">
                     <button class="btn btn-ghost" onclick="goBack()">&larr; Back</button>
-                    <h2 class="text-3xl font-semibold text-center mb-lg">Select Subject</h2>
+                    <h2 class="text-3xl font-semibold text-center mb-lg" id="exam-title">Select Subject</h2>
                     <p class="text-center text-muted">Choose your subject to begin practice</p>
                 </div>
 
-                <div class="grid grid-2 mb-xl">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3 class="text-xl font-semibold mb-sm">Mathematics</h3>
-                            <p class="text-muted mb-lg">300+ Questions | 5×2 Taxonomy Framework</p>
-                            <button class="btn btn-primary w-full" onclick="selectSubject('mathematics')">Start Practice</button>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3 class="text-xl font-semibold mb-sm">English</h3>
-                            <p class="text-muted mb-lg">Coming Soon</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('English')">Coming Soon</button>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3 class="text-xl font-semibold mb-sm">Physics</h3>
-                            <p class="text-muted mb-lg">Coming Soon</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('Physics')">Coming Soon</button>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3 class="text-xl font-semibold mb-sm">Chemistry</h3>
-                            <p class="text-muted mb-lg">Coming Soon</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('Chemistry')">Coming Soon</button>
-                        </div>
-                    </div>
+                <div class="grid grid-2 mb-xl" id="subject-grid">
+                    <!-- Subjects will be populated by JavaScript -->
                 </div>
             </section>
         </div>
@@ -564,7 +575,7 @@
                 <div class="card mb-lg">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-md">
-                            <h2 class="text-xl font-semibold">JAMB Mathematics - Practice Mode</h2>
+                            <h2 class="text-xl font-semibold" id="quiz-title">Practice Mode</h2>
                             <button class="btn btn-ghost btn-sm" onclick="exitQuiz()">Exit Quiz</button>
                         </div>
                         <div class="progress-bar mb-md">
@@ -580,10 +591,7 @@
                 <!-- Question Card -->
                 <div class="question-card">
                     <div class="question-header">
-                        <div>
-                            <span class="question-number" id="question-number">Question 1</span>
-                            <span class="text-xs text-muted ml-sm" id="question-taxonomy">Taxonomy: Mathematical - Essential</span>
-                        </div>
+                        <span class="question-number" id="question-number">Question 1</span>
                         <span class="question-timer" id="question-timer">00:30</span>
                     </div>
                     
@@ -644,13 +652,13 @@
                     </div>
                 </div>
 
-                <div class="card mb-xl" style="max-width: 800px; margin: 0 auto;">
+                <div class="card mb-xl" style="max-width: 600px; margin: 0 auto;">
                     <div class="card-header">
-                        <h3 class="text-xl font-semibold">5×2 Taxonomy Performance Analysis</h3>
+                        <h3 class="text-xl font-semibold">Performance Analysis</h3>
                     </div>
                     <div class="card-body">
                         <div class="mb-lg">
-                            <h4 class="font-semibold mb-sm">Question Type Breakdown</h4>
+                            <h4 class="font-semibold mb-sm">Taxonomy Breakdown</h4>
                             <div id="taxonomy-breakdown">
                                 <!-- Will be populated by JavaScript -->
                             </div>
@@ -659,7 +667,7 @@
                         <div class="flex gap-md">
                             <button class="btn btn-primary" onclick="reviewAnswers()">Review Answers</button>
                             <button class="btn btn-ghost" onclick="retakeQuiz()">Retake Quiz</button>
-                            <button class="btn btn-accent" onclick="showUpgradeModal()">Upgrade for Full Analytics</button>
+                            <button class="btn btn-ghost" onclick="showComingSoon('Detailed Analytics')">View Analytics</button>
                         </div>
                     </div>
                 </div>
@@ -684,88 +692,6 @@
         </div>
     </div>
 
-    <!-- Upgrade Modal -->
-    <div id="upgrade-modal" class="modal-overlay">
-        <div class="modal modal-lg">
-            <div class="card-header">
-                <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
-                <button class="btn btn-ghost btn-sm" onclick="closeModal('upgrade-modal')">&times;</button>
-            </div>
-            <div class="card-body">
-                <div class="grid grid-2 gap-lg mb-lg">
-                    <!-- Premium Plan -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="font-semibold">Premium Monthly</h4>
-                            <div class="text-2xl font-bold text-accent">$9.99/mo</div>
-                        </div>
-                        <div class="card-body">
-                            <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
-                                <li>Multi-exam preparation (JAMB + SAT + AWS)</li>
-                                <li>Global rankings & competitions</li>
-                                <li>Priority support & mentorship</li>
-                                <li>Advanced ML-powered insights</li>
-                                <li>Institutional licensing available</li>
-                            </ul>
-                            <button class="btn btn-accent w-full" onclick="initiateSolanaPayment('professional')">
-                                Pay with Solana (USDC)
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center">
-                    <button class="btn btn-ghost" onclick="proceedWithFree()">Continue with Basic Results</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Solana Payment Modal -->
-    <div id="solana-payment-modal" class="modal-overlay">
-        <div class="modal modal-md">
-            <div class="card-header">
-                <h3 class="text-xl font-semibold">Solana Payment</h3>
-                <button class="btn btn-ghost btn-sm" onclick="closeModal('solana-payment-modal')">&times;</button>
-            </div>
-            <div class="card-body text-center">
-                <div class="mb-lg">
-                    <h4 class="font-semibold mb-sm">Payment Amount</h4>
-                    <div class="text-3xl font-bold text-accent mb-sm" id="payment-amount">$9.99 USDC</div>
-                    <div class="text-sm text-muted" id="payment-reference">Reference: Loading...</div>
-                </div>
-                
-                <div class="mb-lg">
-                    <div id="qr-container">
-                        <div class="loading-spinner" style="margin: 0 auto;"></div>
-                    </div>
-                </div>
-                
-                <div class="mb-lg">
-                    <p class="text-sm text-muted mb-md">Scan with your Solana wallet or use the payment link</p>
-                    <button class="btn btn-accent" id="wallet-button" onclick="openSolanaWallet()">
-                        Open Solana Wallet
-                    </button>
-                </div>
-                
-                <div class="mb-lg">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="payment-progress" style="width: 0%"></div>
-                    </div>
-                    <div class="text-sm text-muted mt-sm" id="payment-status">Waiting for payment...</div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="flex gap-md">
-                    <button class="btn btn-ghost" onclick="closeModal('solana-payment-modal')">Cancel</button>
-                    <button class="btn btn-primary" onclick="checkPaymentStatus()">
-                        Check Payment Status
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Error Modal -->
     <div id="error-modal" class="modal-overlay">
         <div class="modal modal-sm">
@@ -782,52 +708,6 @@
         </div>
     </div>
 
-    <!-- Submission Modal -->
-    <div id="submission-modal" class="modal-overlay">
-        <div class="modal modal-md">
-            <div class="card-header">
-                <h3 class="text-xl font-semibold">Submit Quiz</h3>
-                <button class="btn btn-ghost btn-sm" onclick="closeModal('submission-modal')">&times;</button>
-            </div>
-            <div class="card-body">
-                <div class="mb-lg">
-                    <h4 class="font-semibold mb-sm">Quiz Summary</h4>
-                    <div class="grid grid-2 gap-md text-sm">
-                        <div>Answered: <strong id="answered-count">0/0</strong></div>
-                        <div>Time Used: <strong id="time-used">0:00</strong></div>
-                    </div>
-                </div>
-                
-                <div class="mb-lg">
-                    <h4 class="font-semibold mb-sm">Upgrade for Premium Analytics</h4>
-                    <div class="card">
-                        <div class="card-body">
-                            <ul class="text-sm text-muted" style="list-style: disc; padding-left: 1rem;">
-                                <li>Detailed answer explanations with step-by-step solutions</li>
-                                <li>Advanced 5×2 taxonomy performance breakdown</li>
-                                <li>Personalized study recommendations</li>
-                                <li>Progress tracking across multiple sessions</li>
-                                <li>Comparative performance analytics</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <p class="text-muted mb-lg">Choose how to proceed with your quiz submission:</p>
-            </div>
-            <div class="card-footer">
-                <div class="flex gap-md">
-                    <button class="btn btn-primary" onclick="confirmSubmission()">
-                        Submit & Get Basic Results
-                    </button>
-                    <button class="btn btn-accent" onclick="showUpgradeModal()">
-                        Upgrade for Full Analytics
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Notification Container -->
     <div class="notification-container" id="notifications"></div>
 
@@ -837,138 +717,327 @@
     </div>
 
     <script>
-        // Question Bank API Configuration
+        // Question Bank API Configuration - Updated to use GitHub Raw API
         const API_CONFIG = {
-            BASE_URL: 'https://crvstal.github.io/quizbank/',
+            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/quizbank/main/',
             ENDPOINTS: {
-                mathematics: 'jamb-mathematics.json'
+                mathematics: 'jamb-mathematics.json',
+                physics: 'jamb-physics.json',
+                chemistry: 'jamb-chemistry.json',
+                english: 'jamb-english.json',
+                sat_math: 'sat-mathematics.json',
+                sat_english: 'sat-english.json'
             },
             CACHE_DURATION: 5 * 60 * 1000 // 5 minutes
-        };
-
-        // Solana Pay Configuration
-        const SOLANA_CONFIG = {
-            MERCHANT_WALLET: 'CmBXGSh9rsDiZ6KtxhPGC2qzE7onETKK5J8E3hNJm6vC',
-            PRICING: {
-                premium: 9.99,
-                professional: 19.99
-            },
-            USDC_MINT: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
         };
 
         // Question Cache
         let questionCache = {};
 
-        // 5×2 Taxonomy Sample Questions
+        // Fallback Questions (in case API fails)
         const fallbackQuestions = [
             {
-                id: 'math_pragmatic_essential_1',
-                text: "A rectangular field is 120m long and 80m wide. What is the area in square meters?",
-                options: ["A) 9,600", "B) 400", "C) 200", "D) 19,200"],
-                correct: 0,
-                taxonomy: { type: "pragmatic", info: "essential" },
-                explanation: "Area = Length × Width = 120m × 80m = 9,600 square meters"
-            },
-            {
-                id: 'math_logical_contextual_1',
-                text: "If the pattern continues: 2, 6, 18, 54, ..., what is the next number?",
-                options: ["A) 108", "B) 162", "C) 216", "D) 72"],
+                id: 'fallback_1',
+                text: "If 3x - 2 = 10, find the value of x.",
+                options: ["A) 3", "B) 4", "C) 5", "D) 6"],
                 correct: 1,
-                taxonomy: { type: "logical", info: "contextual" },
-                explanation: "Each term is multiplied by 3: 2×3=6, 6×3=18, 18×3=54, 54×3=162"
+                taxonomy: { type: "mathematical", info: "essential" },
+                explanation: "3x - 2 = 10\n3x = 10 + 2\n3x = 12\nx = 4"
             },
             {
-                id: 'math_canon_essential_1',
-                text: "Simplify: (x² + 5x + 6) ÷ (x + 2)",
-                options: ["A) x + 3", "B) x + 4", "C) x² + 3", "D) x + 1"],
+                id: 'fallback_2',
+                text: "What is the area of a circle with radius 7cm? (Take π = 22/7)",
+                options: ["A) 154 cm²", "B) 44 cm²", "C) 22 cm²", "D) 308 cm²"],
+                correct: 0,
+                taxonomy: { type: "pragmatic", info: "applied" },
+                explanation: "Area = πr² = (22/7) × 7² = (22/7) × 49 = 154 cm²"
+            },
+            {
+                id: 'fallback_3',
+                text: "Simplify: 2⁴ × 2³",
+                options: ["A) 2⁷", "B) 2¹²", "C) 4⁷", "D) 8³"],
                 correct: 0,
                 taxonomy: { type: "canon", info: "essential" },
-                explanation: "Factor the numerator: (x+2)(x+3) ÷ (x+2) = x+3"
+                explanation: "When multiplying powers with same base, add the exponents: 2⁴ × 2³ = 2⁴⁺³ = 2⁷"
             },
             {
-                id: 'math_statistics_applied_1',
-                text: "The scores of 5 students are: 78, 85, 92, 88, 77. What is the median score?",
-                options: ["A) 84", "B) 85", "C) 88", "D) 78"],
+                id: 'fallback_4',
+                text: "If the mean of 5 numbers is 12, what is their sum?",
+                options: ["A) 17", "B) 60", "C) 7", "D) 24"],
                 correct: 1,
-                taxonomy: { type: "statistics", info: "applied" },
-                explanation: "Arrange in order: 77, 78, 85, 88, 92. The median is the middle value: 85"
-            },
-            {
-                id: 'math_mathematical_proofs_1',
-                text: "If sin θ = 3/5, what is cos θ? (θ is acute)",
-                options: ["A) 4/5", "B) 5/4", "C) 3/4", "D) 5/3"],
-                correct: 0,
-                taxonomy: { type: "mathematical", info: "proofs" },
-                explanation: "Using Pythagorean identity: cos²θ + sin²θ = 1\ncos²θ = 1 - (3/5)² = 1 - 9/25 = 16/25\ncos θ = 4/5 (positive since θ is acute)"
-            },
-            {
-                id: 'math_pragmatic_contextual_1',
-                text: "A car travels 240 km in 3 hours. At this rate, how far will it travel in 5 hours?",
-                options: ["A) 400 km", "B) 360 km", "C) 480 km", "D) 300 km"],
-                correct: 0,
-                taxonomy: { type: "pragmatic", info: "contextual" },
-                explanation: "Speed = 240 km ÷ 3 hours = 80 km/h\nDistance in 5 hours = 80 km/h × 5 hours = 400 km"
-            },
-            {
-                id: 'math_logical_abstract_1',
-                text: "If all A are B, and some B are C, which conclusion is definitely true?",
-                options: ["A) All A are C", "B) Some A are C", "C) No A are C", "D) None of these can be concluded"],
-                correct: 3,
-                taxonomy: { type: "logical", info: "abstract" },
-                explanation: "While all A are B, we only know some B are C. We cannot determine the relationship between A and C from this information."
-            },
-            {
-                id: 'math_canon_applied_1',
-                text: "The sum of an arithmetic progression is S = n/2[2a + (n-1)d]. Find the sum of first 10 terms if a = 5 and d = 3.",
-                options: ["A) 185", "B) 155", "C) 175", "D) 195"],
-                correct: 0,
-                taxonomy: { type: "canon", info: "applied" },
-                explanation: "S₁₀ = 10/2[2(5) + (10-1)(3)] = 5[10 + 27] = 5 × 37 = 185"
-            },
-            {
-                id: 'math_statistics_contextual_1',
-                text: "In a normal distribution, what percentage of data falls within one standard deviation of the mean?",
-                options: ["A) 68%", "B) 95%", "C) 99.7%", "D) 50%"],
-                correct: 0,
                 taxonomy: { type: "statistics", info: "contextual" },
-                explanation: "In a normal distribution, approximately 68% of data falls within one standard deviation (±1σ) of the mean."
+                explanation: "Mean = Sum ÷ Count\n12 = Sum ÷ 5\nSum = 12 × 5 = 60"
             },
             {
-                id: 'math_mathematical_abstract_1',
-                text: "What is the derivative of f(x) = x³ - 4x² + 5x - 2?",
-                options: ["A) 3x² - 8x + 5", "B) x⁴ - 4x³ + 5x²", "C) 3x² - 4x + 5", "D) 3x² - 8x + 2"],
+                id: 'fallback_5',
+                text: "If y varies inversely as x, and y = 8 when x = 3, find y when x = 6.",
+                options: ["A) 4", "B) 16", "C) 2", "D) 12"],
                 correct: 0,
-                taxonomy: { type: "mathematical", info: "abstract" },
-                explanation: "Using power rule: d/dx[x³] = 3x², d/dx[-4x²] = -8x, d/dx[5x] = 5, d/dx[-2] = 0\nTherefore: f'(x) = 3x² - 8x + 5"
+                taxonomy: { type: "logical", info: "abstract" },
+                explanation: "Inverse variation: y = k/x\n8 = k/3, so k = 24\nWhen x = 6: y = 24/6 = 4"
             }
         ];
 
+        // SAT-specific fallback questions
+        const satFallbackQuestions = [
+            {
+                id: 'sat_fallback_1',
+                text: "If 2x + 5 = 17, what is the value of x?",
+                options: ["A) 6", "B) 7", "C) 8", "D) 9"],
+                correct: 0,
+                taxonomy: { type: "algebra", info: "essential" },
+                explanation: "2x + 5 = 17\n2x = 17 - 5\n2x = 12\nx = 6"
+            },
+            {
+                id: 'sat_fallback_2',
+                text: "Which of the following is the best synonym for 'ubiquitous'?",
+                options: ["A) Rare", "B) Everywhere", "C) Hidden", "D) Ancient"],
+                correct: 1,
+                taxonomy: { type: "vocabulary", info: "contextual" },
+                explanation: "Ubiquitous means present, appearing, or found everywhere."
+            },
+            {
+                id: 'sat_fallback_3',
+                text: "In a right triangle, if one angle measures 30°, what is the measure of the other acute angle?",
+                options: ["A) 30°", "B) 45°", "C) 60°", "D) 90°"],
+                correct: 2,
+                taxonomy: { type: "geometry", info: "applied" },
+                explanation: "The sum of angles in a triangle is 180°. In a right triangle, one angle is 90°. So, 90° + 30° + x = 180° → x = 60°"
+            },
+            {
+                id: 'sat_fallback_4',
+                text: "Which word correctly completes the sentence: 'The committee _____ its decision yesterday.'",
+                options: ["A) announce", "B) announces", "C) announced", "D) has announced"],
+                correct: 2,
+                taxonomy: { type: "grammar", info: "essential" },
+                explanation: "The word 'yesterday' indicates past tense, so 'announced' is correct."
+            },
+            {
+                id: 'sat_fallback_5',
+                text: "If f(x) = 2x² - 3x + 1, what is f(2)?",
+                options: ["A) 3", "B) 5", "C) 7", "D) 9"],
+                correct: 0,
+                taxonomy: { type: "algebra", info: "applied" },
+                explanation: "f(2) = 2(2)² - 3(2) + 1 = 2(4) - 6 + 1 = 8 - 6 + 1 = 3"
+            }
+        ];
+
+        // API Functions - Updated to use GitHub Raw API
+        async function fetchQuestions(subject) {
+            const cacheKey = `${subject}_questions`;
+            const cacheTimestamp = `${subject}_timestamp`;
+            
+            // Check cache first
+            const cachedQuestions = questionCache[cacheKey];
+            const cacheTime = questionCache[cacheTimestamp];
+            const now = Date.now();
+            
+            if (cachedQuestions && cacheTime && (now - cacheTime < API_CONFIG.CACHE_DURATION)) {
+                console.log(`Using cached questions for ${subject}`);
+                return cachedQuestions;
+            }
+
+            const endpoint = API_CONFIG.ENDPOINTS[subject];
+            if (!endpoint) {
+                console.error(`No endpoint configured for subject: ${subject}`);
+                // Return appropriate fallback based on subject
+                return subject.includes('sat') ? satFallbackQuestions : fallbackQuestions;
+            }
+
+            const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+            
+            try {
+                console.log(`Fetching questions from: ${url}`);
+                
+                // Using GitHub Raw API which doesn't have CORS restrictions
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                // Validate data structure
+                if (!Array.isArray(data) || data.length === 0) {
+                    throw new Error('Invalid question data structure');
+                }
+
+                // Ensure required fields exist
+                const validatedQuestions = data.filter(question => {
+                    return question.id && 
+                           question.text && 
+                           Array.isArray(question.options) && 
+                           question.options.length >= 4 &&
+                           typeof question.correct === 'number' &&
+                           question.taxonomy;
+                });
+
+                if (validatedQuestions.length === 0) {
+                    throw new Error('No valid questions found in response');
+                }
+
+                // Cache the results
+                questionCache[cacheKey] = validatedQuestions;
+                questionCache[cacheTimestamp] = now;
+                
+                console.log(`Successfully loaded ${validatedQuestions.length} questions for ${subject}`);
+                return validatedQuestions;
+
+            } catch (error) {
+                console.error(`Error fetching questions for ${subject}:`, error);
+                GrantApp.showNotification('warning', 'Using Offline Mode', `Could not load latest questions. Using cached content.`);
+                
+                // Return cached questions if available, otherwise appropriate fallback
+                return cachedQuestions || (subject.includes('sat') ? satFallbackQuestions : fallbackQuestions);
+            }
+        }
+
+        // Question Selection and Filtering
+        function selectQuestionsByDifficulty(questions, difficulty = 'mixed', count = 20) {
+            const shuffled = [...questions].sort(() => 0.5 - Math.random());
+            
+            if (difficulty === 'mixed') {
+                return shuffled.slice(0, count);
+            }
+            
+            // Filter by taxonomy complexity for difficulty
+            const filtered = shuffled.filter(q => {
+                const taxonomyComplexity = getTaxonomyComplexity(q.taxonomy);
+                return taxonomyComplexity === difficulty;
+            });
+            
+            return filtered.slice(0, Math.min(count, filtered.length));
+        }
+
+        // Solana Pay Configuration - Updated to your wallet
+        const SOLANA_CONFIG = {
+            // Your wallet address
+            MERCHANT_WALLET: 'GR8TuDpbnDvuLzW4JBCLjbeLvGFs1p21XBytLx6rA7XD',
+            RPC_ENDPOINT: 'https://api.mainnet-beta.solana.com',
+            NETWORK: 'mainnet-beta',
+            
+            // Pricing (in USDC)
+            PRICING: {
+                premium_monthly: 9.99,
+                premium_yearly: 99.99,
+                professional_monthly: 19.99,
+                professional_yearly: 199.99
+            },
+
+            // USDC Token Mint Address (mainnet)
+            USDC_MINT: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+        };
+
+        // Solana Pay Functions
+        function generateSolanaPayURL(amount, tier, reference) {
+            const params = new URLSearchParams({
+                recipient: SOLANA_CONFIG.MERCHANT_WALLET,
+                amount: amount.toString(),
+                'spl-token': SOLANA_CONFIG.USDC_MINT,
+                reference: reference,
+                label: 'Grant App',
+                message: `${tier} subscription payment`,
+                memo: `GrantApp_${tier}_${Date.now()}`
+            });
+
+            return `solana:${SOLANA_CONFIG.MERCHANT_WALLET}?${params.toString()}`;
+        }
+
+        function createSolanaPayQR(paymentUrl) {
+            // For production, integrate with @solana/pay library
+            // This is a simplified version for demo
+            const qrData = encodeURIComponent(paymentUrl);
+            return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${qrData}`;
+        }
+
+        async function initiateSolanaPayment(tier) {
+            const amount = SOLANA_CONFIG.PRICING[tier];
+            const reference = generatePaymentReference();
+            const paymentUrl = generateSolanaPayURL(amount, tier, reference);
+            const qrCodeUrl = createSolanaPayQR(paymentUrl);
+
+            // Store payment details for verification
+            const paymentDetails = {
+                reference,
+                amount,
+                tier,
+                timestamp: Date.now(),
+                status: 'pending'
+            };
+
+            // In production, store in secure backend
+            sessionStorage.setItem(`payment_${reference}`, JSON.stringify(paymentDetails));
+
+            return {
+                paymentUrl,
+                qrCodeUrl,
+                reference,
+                amount
+            };
+        }
+
+        function generatePaymentReference() {
+            return 'GrantApp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        async function verifyPayment(reference) {
+            // In production, verify on Solana blockchain
+            // This is simplified for demo
+            try {
+                const storedPayment = sessionStorage.getItem(`payment_${reference}`);
+                if (!storedPayment) throw new Error('Payment not found');
+
+                const paymentData = JSON.parse(storedPayment);
+                
+                // Simulate blockchain verification delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // For demo, randomly succeed/fail
+                const isVerified = Math.random() > 0.3; // 70% success rate for demo
+
+                if (isVerified) {
+                    paymentData.status = 'completed';
+                    paymentData.confirmedAt = Date.now();
+                    sessionStorage.setItem(`payment_${reference}`, JSON.stringify(paymentData));
+                    return true;
+                } else {
+                    throw new Error('Payment verification failed');
+                }
+            } catch (error) {
+                console.error('Payment verification error:', error);
+                return false;
+            }
+        }
+
         // Application State
         let currentScreen = 'home';
+        let currentExam = '';
         let currentQuiz = {
             subject: '',
             questions: [],
             currentQuestionIndex: 0,
             answers: {},
             startTime: null,
-            timeLimit: 30 * 60,
-            timer: null,
-            submitted: false
+            timeLimit: 30 * 60, // 30 minutes
+            timer: null
         };
-        let currentPayment = null;
 
-        // System Controller Object
-        const EPS = {
+        // System Controller
+        const GrantApp = {
             // Screen Management
             showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.add('hidden');
                 });
-                const targetScreen = document.getElementById(screenId);
-                if (targetScreen) {
-                    targetScreen.classList.remove('hidden');
-                    currentScreen = screenId;
-                }
+                document.getElementById(screenId).classList.remove('hidden');
+                currentScreen = screenId;
             },
 
             // Notification System
@@ -983,7 +1052,7 @@
                 notification.innerHTML = `
                     <div class="notification-header">
                         <div class="notification-title">${title}</div>
-                        <button class="notification-close" onclick="EPS.closeNotification('${id}')">&times;</button>
+                        <button class="notification-close" onclick="GrantApp.closeNotification('${id}')">&times;</button>
                     </div>
                     <div class="notification-message">${message}</div>
                 `;
@@ -1035,9 +1104,7 @@
 
             // Timer Management
             startTimer() {
-                if (currentQuiz.timer) {
-                    clearInterval(currentQuiz.timer);
-                }
+                if (currentQuiz.timer) clearInterval(currentQuiz.timer);
                 
                 currentQuiz.startTime = Date.now();
                 currentQuiz.timer = setInterval(() => {
@@ -1047,14 +1114,11 @@
                     const minutes = Math.floor(remaining / 60);
                     const seconds = remaining % 60;
                     
-                    const timerDisplay = document.getElementById('timer-display');
-                    if (timerDisplay) {
-                        timerDisplay.textContent = 
-                            `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    }
+                    document.getElementById('timer-display').textContent = 
+                        `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                     
                     if (remaining <= 0) {
-                        this.endQuiz(false);
+                        this.endQuiz();
                     }
                 }, 1000);
             },
@@ -1067,110 +1131,6 @@
             },
 
             // Question Management
-            async startQuiz(subject, questionCount = 10) {
-                this.showLoading();
-                
-                try {
-                    const allQuestions = await this.fetchQuestions(subject);
-                    const selectedQuestions = this.selectQuestions(allQuestions, questionCount);
-                    
-                    if (selectedQuestions.length === 0) {
-                        throw new Error('No questions available');
-                    }
-
-                    currentQuiz = {
-                        subject: subject,
-                        questions: selectedQuestions,
-                        currentQuestionIndex: 0,
-                        answers: {},
-                        startTime: null,
-                        timeLimit: 30 * 60,
-                        timer: null,
-                        submitted: false
-                    };
-
-                    this.hideLoading();
-                    this.showScreen('quiz-screen');
-                    this.loadQuestion(0);
-                    this.startTimer();
-                    
-                    this.showNotification('success', 'Quiz Started', `${selectedQuestions.length} questions loaded across all taxonomy categories.`);
-                    
-                } catch (error) {
-                    this.hideLoading();
-                    console.error('Failed to start quiz:', error);
-                    this.showError(`Failed to load questions: ${error.message}`);
-                }
-            },
-
-            async fetchQuestions(subject) {
-                // Check cache first
-                const cacheKey = `${subject}_questions`;
-                const cachedQuestions = questionCache[cacheKey];
-                
-                if (cachedQuestions) {
-                    return cachedQuestions;
-                }
-
-                // Try to fetch from API
-                try {
-                    const endpoint = API_CONFIG.ENDPOINTS[subject];
-                    if (endpoint) {
-                        const url = `${API_CONFIG.BASE_URL}${endpoint}`;
-                        const response = await fetch(url);
-                        
-                        if (response.ok) {
-                            const data = await response.json();
-                            if (Array.isArray(data) && data.length > 0) {
-                                questionCache[cacheKey] = data;
-                                return data;
-                            }
-                        }
-                    }
-                } catch (error) {
-                    console.log('API fetch failed, using fallback questions');
-                }
-
-                // Use fallback questions
-                questionCache[cacheKey] = fallbackQuestions;
-                return fallbackQuestions;
-            },
-
-            selectQuestions(questions, count) {
-                // Ensure we get questions from different taxonomy categories
-                const taxonomyGroups = {};
-                
-                // Group questions by taxonomy
-                questions.forEach(q => {
-                    const key = `${q.taxonomy.type}-${q.taxonomy.info}`;
-                    if (!taxonomyGroups[key]) {
-                        taxonomyGroups[key] = [];
-                    }
-                    taxonomyGroups[key].push(q);
-                });
-
-                // Select questions from each group
-                const selected = [];
-                const groupKeys = Object.keys(taxonomyGroups);
-                const questionsPerGroup = Math.max(1, Math.floor(count / groupKeys.length));
-
-                groupKeys.forEach(key => {
-                    const groupQuestions = taxonomyGroups[key];
-                    const shuffled = groupQuestions.sort(() => 0.5 - Math.random());
-                    selected.push(...shuffled.slice(0, questionsPerGroup));
-                });
-
-                // Fill remaining slots randomly
-                const remaining = count - selected.length;
-                if (remaining > 0) {
-                    const unusedQuestions = questions.filter(q => !selected.includes(q));
-                    const shuffledUnused = unusedQuestions.sort(() => 0.5 - Math.random());
-                    selected.push(...shuffledUnused.slice(0, remaining));
-                }
-
-                return selected.slice(0, count);
-            },
-
             loadQuestion(index) {
                 if (index < 0 || index >= currentQuiz.questions.length) return;
                 
@@ -1178,58 +1138,43 @@
                 currentQuiz.currentQuestionIndex = index;
 
                 // Update question display
-                const questionNumber = document.getElementById('question-number');
-                const questionTaxonomy = document.getElementById('question-taxonomy');
-                const questionText = document.getElementById('question-text');
-                
-                if (questionNumber) questionNumber.textContent = `Question ${index + 1}`;
-                if (questionTaxonomy) {
-                    questionTaxonomy.textContent = `Taxonomy: ${question.taxonomy.type} - ${question.taxonomy.info}`.replace(/\b\w/g, l => l.toUpperCase());
-                }
-                if (questionText) questionText.textContent = question.text;
+                document.getElementById('question-number').textContent = `Question ${index + 1}`;
+                document.getElementById('question-text').textContent = question.text;
 
                 // Update options
                 const optionsList = document.getElementById('options-list');
-                if (optionsList) {
-                    optionsList.innerHTML = '';
+                optionsList.innerHTML = '';
 
-                    question.options.forEach((option, optIndex) => {
-                        const li = document.createElement('li');
-                        li.className = 'option-item';
-                        
-                        const label = document.createElement('label');
-                        label.className = 'option-label';
-                        if (currentQuiz.answers[question.id] === optIndex) {
-                            label.classList.add('selected');
-                        }
-                        
-                        label.innerHTML = `
-                            <div class="option-radio"></div>
-                            <div>${option}</div>
-                        `;
-                        
-                        label.addEventListener('click', () => this.selectOption(question.id, optIndex));
-                        li.appendChild(label);
-                        optionsList.appendChild(li);
-                    });
-                }
+                question.options.forEach((option, optIndex) => {
+                    const li = document.createElement('li');
+                    li.className = 'option-item';
+                    
+                    const label = document.createElement('label');
+                    label.className = 'option-label';
+                    if (currentQuiz.answers[question.id] === optIndex) {
+                        label.classList.add('selected');
+                    }
+                    
+                    label.innerHTML = `
+                        <div class="option-radio"></div>
+                        <div>${option}</div>
+                    `;
+                    
+                    label.addEventListener('click', () => this.selectOption(question.id, optIndex));
+                    li.appendChild(label);
+                    optionsList.appendChild(li);
+                });
 
                 // Update progress
                 const progress = ((index + 1) / currentQuiz.questions.length) * 100;
-                const progressBar = document.getElementById('quiz-progress');
-                const progressText = document.getElementById('progress-text');
-                
-                if (progressBar) progressBar.style.width = `${progress}%`;
-                if (progressText) progressText.textContent = `Question ${index + 1} of ${currentQuiz.questions.length}`;
+                document.getElementById('quiz-progress').style.width = `${progress}%`;
+                document.getElementById('progress-text').textContent = 
+                    `Question ${index + 1} of ${currentQuiz.questions.length}`;
 
                 // Update navigation buttons
-                const prevBtn = document.getElementById('prev-btn');
+                document.getElementById('prev-btn').disabled = index === 0;
                 const nextBtn = document.getElementById('next-btn');
-                
-                if (prevBtn) prevBtn.disabled = index === 0;
-                if (nextBtn) {
-                    nextBtn.textContent = index === currentQuiz.questions.length - 1 ? 'Finish Quiz' : 'Next Question';
-                }
+                nextBtn.textContent = index === currentQuiz.questions.length - 1 ? 'Finish Quiz' : 'Next Question';
 
                 // Update question navigation
                 this.updateQuestionNavigation();
@@ -1253,8 +1198,6 @@
 
             updateQuestionNavigation() {
                 const nav = document.getElementById('question-nav');
-                if (!nav) return;
-
                 nav.innerHTML = '';
 
                 currentQuiz.questions.forEach((question, index) => {
@@ -1267,7 +1210,8 @@
                     }
                     
                     if (currentQuiz.answers.hasOwnProperty(question.id)) {
-                        item.classList.add('answered');
+                        item.style.background = 'var(--success)';
+                        item.style.color = 'var(--secondary)';
                     }
                     
                     item.addEventListener('click', () => this.loadQuestion(index));
@@ -1275,33 +1219,49 @@
                 });
             },
 
-            submitQuiz() {
-                const unanswered = this.getUnansweredQuestions();
+            // Quiz Flow - Updated with API integration
+            async startQuiz(subject, questionCount = 20) {
+                this.showLoading();
                 
-                // Update submission modal stats
-                const answeredCount = document.getElementById('answered-count');
-                const timeUsed = document.getElementById('time-used');
-                
-                if (answeredCount) {
-                    answeredCount.textContent = `${Object.keys(currentQuiz.answers).length}/${currentQuiz.questions.length}`;
+                try {
+                    // Fetch questions from external repo using GitHub Raw API
+                    const allQuestions = await fetchQuestions(subject);
+                    const selectedQuestions = selectQuestionsByDifficulty(allQuestions, 'mixed', questionCount);
+                    
+                    if (selectedQuestions.length === 0) {
+                        throw new Error('No questions available');
+                    }
+
+                    currentQuiz = {
+                        subject: subject,
+                        questions: selectedQuestions,
+                        currentQuestionIndex: 0,
+                        answers: {},
+                        startTime: null,
+                        timeLimit: 30 * 60,
+                        timer: null,
+                        submitted: false
+                    };
+
+                    this.hideLoading();
+                    this.showScreen('quiz-screen');
+                    
+                    // Update quiz title based on exam and subject
+                    const examName = currentExam === 'jamb' ? 'JAMB' : 'SAT';
+                    const subjectName = subject.includes('math') ? 'Mathematics' : 
+                                       subject.includes('english') ? 'English' : subject;
+                    document.getElementById('quiz-title').textContent = `${examName} ${subjectName} - Practice Mode`;
+                    
+                    this.loadQuestion(0);
+                    this.startTimer();
+                    
+                    this.showNotification('success', 'Quiz Loaded', `${selectedQuestions.length} questions loaded from question bank.`);
+                    
+                } catch (error) {
+                    this.hideLoading();
+                    console.error('Failed to start quiz:', error);
+                    this.showError(`Failed to load questions: ${error.message}. Please check your internet connection and try again.`);
                 }
-                if (timeUsed) {
-                    timeUsed.textContent = this.getElapsedTime();
-                }
-
-                this.openModal('submission-modal');
-            },
-
-            getUnansweredQuestions() {
-                return currentQuiz.questions.filter(q => !currentQuiz.answers.hasOwnProperty(q.id));
-            },
-
-            getElapsedTime() {
-                if (!currentQuiz.startTime) return '0:00';
-                const elapsed = Math.floor((Date.now() - currentQuiz.startTime) / 1000);
-                const minutes = Math.floor(elapsed / 60);
-                const seconds = elapsed % 60;
-                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
             },
 
             endQuiz(submitted = false) {
@@ -1312,8 +1272,310 @@
                 this.calculateResults();
                 this.showScreen('results-screen');
                 
-                const message = submitted ? 'Quiz submitted successfully!' : 'Quiz time expired!';
+                const message = submitted ? 'Quiz submitted successfully!' : 'Quiz completed!';
                 this.showNotification('success', 'Quiz Complete', message);
+            },
+
+            submitQuiz() {
+                const unanswered = this.getUnansweredQuestions();
+                
+                if (unanswered.length > 0) {
+                    const confirmMsg = `You have ${unanswered.length} unanswered questions. Submit anyway?`;
+                    if (!confirm(confirmMsg)) return;
+                }
+
+                // Show submission confirmation
+                const modal = this.createSubmissionModal();
+                document.body.appendChild(modal);
+            },
+
+            closeUpgradeModal() {
+                const modal = document.getElementById('upgrade-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    setTimeout(() => modal.remove(), 300);
+                }
+            },
+
+            async initiateSolanaPayment(tier) {
+                this.showLoading();
+                
+                try {
+                    const paymentData = await initiateSolanaPayment(tier);
+                    this.hideLoading();
+                    this.showSolanaPaymentModal(paymentData);
+                } catch (error) {
+                    this.hideLoading();
+                    this.showError(`Payment initialization failed: ${error.message}`);
+                }
+            },
+
+            showSolanaPaymentModal(paymentData) {
+                const modal = document.createElement('div');
+                modal.id = 'solana-payment-modal';
+                modal.className = 'modal-overlay active';
+                modal.innerHTML = `
+                    <div class="modal modal-md">
+                        <div class="card-header">
+                            <h3 class="text-xl font-semibold">Solana Payment</h3>
+                            <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeSolanaPayment()">&times;</button>
+                        </div>
+                        <div class="card-body text-center">
+                            <div class="mb-lg">
+                                <h4 class="font-semibold mb-sm">Payment Amount</h4>
+                                <div class="text-3xl font-bold text-accent mb-sm">${paymentData.amount} USDC</div>
+                                <div class="text-sm text-muted">Reference: ${paymentData.reference}</div>
+                            </div>
+                            
+                            <div class="mb-lg">
+                                <img src="${paymentData.qrCodeUrl}" alt="Solana Pay QR Code" style="max-width: 250px; margin: 0 auto; border: 1px solid var(--neutral-200); border-radius: var(--radius);">
+                            </div>
+                            
+                            <div class="mb-lg">
+                                <p class="text-sm text-muted mb-md">Scan with your Solana wallet or click the link below:</p>
+                                <a href="${paymentData.paymentUrl}" class="btn btn-accent" target="_blank">
+                                    Open Solana Wallet
+                                </a>
+                            </div>
+                            
+                            <div class="mb-lg">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="payment-progress" style="width: 0%"></div>
+                                </div>
+                                <div class="text-sm text-muted mt-sm" id="payment-status">Waiting for payment...</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="flex gap-md">
+                                <button class="btn btn-ghost" onclick="GrantApp.closeSolanaPayment()">Cancel</button>
+                                <button class="btn btn-primary" onclick="GrantApp.checkPaymentStatus('${paymentData.reference}')">
+                                    Check Payment Status
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Close upgrade modal
+                this.closeUpgradeModal();
+                document.body.appendChild(modal);
+                
+                // Auto-check payment status
+                this.startPaymentStatusCheck(paymentData.reference);
+            },
+
+            startPaymentStatusCheck(reference) {
+                const interval = setInterval(async () => {
+                    const verified = await verifyPayment(reference);
+                    const progressBar = document.getElementById('payment-progress');
+                    const statusText = document.getElementById('payment-status');
+                    
+                    if (verified) {
+                        clearInterval(interval);
+                        if (progressBar) progressBar.style.width = '100%';
+                        if (statusText) statusText.textContent = 'Payment confirmed!';
+                        
+                        setTimeout(() => {
+                            this.closeSolanaPayment();
+                            this.handleSuccessfulPayment(reference);
+                        }, 2000);
+                    } else {
+                        // Update progress
+                        const currentWidth = parseInt(progressBar?.style.width) || 0;
+                        if (progressBar && currentWidth < 90) {
+                            progressBar.style.width = `${Math.min(currentWidth + 10, 90)}%`;
+                        }
+                    }
+                }, 3000);
+                
+                // Stop checking after 5 minutes
+                setTimeout(() => {
+                    clearInterval(interval);
+                    const statusText = document.getElementById('payment-status');
+                    if (statusText) statusText.textContent = 'Payment timeout. Please try again.';
+                }, 5 * 60 * 1000);
+            },
+
+            async checkPaymentStatus(reference) {
+                this.showLoading();
+                const verified = await verifyPayment(reference);
+                this.hideLoading();
+                
+                if (verified) {
+                    this.closeSolanaPayment();
+                    this.handleSuccessfulPayment(reference);
+                } else {
+                    this.showNotification('warning', 'Payment Pending', 'Payment not yet confirmed. Please wait or try again.');
+                }
+            },
+
+            handleSuccessfulPayment(reference) {
+                // Activate premium features
+                sessionStorage.setItem('premium_active', 'true');
+                sessionStorage.setItem('payment_reference', reference);
+                
+                this.showNotification('success', 'Payment Successful!', 'Premium features activated. Enjoy your enhanced analytics!');
+                
+                // Return to quiz with premium results
+                this.confirmSubmission();
+            },
+
+            closeSolanaPayment() {
+                const modal = document.getElementById('solana-payment-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    setTimeout(() => modal.remove(), 300);
+                }
+            },
+
+            proceedWithFree() {
+                this.closeUpgradeModal();
+                this.confirmSubmission();
+            },
+
+            getElapsedTime() {
+                if (!currentQuiz.startTime) return '0:00';
+                const elapsed = Math.floor((Date.now() - currentQuiz.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            },
+
+            isPremiumActive() {
+                return sessionStorage.getItem('premium_active') === 'true';
+            },
+
+            getUnansweredQuestions() {
+                return currentQuiz.questions.filter(q => !currentQuiz.answers.hasOwnProperty(q.id));
+            },
+
+            createSubmissionModal() {
+                const modal = document.createElement('div');
+                modal.id = 'submission-modal';
+                modal.className = 'modal-overlay active';
+                modal.innerHTML = `
+                    <div class="modal modal-md">
+                        <div class="card-header">
+                            <h3 class="text-xl font-semibold">Submit Quiz</h3>
+                            <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeModal('submission-modal')">&times;</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-lg">
+                                <h4 class="font-semibold mb-sm">Quiz Summary</h4>
+                                <div class="grid grid-2 gap-md text-sm">
+                                    <div>Answered: <strong>${Object.keys(currentQuiz.answers).length}/${currentQuiz.questions.length}</strong></div>
+                                    <div>Time Used: <strong>${this.getElapsedTime()}</strong></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-lg">
+                                <h4 class="font-semibold mb-sm">Premium Features Available</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ul class="text-sm text-muted" style="list-style: disc; padding-left: 1rem;">
+                                            <li>Detailed answer explanations</li>
+                                            <li>Advanced performance analytics</li>
+                                            <li>Taxonomy-based insights</li>
+                                            <li>Progress tracking & streaks</li>
+                                            <li>Mock exam simulations</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="text-muted mb-lg">Choose how to proceed with your quiz submission:</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="flex gap-md">
+                                <button class="btn btn-primary" onclick="GrantApp.confirmSubmission()">
+                                    📊 Submit & Get Basic Results
+                                </button>
+                                <button class="btn btn-accent" onclick="GrantApp.showUpgradeModal()">
+                                    ⭐ Upgrade for Full Analytics
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return modal;
+            },
+
+            confirmSubmission() {
+                this.closeModal('submission-modal');
+                const submissionModal = document.getElementById('submission-modal');
+                if (submissionModal) submissionModal.remove();
+                
+                this.endQuiz(true);
+            },
+
+            showUpgradeModal() {
+                this.closeModal('submission-modal');
+                const submissionModal = document.getElementById('submission-modal');
+                if (submissionModal) submissionModal.remove();
+                
+                this.createUpgradeModal();
+            },
+
+            createUpgradeModal() {
+                const modal = document.createElement('div');
+                modal.id = 'upgrade-modal';
+                modal.className = 'modal-overlay active';
+                modal.innerHTML = `
+                    <div class="modal modal-lg">
+                        <div class="card-header">
+                            <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
+                            <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeUpgradeModal()">&times;</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-2 gap-lg mb-lg">
+                                <!-- Premium Plan -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="font-semibold">Premium Monthly</h4>
+                                        <div class="text-2xl font-bold text-accent">$9.99/mo</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
+                                            <li>Full question access (600+ questions)</li>
+                                            <li>All stake levels (Practice → Mock → High Stakes)</li>
+                                            <li>Detailed corrections & explanations</li>
+                                            <li>Advanced analytics & streak tracking</li>
+                                            <li>WES CGPA converter</li>
+                                        </ul>
+                                        <button class="btn btn-accent w-full" onclick="GrantApp.initiateSolanaPayment('premium_monthly')">
+                                            🚀 Pay with Solana
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Professional Plan -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="font-semibold">Professional Monthly</h4>
+                                        <div class="text-2xl font-bold text-accent">$19.99/mo</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
+                                            <li>Multi-exam preparation (JAMB + SAT + AP + AWS)</li>
+                                            <li>Global rankings in high-stake exams</li>
+                                            <li>Priority support</li>
+                                            <li>Advanced ML insights</li>
+                                            <li>Bulk institutional licenses</li>
+                                        </ul>
+                                        <button class="btn btn-accent w-full" onclick="GrantApp.initiateSolanaPayment('professional_monthly')">
+                                            ⭐ Pay with Solana
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button class="btn btn-ghost" onclick="GrantApp.proceedWithFree()">Continue with Free Results</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
             },
 
             calculateResults() {
@@ -1321,7 +1583,6 @@
                 let total = currentQuiz.questions.length;
                 let taxonomyStats = {};
 
-                // Calculate performance by taxonomy
                 currentQuiz.questions.forEach(question => {
                     const userAnswer = currentQuiz.answers[question.id];
                     const isCorrect = userAnswer === question.correct;
@@ -1329,109 +1590,125 @@
                     if (isCorrect) correct++;
 
                     // Track taxonomy performance
-                    const taxonomyKey = `${question.taxonomy.type}-${question.taxonomy.info}`;
-                    if (!taxonomyStats[taxonomyKey]) {
-                        taxonomyStats[taxonomyKey] = { correct: 0, total: 0, label: '' };
+                    const key = `${question.taxonomy.type}-${question.taxonomy.info}`;
+                    if (!taxonomyStats[key]) {
+                        taxonomyStats[key] = { correct: 0, total: 0 };
                     }
-                    taxonomyStats[taxonomyKey].total++;
-                    taxonomyStats[taxonomyKey].label = `${question.taxonomy.type.toUpperCase()} - ${question.taxonomy.info.toUpperCase()}`;
-                    if (isCorrect) taxonomyStats[taxonomyKey].correct++;
+                    taxonomyStats[key].total++;
+                    if (isCorrect) taxonomyStats[key].correct++;
                 });
 
                 const score = Math.round((correct / total) * 100);
 
                 // Update results display
-                const scoreDisplay = document.getElementById('score-display');
-                const correctDisplay = document.getElementById('correct-display');
-                const incorrectDisplay = document.getElementById('incorrect-display');
-                
-                if (scoreDisplay) scoreDisplay.textContent = `${score}%`;
-                if (correctDisplay) correctDisplay.textContent = correct;
-                if (incorrectDisplay) incorrectDisplay.textContent = total - correct;
+                document.getElementById('score-display').textContent = `${score}%`;
+                document.getElementById('correct-display').textContent = correct;
+                document.getElementById('incorrect-display').textContent = total - correct;
 
                 // Update taxonomy breakdown
                 const breakdown = document.getElementById('taxonomy-breakdown');
-                if (breakdown) {
-                    breakdown.innerHTML = '';
-                    
-                    Object.entries(taxonomyStats).forEach(([key, stats]) => {
-                        const percentage = Math.round((stats.correct / stats.total) * 100);
-                        const performance = percentage >= 80 ? 'Excellent' : percentage >= 60 ? 'Good' : 'Needs Work';
-                        const color = percentage >= 80 ? 'var(--success)' : percentage >= 60 ? 'var(--warning)' : 'var(--error)';
-                        
-                        const div = document.createElement('div');
-                        div.className = 'mb-md';
-                        div.innerHTML = `
-                            <div class="flex justify-between items-center mb-sm">
-                                <span class="text-sm font-medium">${stats.label}</span>
-                                <span class="text-sm" style="color: ${color}; font-weight: 600;">${performance}</span>
-                            </div>
-                            <div class="flex justify-between items-center mb-xs">
-                                <span class="text-sm text-muted">${stats.correct}/${stats.total} correct</span>
-                                <span class="text-sm font-semibold">${percentage}%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${percentage}%; background: ${color}"></div>
-                            </div>
-                        `;
-                        breakdown.appendChild(div);
-                    });
-                }
-            },
-
-            isPremiumActive() {
-                return sessionStorage.getItem('premium_active') === 'true';
+                breakdown.innerHTML = '';
+                
+                Object.entries(taxonomyStats).forEach(([key, stats]) => {
+                    const percentage = Math.round((stats.correct / stats.total) * 100);
+                    const div = document.createElement('div');
+                    div.className = 'mb-sm';
+                    div.innerHTML = `
+                        <div class="flex justify-between items-center mb-xs">
+                            <span class="text-sm font-medium">${key.replace('-', ' ').toUpperCase()}</span>
+                            <span class="text-sm">${stats.correct}/${stats.total} (${percentage}%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    `;
+                    breakdown.appendChild(div);
+                });
             }
         };
 
         // Global Functions
         function goHome() {
-            EPS.showScreen('home-screen');
-            EPS.stopTimer();
-            currentScreen = 'home';
+            GrantApp.showScreen('home-screen');
+            GrantApp.stopTimer();
         }
 
         function goBack() {
             if (currentScreen === 'subject-selection') {
-                EPS.showScreen('home-screen');
+                GrantApp.showScreen('home-screen');
             } else if (currentScreen === 'quiz-screen') {
                 if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
-                    EPS.showScreen('subject-selection');
-                    EPS.stopTimer();
+                    GrantApp.showScreen('subject-selection');
+                    GrantApp.stopTimer();
                 }
             }
         }
 
         function selectExam(exam) {
+            currentExam = exam;
+            GrantApp.showScreen('subject-selection');
+            
+            // Update title based on exam
+            document.getElementById('exam-title').textContent = `Select ${exam.toUpperCase()} Subject`;
+            
+            // Populate subjects based on exam
+            const subjectGrid = document.getElementById('subject-grid');
+            subjectGrid.innerHTML = '';
+            
+            let subjects = [];
+            
             if (exam === 'jamb') {
-                EPS.showScreen('subject-selection');
-            } else {
-                showComingSoon(`${exam.toUpperCase()} Exams`);
+                subjects = [
+                    { id: 'mathematics', name: 'Mathematics', status: 'available', questions: '300+ Questions' },
+                    { id: 'english', name: 'English', status: 'coming-soon', questions: 'Coming Soon' },
+                    { id: 'physics', name: 'Physics', status: 'coming-soon', questions: 'Coming Soon' },
+                    { id: 'chemistry', name: 'Chemistry', status: 'coming-soon', questions: 'Coming Soon' }
+                ];
+            } else if (exam === 'sat') {
+                subjects = [
+                    { id: 'sat_math', name: 'SAT Mathematics', status: 'available', questions: '250+ Questions' },
+                    { id: 'sat_english', name: 'SAT English', status: 'available', questions: '200+ Questions' }
+                ];
             }
+            
+            subjects.forEach(subject => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-body text-center">
+                        <h3 class="text-xl font-semibold mb-sm">${subject.name}</h3>
+                        <p class="text-muted mb-lg">${subject.questions} | 5×2 Taxonomy</p>
+                        ${subject.status === 'available' ? 
+                            `<button class="btn btn-primary w-full" onclick="selectSubject('${subject.id}')">Start Practice</button>` :
+                            `<button class="btn btn-ghost w-full" onclick="showComingSoon('${subject.name}')">Coming Soon</button>`
+                        }
+                    </div>
+                `;
+                subjectGrid.appendChild(card);
+            });
         }
 
         function selectSubject(subject) {
-            if (subject === 'mathematics') {
-                EPS.startQuiz('mathematics', 10);
-            } else {
-                showComingSoon(`${subject.charAt(0).toUpperCase() + subject.slice(1)} questions`);
-            }
+            GrantApp.startQuiz(subject, 20);
         }
 
         async function startDemo() {
             try {
-                EPS.showLoading();
-                EPS.hideLoading();
-                EPS.startQuiz('mathematics', 10);
+                GrantApp.showLoading();
+                const questions = await fetchQuestions('mathematics');
+                const demoQuestions = questions.slice(0, 10);
+                GrantApp.hideLoading();
+                currentExam = 'jamb';
+                GrantApp.startQuiz('mathematics', 10);
             } catch (error) {
-                EPS.hideLoading();
-                EPS.showError('Failed to load demo questions. Please try again.');
+                GrantApp.hideLoading();
+                GrantApp.showError('Failed to load demo questions. Please try again.');
             }
         }
 
         function previousQuestion() {
             if (currentQuiz.currentQuestionIndex > 0) {
-                EPS.loadQuestion(currentQuiz.currentQuestionIndex - 1);
+                GrantApp.loadQuestion(currentQuiz.currentQuestionIndex - 1);
             }
         }
 
@@ -1439,210 +1716,61 @@
             const isLast = currentQuiz.currentQuestionIndex === currentQuiz.questions.length - 1;
             
             if (isLast) {
-                EPS.submitQuiz();
+                // Show submit quiz modal instead of auto-finishing
+                GrantApp.submitQuiz();
             } else {
-                EPS.loadQuestion(currentQuiz.currentQuestionIndex + 1);
+                GrantApp.loadQuestion(currentQuiz.currentQuestionIndex + 1);
             }
+        }
+
+        function finishQuiz() {
+            GrantApp.submitQuiz();
         }
 
         function exitQuiz() {
             if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
-                EPS.showScreen('subject-selection');
-                EPS.stopTimer();
-                EPS.showNotification('info', 'Quiz Exited', 'You can start a new quiz anytime.');
+                GrantApp.showScreen('subject-selection');
+                GrantApp.stopTimer();
+                GrantApp.showNotification('info', 'Quiz Exited', 'You can start a new quiz anytime.');
             }
         }
 
-        function confirmSubmission() {
-            EPS.closeModal('submission-modal');
-            EPS.endQuiz(true);
-        }
-
-        function showUpgradeModal() {
-            EPS.closeModal('submission-modal');
-            EPS.openModal('upgrade-modal');
-        }
-
-        function proceedWithFree() {
-            EPS.closeModal('upgrade-modal');
-            confirmSubmission();
-        }
-
         function reviewAnswers() {
-            if (EPS.isPremiumActive()) {
+            if (GrantApp.isPremiumActive()) {
+                // Would show detailed answer review
                 showComingSoon('Detailed Answer Review');
             } else {
-                EPS.showNotification('info', 'Premium Feature', 'Upgrade to access detailed answer reviews with step-by-step explanations.');
-                setTimeout(() => EPS.openModal('upgrade-modal'), 1000);
+                // Prompt for upgrade
+                GrantApp.showNotification('info', 'Premium Feature', 'Upgrade to access detailed answer reviews.');
+                setTimeout(() => GrantApp.createUpgradeModal(), 1000);
             }
         }
 
         function retakeQuiz() {
             if (confirm('Start a new quiz with different questions?')) {
-                EPS.startQuiz('mathematics', 10);
+                selectSubject(currentQuiz.subject);
             }
         }
 
-        // Solana Payment Functions
-        async function initiateSolanaPayment(tier) {
-            try {
-                EPS.showLoading();
-                
-                // Generate payment details
-                const amount = SOLANA_CONFIG.PRICING[tier];
-                const reference = generatePaymentReference();
-                const paymentUrl = generateSolanaPayURL(amount, tier, reference);
-                
-                currentPayment = {
-                    reference,
-                    amount,
-                    tier,
-                    paymentUrl,
-                    timestamp: Date.now()
-                };
-
-                EPS.hideLoading();
-                showSolanaPaymentModal();
-                
-            } catch (error) {
-                EPS.hideLoading();
-                EPS.showError(`Payment initialization failed: ${error.message}`);
-            }
-        }
-
-        function generatePaymentReference() {
-            return 'EPS_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        function generateSolanaPayURL(amount, tier, reference) {
-            const params = new URLSearchParams({
-                recipient: SOLANA_CONFIG.MERCHANT_WALLET,
-                amount: amount.toString(),
-                'spl-token': SOLANA_CONFIG.USDC_MINT,
-                reference: reference,
-                label: 'Exam Prep Standard',
-                message: `${tier} subscription payment`,
-                memo: `EPS_${tier}_${Date.now()}`
-            });
-
-            return `solana:${SOLANA_CONFIG.MERCHANT_WALLET}?${params.toString()}`;
-        }
-
-        function showSolanaPaymentModal() {
-            if (!currentPayment) return;
-
-            // Update modal content
-            const amountDisplay = document.getElementById('payment-amount');
-            const referenceDisplay = document.getElementById('payment-reference');
-            const qrContainer = document.getElementById('qr-container');
-            
-            if (amountDisplay) amountDisplay.textContent = `${currentPayment.amount} USDC`;
-            if (referenceDisplay) referenceDisplay.textContent = `Reference: ${currentPayment.reference}`;
-            
-            // Show QR code placeholder (in production, integrate with @solana/pay)
-            if (qrContainer) {
-                qrContainer.innerHTML = `
-                    <div style="width: 250px; height: 250px; border: 2px dashed var(--neutral-300); display: flex; align-items: center; justify-content: center; margin: 0 auto; border-radius: var(--radius);">
-                        <div class="text-center text-muted">
-                            <div class="mb-sm">📱</div>
-                            <div class="text-sm">QR Code for<br/>Solana Payment</div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            EPS.closeModal('upgrade-modal');
-            EPS.openModal('solana-payment-modal');
-            
-            // Auto-check payment status (simplified for demo)
-            startPaymentStatusCheck();
-        }
-
-        function openSolanaWallet() {
-            if (currentPayment && currentPayment.paymentUrl) {
-                window.open(currentPayment.paymentUrl, '_blank');
-                EPS.showNotification('info', 'Payment Link Opened', 'Complete the payment in your Solana wallet.');
-            }
-        }
-
-        function startPaymentStatusCheck() {
-            let checkCount = 0;
-            const maxChecks = 20; // Check for 1 minute (3s intervals)
-            
-            const interval = setInterval(() => {
-                checkCount++;
-                const progressBar = document.getElementById('payment-progress');
-                const statusText = document.getElementById('payment-status');
-                
-                // Simulate payment verification (70% success rate for demo)
-                const isVerified = checkCount > 5 && Math.random() > 0.3;
-                
-                if (isVerified || checkCount >= maxChecks) {
-                    clearInterval(interval);
-                    
-                    if (isVerified) {
-                        if (progressBar) progressBar.style.width = '100%';
-                        if (statusText) statusText.textContent = 'Payment confirmed! Activating premium features...';
-                        
-                        setTimeout(() => {
-                            handleSuccessfulPayment();
-                        }, 2000);
-                    } else {
-                        if (statusText) statusText.textContent = 'Payment verification timeout. Please try again.';
-                    }
-                } else {
-                    // Update progress
-                    const progress = (checkCount / maxChecks) * 90; // Max 90% until confirmed
-                    if (progressBar) progressBar.style.width = `${progress}%`;
-                }
-            }, 3000);
-        }
-
-        function checkPaymentStatus() {
-            EPS.showLoading();
-            
-            // Simulate manual verification check
-            setTimeout(() => {
-                EPS.hideLoading();
-                const verified = Math.random() > 0.4; // 60% success rate for manual check
-                
-                if (verified) {
-                    handleSuccessfulPayment();
-                } else {
-                    EPS.showNotification('warning', 'Payment Pending', 'Payment not yet confirmed. Please wait or try again.');
-                }
-            }, 2000);
-        }
-
-        function handleSuccessfulPayment() {
-            // Activate premium features
-            sessionStorage.setItem('premium_active', 'true');
-            if (currentPayment) {
-                sessionStorage.setItem('payment_reference', currentPayment.reference);
-                sessionStorage.setItem('payment_tier', currentPayment.tier);
-            }
-            
-            EPS.closeModal('solana-payment-modal');
-            EPS.showNotification('success', 'Payment Successful!', 'Premium features activated. Enjoy your enhanced analytics!');
-            
-            // Return to quiz results with premium features
-            if (currentScreen === 'results-screen') {
-                EPS.calculateResults();
-            } else {
-                confirmSubmission();
-            }
-        }
-
-        function closeModal(modalId) {
-            EPS.closeModal(modalId);
+        function getTaxonomyComplexity(taxonomy) {
+            const complexityMap = {
+                'essential': 'easy',
+                'contextual': 'medium', 
+                'abstract': 'hard',
+                'applied': 'medium',
+                'proofs': 'hard'
+            };
+            return complexityMap[taxonomy.info] || 'medium';
         }
 
         function showComingSoon(feature) {
-            const message = document.getElementById('coming-soon-message');
-            if (message) {
-                message.textContent = `${feature} is coming soon! We're working hard to bring you this feature.`;
-            }
-            EPS.openModal('coming-soon-modal');
+            document.getElementById('coming-soon-message').textContent = 
+                `${feature} is coming soon! We're working hard to bring you this feature.`;
+            GrantApp.openModal('coming-soon-modal');
+        }
+
+        function closeModal(modalId) {
+            GrantApp.closeModal(modalId);
         }
 
         // Initialize Application
@@ -1651,7 +1779,7 @@
             document.querySelectorAll('.modal-overlay').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
-                        EPS.closeModal(this.id);
+                        GrantApp.closeModal(this.id);
                     }
                 });
             });
@@ -1661,7 +1789,7 @@
                 if (e.key === 'Escape') {
                     const activeModal = document.querySelector('.modal-overlay.active');
                     if (activeModal) {
-                        EPS.closeModal(activeModal.id);
+                        GrantApp.closeModal(activeModal.id);
                     }
                 }
 
@@ -1676,11 +1804,9 @@
                     } else if (e.key >= '1' && e.key <= '4') {
                         e.preventDefault();
                         const optionIndex = parseInt(e.key) - 1;
-                        if (currentQuiz.questions[currentQuiz.currentQuestionIndex]) {
-                            const currentQuestion = currentQuiz.questions[currentQuiz.currentQuestionIndex];
-                            if (optionIndex < currentQuestion.options.length) {
-                                EPS.selectOption(currentQuestion.id, optionIndex);
-                            }
+                        const currentQuestion = currentQuiz.questions[currentQuiz.currentQuestionIndex];
+                        if (optionIndex < currentQuestion.options.length) {
+                            GrantApp.selectOption(currentQuestion.id, optionIndex);
                         }
                     }
                 }
@@ -1688,29 +1814,9 @@
 
             // Welcome message
             setTimeout(() => {
-                EPS.showNotification('info', 'Welcome to EPS', 'Your exam preparation journey starts here! Try our demo to experience the 5×2 taxonomy system.');
+                GrantApp.showNotification('info', 'Welcome to Grant App', 'Your exam preparation journey starts here!');
             }, 1000);
         });
     </script>
 </body>
-</html>>Full question access (600+ questions)</li>
-                                <li>Detailed answer explanations</li>
-                                <li>Advanced 5×2 taxonomy analytics</li>
-                                <li>Performance tracking & insights</li>
-                                <li>Mock exam simulations</li>
-                            </ul>
-                            <button class="btn btn-accent w-full" onclick="initiateSolanaPayment('premium')">
-                                Pay with Solana (USDC)
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Professional Plan -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="font-semibold">Professional Monthly</h4>
-                            <div class="text-2xl font-bold text-accent">$19.99/mo</div>
-                        </div>
-                        <div class="card-body">
-                            <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
-                                <li
+</html>
