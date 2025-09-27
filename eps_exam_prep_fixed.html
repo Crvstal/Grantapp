@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Prep Standard - MVP Demo</title>
+    <style>
+        :root {
+            /* Unified Design System Variables */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-luxury: 'Playfair Display', Georgia, serif;
+            --font-mono: 'SF Mono', 'Monaco', monospace;
+            
+            --primary: #000000;
+            --secondary: #FFFFFF;
+            --accent: #D4AF37;
+            --success: #059669;
+            --warning: #D97706;
+            --error: #DC2626;
+            --info: #2563EB;
+            
+            --neutral-50: #FAFAFA;
+            --neutral-100: #F5F5F5;
+            --neutral-200: #E5E5E5;
+            --neutral-300: #D4D4D4;
+            --neutral-500: #737373;
+            --neutral-700: #404040;
+            --neutral-900: #171717;
+            
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --blur: blur(8px);
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 0.375rem;
+            --border: 1px solid var(--neutral-200);
+        }
+
+        /* Base Styles */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: var(--font-primary); 
+            color: var(--primary); 
+            background: var(--secondary);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+
+        .font-luxury { font-family: var(--font-luxury); }
+        .font-mono { font-family: var(--font-mono); }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); }
+        .grid { display: grid; gap: var(--space-lg); }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-xs { gap: var(--space-xs); }
+        .gap-sm { gap: var(--space-sm); }
+        .gap-md { gap: var(--space-md); }
+        .gap-lg { gap: var(--space-lg); }
+
+        /* Spacing */
+        .p-xs { padding: var(--space-xs); }
+        .p-sm { padding: var(--space-sm); }
+        .p-md { padding: var(--space-md); }
+        .p-lg { padding: var(--space-lg); }
+        .p-xl { padding: var(--space-xl); }
+        .py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+        .py-lg { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
+        .py-xl { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
+        .mb-sm { margin-bottom: var(--space-sm); }
+        .mb-md { margin-bottom: var(--space-md); }
+        .mb-lg { margin-bottom: var(--space-lg); }
+        .mb-xl { margin-bottom: var(--space-xl); }
+        .mt-sm { margin-top: var(--space-sm); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-lg);
+            border: var(--border);
+            background: transparent;
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            cursor: pointer;
+            transition: all var(--transition);
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-primary { background: var(--primary); color: var(--secondary); border-color: var(--primary); }
+        .btn-accent { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+        .btn-success { background: var(--success); color: var(--secondary); border-color: var(--success); }
+        .btn-error { background: var(--error); color: var(--secondary); border-color: var(--error); }
+        .btn-ghost { border: none; background: none; }
+        .btn-ghost:hover { background: var(--neutral-100); }
+
+        .btn-sm { padding: var(--space-xs) var(--space-sm); font-size: 0.75rem; }
+        .btn-lg { padding: var(--space-md) var(--space-xl); font-size: 1rem; }
+
+        /* Cards */
+        .card {
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all var(--transition);
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .card-header { padding: var(--space-lg); border-bottom: var(--border); }
+        .card-body { padding: var(--space-lg); }
+        .card-footer { padding: var(--space-lg); border-top: var(--border); }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: var(--blur);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition);
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal {
+            background: var(--secondary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95) translateY(20px);
+            transition: all var(--transition);
+        }
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+
+        .modal-sm { width: 400px; }
+        .modal-md { width: 600px; }
+        .modal-lg { width: 800px; }
+
+        /* Notifications */
+        .notification-container {
+            position: fixed;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            max-width: 400px;
+        }
+
+        .notification {
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-md);
+            transform: translateX(100%);
+            transition: all var(--transition);
+            position: relative;
+            border-left: 4px solid var(--neutral-200);
+        }
+        .notification.show { transform: translateX(0); }
+
+        .notification-success { border-left-color: var(--success); }
+        .notification-error { border-left-color: var(--error); }
+        .notification-warning { border-left-color: var(--warning); }
+        .notification-info { border-left-color: var(--info); }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-xs);
+        }
+        .notification-title { font-weight: 600; font-size: 0.875rem; }
+        .notification-message { font-size: 0.875rem; color: var(--neutral-500); }
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--neutral-500);
+            cursor: pointer;
+            font-size: 1.125rem;
+            padding: 0;
+            line-height: 1;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: var(--blur);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition);
+        }
+        .loading-overlay.active { opacity: 1; visibility: visible; }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--neutral-200);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--secondary);
+            border-bottom: var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .navbar-brand {
+            font-family: var(--font-luxury);
+            font-size: 1.25rem;
+            text-decoration: none;
+            color: var(--primary);
+            letter-spacing: 0.05em;
+        }
+
+        /* Progress */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--neutral-200);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width var(--transition);
+            border-radius: var(--radius);
+        }
+
+        /* Quiz Specific Styles */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-card {
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: var(--border);
+        }
+
+        .question-number {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+            font-weight: 600;
+        }
+
+        .question-timer {
+            font-size: 0.875rem;
+            color: var(--warning);
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+
+        .question-text {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+
+        .options-list {
+            list-style: none;
+            margin-bottom: var(--space-xl);
+        }
+
+        .option-item {
+            margin-bottom: var(--space-md);
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            border: var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all var(--transition);
+            background: var(--secondary);
+        }
+
+        .option-label:hover {
+            background: var(--neutral-50);
+            border-color: var(--primary);
+        }
+
+        .option-label.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neutral-300);
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .option-label.selected .option-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .option-label.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-sm);
+            margin: var(--space-xl) 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination-item {
+            padding: var(--space-sm) var(--space-md);
+            border: var(--border);
+            background: var(--secondary);
+            color: var(--primary);
+            text-decoration: none;
+            transition: all var(--transition);
+            min-width: 40px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .pagination-item:hover {
+            background: var(--neutral-100);
+        }
+
+        .pagination-item.active {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .pagination-item.answered {
+            background: var(--success);
+            color: var(--secondary);
+        }
+
+        .pagination-item:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .hidden { display: none; }
+        .w-full { width: 100%; }
+        .text-muted { color: var(--neutral-500); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .container { padding: 0 var(--space-sm); }
+            .question-card { padding: var(--space-lg); }
+            .quiz-controls { flex-direction: column; gap: var(--space-md); }
+            .modal-sm, .modal-md { width: 95vw; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand" onclick="goHome()">EPS</a>
+        <div class="flex items-center gap-md">
+            <button class="btn btn-ghost" onclick="showComingSoon('Analytics')">Analytics</button>
+            <button class="btn btn-ghost" onclick="showComingSoon('Rankings')">Rankings</button>
+            <button class="btn btn-ghost" onclick="showComingSoon('Profile')">Profile</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Screen -->
+        <div id="home-screen" class="screen">
+            <section class="py-2xl text-center mb-xl">
+                <h1 class="font-luxury text-4xl mb-lg">Exam Prep Standard</h1>
+                <p class="text-lg text-muted mb-xl">Master your exams with our proprietary 5×2 taxonomy framework</p>
+                
+                <div class="grid grid-3 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-2xl font-semibold mb-sm">JAMB/UTME</h3>
+                            <p class="text-muted mb-lg">Mathematics, English, Physics, Chemistry</p>
+                            <button class="btn btn-primary w-full" onclick="selectExam('jamb')">Start Practice</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-2xl font-semibold mb-sm">SAT</h3>
+                            <p class="text-muted mb-lg">Math, Reading & Writing</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('SAT')">Coming Soon</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-2xl font-semibold mb-sm">AWS Certs</h3>
+                            <p class="text-muted mb-lg">Cloud Practitioner, Solutions Architect</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('AWS')">Coming Soon</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 600px; margin: 0 auto;">
+                    <div class="card-header">
+                        <h3 class="text-xl font-semibold">Quick Demo - 5×2 Taxonomy</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-lg">Experience our quiz system with sample JAMB Mathematics questions across all taxonomy categories</p>
+                        <button class="btn btn-accent btn-lg w-full" onclick="startDemo()">Try Demo Quiz</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Subject Selection Screen -->
+        <div id="subject-selection" class="screen hidden">
+            <section class="py-xl">
+                <div class="mb-xl">
+                    <button class="btn btn-ghost" onclick="goBack()">&larr; Back</button>
+                    <h2 class="text-3xl font-semibold text-center mb-lg">Select Subject</h2>
+                    <p class="text-center text-muted">Choose your subject to begin practice</p>
+                </div>
+
+                <div class="grid grid-2 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Mathematics</h3>
+                            <p class="text-muted mb-lg">300+ Questions | 5×2 Taxonomy Framework</p>
+                            <button class="btn btn-primary w-full" onclick="selectSubject('mathematics')">Start Practice</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">English</h3>
+                            <p class="text-muted mb-lg">Coming Soon</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('English')">Coming Soon</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Physics</h3>
+                            <p class="text-muted mb-lg">Coming Soon</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('Physics')">Coming Soon</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Chemistry</h3>
+                            <p class="text-muted mb-lg">Coming Soon</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('Chemistry')">Coming Soon</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen hidden">
+            <div class="quiz-container">
+                <!-- Quiz Header -->
+                <div class="card mb-lg">
+                    <div class="card-body">
+                        <div class="flex justify-between items-center mb-md">
+                            <h2 class="text-xl font-semibold">JAMB Mathematics - Practice Mode</h2>
+                            <button class="btn btn-ghost btn-sm" onclick="exitQuiz()">Exit Quiz</button>
+                        </div>
+                        <div class="progress-bar mb-md">
+                            <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-muted">
+                            <span id="progress-text">Question 1 of 20</span>
+                            <span id="timer-display">Time: 30:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <div>
+                            <span class="question-number" id="question-number">Question 1</span>
+                            <span class="text-xs text-muted ml-sm" id="question-taxonomy">Taxonomy: Mathematical - Essential</span>
+                        </div>
+                        <span class="question-timer" id="question-timer">00:30</span>
+                    </div>
+                    
+                    <div class="question-text" id="question-text">
+                        Loading question...
+                    </div>
+                    
+                    <ul class="options-list" id="options-list">
+                        <!-- Options will be populated by JavaScript -->
+                    </ul>
+                    
+                    <div class="quiz-controls">
+                        <button class="btn btn-ghost" id="prev-btn" onclick="previousQuestion()" disabled>Previous</button>
+                        <div class="flex gap-md">
+                            <button class="btn btn-ghost" onclick="showComingSoon('Save & Continue Later')">Save & Continue</button>
+                            <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next Question</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Navigation -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="font-semibold">Question Navigation</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="pagination" id="question-nav">
+                            <!-- Navigation will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen hidden">
+            <section class="py-xl text-center">
+                <h2 class="text-3xl font-semibold mb-lg">Quiz Complete!</h2>
+                
+                <div class="grid grid-3 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-3xl font-bold text-accent mb-sm" id="score-display">0%</div>
+                            <div class="text-muted">Overall Score</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-3xl font-bold text-success mb-sm" id="correct-display">0</div>
+                            <div class="text-muted">Correct Answers</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="text-3xl font-bold text-error mb-sm" id="incorrect-display">0</div>
+                            <div class="text-muted">Incorrect Answers</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-xl" style="max-width: 800px; margin: 0 auto;">
+                    <div class="card-header">
+                        <h3 class="text-xl font-semibold">5×2 Taxonomy Performance Analysis</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-lg">
+                            <h4 class="font-semibold mb-sm">Question Type Breakdown</h4>
+                            <div id="taxonomy-breakdown">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-md">
+                            <button class="btn btn-primary" onclick="reviewAnswers()">Review Answers</button>
+                            <button class="btn btn-ghost" onclick="retakeQuiz()">Retake Quiz</button>
+                            <button class="btn btn-accent" onclick="showUpgradeModal()">Upgrade for Full Analytics</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div id="coming-soon-modal" class="modal-overlay">
+        <div class="modal modal-sm">
+            <div class="card-header">
+                <h3 class="text-xl font-semibold">Coming Soon</h3>
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('coming-soon-modal')">&times;</button>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-lg" id="coming-soon-message">This feature is coming soon!</p>
+                <p class="text-sm text-muted">We're working hard to bring you the best exam preparation experience. Stay tuned for updates!</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary w-full" onclick="closeModal('coming-soon-modal')">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div id="upgrade-modal" class="modal-overlay">
+        <div class="modal modal-lg">
+            <div class="card-header">
+                <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('upgrade-modal')">&times;</button>
+            </div>
+            <div class="card-body">
+                <div class="grid grid-2 gap-lg mb-lg">
+                    <!-- Premium Plan -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="font-semibold">Premium Monthly</h4>
+                            <div class="text-2xl font-bold text-accent">$9.99/mo</div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
+                                <li>Multi-exam preparation (JAMB + SAT + AWS)</li>
+                                <li>Global rankings & competitions</li>
+                                <li>Priority support & mentorship</li>
+                                <li>Advanced ML-powered insights</li>
+                                <li>Institutional licensing available</li>
+                            </ul>
+                            <button class="btn btn-accent w-full" onclick="initiateSolanaPayment('professional')">
+                                Pay with Solana (USDC)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button class="btn btn-ghost" onclick="proceedWithFree()">Continue with Basic Results</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solana Payment Modal -->
+    <div id="solana-payment-modal" class="modal-overlay">
+        <div class="modal modal-md">
+            <div class="card-header">
+                <h3 class="text-xl font-semibold">Solana Payment</h3>
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('solana-payment-modal')">&times;</button>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-lg">
+                    <h4 class="font-semibold mb-sm">Payment Amount</h4>
+                    <div class="text-3xl font-bold text-accent mb-sm" id="payment-amount">$9.99 USDC</div>
+                    <div class="text-sm text-muted" id="payment-reference">Reference: Loading...</div>
+                </div>
+                
+                <div class="mb-lg">
+                    <div id="qr-container">
+                        <div class="loading-spinner" style="margin: 0 auto;"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-lg">
+                    <p class="text-sm text-muted mb-md">Scan with your Solana wallet or use the payment link</p>
+                    <button class="btn btn-accent" id="wallet-button" onclick="openSolanaWallet()">
+                        Open Solana Wallet
+                    </button>
+                </div>
+                
+                <div class="mb-lg">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="payment-progress" style="width: 0%"></div>
+                    </div>
+                    <div class="text-sm text-muted mt-sm" id="payment-status">Waiting for payment...</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="flex gap-md">
+                    <button class="btn btn-ghost" onclick="closeModal('solana-payment-modal')">Cancel</button>
+                    <button class="btn btn-primary" onclick="checkPaymentStatus()">
+                        Check Payment Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal-overlay">
+        <div class="modal modal-sm">
+            <div class="card-header">
+                <h3 class="text-xl font-semibold text-error">Error</h3>
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('error-modal')">&times;</button>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-lg" id="error-message">An error occurred.</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary w-full" onclick="closeModal('error-modal')">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Modal -->
+    <div id="submission-modal" class="modal-overlay">
+        <div class="modal modal-md">
+            <div class="card-header">
+                <h3 class="text-xl font-semibold">Submit Quiz</h3>
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('submission-modal')">&times;</button>
+            </div>
+            <div class="card-body">
+                <div class="mb-lg">
+                    <h4 class="font-semibold mb-sm">Quiz Summary</h4>
+                    <div class="grid grid-2 gap-md text-sm">
+                        <div>Answered: <strong id="answered-count">0/0</strong></div>
+                        <div>Time Used: <strong id="time-used">0:00</strong></div>
+                    </div>
+                </div>
+                
+                <div class="mb-lg">
+                    <h4 class="font-semibold mb-sm">Upgrade for Premium Analytics</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="text-sm text-muted" style="list-style: disc; padding-left: 1rem;">
+                                <li>Detailed answer explanations with step-by-step solutions</li>
+                                <li>Advanced 5×2 taxonomy performance breakdown</li>
+                                <li>Personalized study recommendations</li>
+                                <li>Progress tracking across multiple sessions</li>
+                                <li>Comparative performance analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-muted mb-lg">Choose how to proceed with your quiz submission:</p>
+            </div>
+            <div class="card-footer">
+                <div class="flex gap-md">
+                    <button class="btn btn-primary" onclick="confirmSubmission()">
+                        Submit & Get Basic Results
+                    </button>
+                    <button class="btn btn-accent" onclick="showUpgradeModal()">
+                        Upgrade for Full Analytics
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notifications"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        // Question Bank API Configuration
+        const API_CONFIG = {
+            BASE_URL: 'https://crvstal.github.io/quizbank/',
+            ENDPOINTS: {
+                mathematics: 'jamb-mathematics.json'
+            },
+            CACHE_DURATION: 5 * 60 * 1000 // 5 minutes
+        };
+
+        // Solana Pay Configuration
+        const SOLANA_CONFIG = {
+            MERCHANT_WALLET: 'CmBXGSh9rsDiZ6KtxhPGC2qzE7onETKK5J8E3hNJm6vC',
+            PRICING: {
+                premium: 9.99,
+                professional: 19.99
+            },
+            USDC_MINT: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+        };
+
+        // Question Cache
+        let questionCache = {};
+
+        // 5×2 Taxonomy Sample Questions
+        const fallbackQuestions = [
+            {
+                id: 'math_pragmatic_essential_1',
+                text: "A rectangular field is 120m long and 80m wide. What is the area in square meters?",
+                options: ["A) 9,600", "B) 400", "C) 200", "D) 19,200"],
+                correct: 0,
+                taxonomy: { type: "pragmatic", info: "essential" },
+                explanation: "Area = Length × Width = 120m × 80m = 9,600 square meters"
+            },
+            {
+                id: 'math_logical_contextual_1',
+                text: "If the pattern continues: 2, 6, 18, 54, ..., what is the next number?",
+                options: ["A) 108", "B) 162", "C) 216", "D) 72"],
+                correct: 1,
+                taxonomy: { type: "logical", info: "contextual" },
+                explanation: "Each term is multiplied by 3: 2×3=6, 6×3=18, 18×3=54, 54×3=162"
+            },
+            {
+                id: 'math_canon_essential_1',
+                text: "Simplify: (x² + 5x + 6) ÷ (x + 2)",
+                options: ["A) x + 3", "B) x + 4", "C) x² + 3", "D) x + 1"],
+                correct: 0,
+                taxonomy: { type: "canon", info: "essential" },
+                explanation: "Factor the numerator: (x+2)(x+3) ÷ (x+2) = x+3"
+            },
+            {
+                id: 'math_statistics_applied_1',
+                text: "The scores of 5 students are: 78, 85, 92, 88, 77. What is the median score?",
+                options: ["A) 84", "B) 85", "C) 88", "D) 78"],
+                correct: 1,
+                taxonomy: { type: "statistics", info: "applied" },
+                explanation: "Arrange in order: 77, 78, 85, 88, 92. The median is the middle value: 85"
+            },
+            {
+                id: 'math_mathematical_proofs_1',
+                text: "If sin θ = 3/5, what is cos θ? (θ is acute)",
+                options: ["A) 4/5", "B) 5/4", "C) 3/4", "D) 5/3"],
+                correct: 0,
+                taxonomy: { type: "mathematical", info: "proofs" },
+                explanation: "Using Pythagorean identity: cos²θ + sin²θ = 1\ncos²θ = 1 - (3/5)² = 1 - 9/25 = 16/25\ncos θ = 4/5 (positive since θ is acute)"
+            },
+            {
+                id: 'math_pragmatic_contextual_1',
+                text: "A car travels 240 km in 3 hours. At this rate, how far will it travel in 5 hours?",
+                options: ["A) 400 km", "B) 360 km", "C) 480 km", "D) 300 km"],
+                correct: 0,
+                taxonomy: { type: "pragmatic", info: "contextual" },
+                explanation: "Speed = 240 km ÷ 3 hours = 80 km/h\nDistance in 5 hours = 80 km/h × 5 hours = 400 km"
+            },
+            {
+                id: 'math_logical_abstract_1',
+                text: "If all A are B, and some B are C, which conclusion is definitely true?",
+                options: ["A) All A are C", "B) Some A are C", "C) No A are C", "D) None of these can be concluded"],
+                correct: 3,
+                taxonomy: { type: "logical", info: "abstract" },
+                explanation: "While all A are B, we only know some B are C. We cannot determine the relationship between A and C from this information."
+            },
+            {
+                id: 'math_canon_applied_1',
+                text: "The sum of an arithmetic progression is S = n/2[2a + (n-1)d]. Find the sum of first 10 terms if a = 5 and d = 3.",
+                options: ["A) 185", "B) 155", "C) 175", "D) 195"],
+                correct: 0,
+                taxonomy: { type: "canon", info: "applied" },
+                explanation: "S₁₀ = 10/2[2(5) + (10-1)(3)] = 5[10 + 27] = 5 × 37 = 185"
+            },
+            {
+                id: 'math_statistics_contextual_1',
+                text: "In a normal distribution, what percentage of data falls within one standard deviation of the mean?",
+                options: ["A) 68%", "B) 95%", "C) 99.7%", "D) 50%"],
+                correct: 0,
+                taxonomy: { type: "statistics", info: "contextual" },
+                explanation: "In a normal distribution, approximately 68% of data falls within one standard deviation (±1σ) of the mean."
+            },
+            {
+                id: 'math_mathematical_abstract_1',
+                text: "What is the derivative of f(x) = x³ - 4x² + 5x - 2?",
+                options: ["A) 3x² - 8x + 5", "B) x⁴ - 4x³ + 5x²", "C) 3x² - 4x + 5", "D) 3x² - 8x + 2"],
+                correct: 0,
+                taxonomy: { type: "mathematical", info: "abstract" },
+                explanation: "Using power rule: d/dx[x³] = 3x², d/dx[-4x²] = -8x, d/dx[5x] = 5, d/dx[-2] = 0\nTherefore: f'(x) = 3x² - 8x + 5"
+            }
+        ];
+
+        // Application State
+        let currentScreen = 'home';
+        let currentQuiz = {
+            subject: '',
+            questions: [],
+            currentQuestionIndex: 0,
+            answers: {},
+            startTime: null,
+            timeLimit: 30 * 60,
+            timer: null,
+            submitted: false
+        };
+        let currentPayment = null;
+
+        // System Controller Object
+        const EPS = {
+            // Screen Management
+            showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.add('hidden');
+                });
+                const targetScreen = document.getElementById(screenId);
+                if (targetScreen) {
+                    targetScreen.classList.remove('hidden');
+                    currentScreen = screenId;
+                }
+            },
+
+            // Notification System
+            notificationId: 0,
+            showNotification(type, title, message, duration = 5000) {
+                const container = document.getElementById('notifications');
+                const id = `notification-${++this.notificationId}`;
+                
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.id = id;
+                notification.innerHTML = `
+                    <div class="notification-header">
+                        <div class="notification-title">${title}</div>
+                        <button class="notification-close" onclick="EPS.closeNotification('${id}')">&times;</button>
+                    </div>
+                    <div class="notification-message">${message}</div>
+                `;
+                
+                container.appendChild(notification);
+                setTimeout(() => notification.classList.add('show'), 100);
+                setTimeout(() => this.closeNotification(id), duration);
+            },
+
+            closeNotification(id) {
+                const notification = document.getElementById(id);
+                if (notification) {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }
+            },
+
+            // Modal Management
+            openModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            },
+
+            closeModal(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            },
+
+            // Loading Management
+            showLoading() {
+                document.getElementById('loading').classList.add('active');
+            },
+
+            hideLoading() {
+                document.getElementById('loading').classList.remove('active');
+            },
+
+            // Error Handling
+            showError(message) {
+                document.getElementById('error-message').textContent = message;
+                this.openModal('error-modal');
+            },
+
+            // Timer Management
+            startTimer() {
+                if (currentQuiz.timer) {
+                    clearInterval(currentQuiz.timer);
+                }
+                
+                currentQuiz.startTime = Date.now();
+                currentQuiz.timer = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - currentQuiz.startTime) / 1000);
+                    const remaining = Math.max(0, currentQuiz.timeLimit - elapsed);
+                    
+                    const minutes = Math.floor(remaining / 60);
+                    const seconds = remaining % 60;
+                    
+                    const timerDisplay = document.getElementById('timer-display');
+                    if (timerDisplay) {
+                        timerDisplay.textContent = 
+                            `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    }
+                    
+                    if (remaining <= 0) {
+                        this.endQuiz(false);
+                    }
+                }, 1000);
+            },
+
+            stopTimer() {
+                if (currentQuiz.timer) {
+                    clearInterval(currentQuiz.timer);
+                    currentQuiz.timer = null;
+                }
+            },
+
+            // Question Management
+            async startQuiz(subject, questionCount = 10) {
+                this.showLoading();
+                
+                try {
+                    const allQuestions = await this.fetchQuestions(subject);
+                    const selectedQuestions = this.selectQuestions(allQuestions, questionCount);
+                    
+                    if (selectedQuestions.length === 0) {
+                        throw new Error('No questions available');
+                    }
+
+                    currentQuiz = {
+                        subject: subject,
+                        questions: selectedQuestions,
+                        currentQuestionIndex: 0,
+                        answers: {},
+                        startTime: null,
+                        timeLimit: 30 * 60,
+                        timer: null,
+                        submitted: false
+                    };
+
+                    this.hideLoading();
+                    this.showScreen('quiz-screen');
+                    this.loadQuestion(0);
+                    this.startTimer();
+                    
+                    this.showNotification('success', 'Quiz Started', `${selectedQuestions.length} questions loaded across all taxonomy categories.`);
+                    
+                } catch (error) {
+                    this.hideLoading();
+                    console.error('Failed to start quiz:', error);
+                    this.showError(`Failed to load questions: ${error.message}`);
+                }
+            },
+
+            async fetchQuestions(subject) {
+                // Check cache first
+                const cacheKey = `${subject}_questions`;
+                const cachedQuestions = questionCache[cacheKey];
+                
+                if (cachedQuestions) {
+                    return cachedQuestions;
+                }
+
+                // Try to fetch from API
+                try {
+                    const endpoint = API_CONFIG.ENDPOINTS[subject];
+                    if (endpoint) {
+                        const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+                        const response = await fetch(url);
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (Array.isArray(data) && data.length > 0) {
+                                questionCache[cacheKey] = data;
+                                return data;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.log('API fetch failed, using fallback questions');
+                }
+
+                // Use fallback questions
+                questionCache[cacheKey] = fallbackQuestions;
+                return fallbackQuestions;
+            },
+
+            selectQuestions(questions, count) {
+                // Ensure we get questions from different taxonomy categories
+                const taxonomyGroups = {};
+                
+                // Group questions by taxonomy
+                questions.forEach(q => {
+                    const key = `${q.taxonomy.type}-${q.taxonomy.info}`;
+                    if (!taxonomyGroups[key]) {
+                        taxonomyGroups[key] = [];
+                    }
+                    taxonomyGroups[key].push(q);
+                });
+
+                // Select questions from each group
+                const selected = [];
+                const groupKeys = Object.keys(taxonomyGroups);
+                const questionsPerGroup = Math.max(1, Math.floor(count / groupKeys.length));
+
+                groupKeys.forEach(key => {
+                    const groupQuestions = taxonomyGroups[key];
+                    const shuffled = groupQuestions.sort(() => 0.5 - Math.random());
+                    selected.push(...shuffled.slice(0, questionsPerGroup));
+                });
+
+                // Fill remaining slots randomly
+                const remaining = count - selected.length;
+                if (remaining > 0) {
+                    const unusedQuestions = questions.filter(q => !selected.includes(q));
+                    const shuffledUnused = unusedQuestions.sort(() => 0.5 - Math.random());
+                    selected.push(...shuffledUnused.slice(0, remaining));
+                }
+
+                return selected.slice(0, count);
+            },
+
+            loadQuestion(index) {
+                if (index < 0 || index >= currentQuiz.questions.length) return;
+                
+                const question = currentQuiz.questions[index];
+                currentQuiz.currentQuestionIndex = index;
+
+                // Update question display
+                const questionNumber = document.getElementById('question-number');
+                const questionTaxonomy = document.getElementById('question-taxonomy');
+                const questionText = document.getElementById('question-text');
+                
+                if (questionNumber) questionNumber.textContent = `Question ${index + 1}`;
+                if (questionTaxonomy) {
+                    questionTaxonomy.textContent = `Taxonomy: ${question.taxonomy.type} - ${question.taxonomy.info}`.replace(/\b\w/g, l => l.toUpperCase());
+                }
+                if (questionText) questionText.textContent = question.text;
+
+                // Update options
+                const optionsList = document.getElementById('options-list');
+                if (optionsList) {
+                    optionsList.innerHTML = '';
+
+                    question.options.forEach((option, optIndex) => {
+                        const li = document.createElement('li');
+                        li.className = 'option-item';
+                        
+                        const label = document.createElement('label');
+                        label.className = 'option-label';
+                        if (currentQuiz.answers[question.id] === optIndex) {
+                            label.classList.add('selected');
+                        }
+                        
+                        label.innerHTML = `
+                            <div class="option-radio"></div>
+                            <div>${option}</div>
+                        `;
+                        
+                        label.addEventListener('click', () => this.selectOption(question.id, optIndex));
+                        li.appendChild(label);
+                        optionsList.appendChild(li);
+                    });
+                }
+
+                // Update progress
+                const progress = ((index + 1) / currentQuiz.questions.length) * 100;
+                const progressBar = document.getElementById('quiz-progress');
+                const progressText = document.getElementById('progress-text');
+                
+                if (progressBar) progressBar.style.width = `${progress}%`;
+                if (progressText) progressText.textContent = `Question ${index + 1} of ${currentQuiz.questions.length}`;
+
+                // Update navigation buttons
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+                
+                if (prevBtn) prevBtn.disabled = index === 0;
+                if (nextBtn) {
+                    nextBtn.textContent = index === currentQuiz.questions.length - 1 ? 'Finish Quiz' : 'Next Question';
+                }
+
+                // Update question navigation
+                this.updateQuestionNavigation();
+            },
+
+            selectOption(questionId, optionIndex) {
+                currentQuiz.answers[questionId] = optionIndex;
+                
+                // Update visual selection
+                const labels = document.querySelectorAll('.option-label');
+                labels.forEach((label, index) => {
+                    if (index === optionIndex) {
+                        label.classList.add('selected');
+                    } else {
+                        label.classList.remove('selected');
+                    }
+                });
+
+                this.updateQuestionNavigation();
+            },
+
+            updateQuestionNavigation() {
+                const nav = document.getElementById('question-nav');
+                if (!nav) return;
+
+                nav.innerHTML = '';
+
+                currentQuiz.questions.forEach((question, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'pagination-item';
+                    item.textContent = index + 1;
+                    
+                    if (index === currentQuiz.currentQuestionIndex) {
+                        item.classList.add('active');
+                    }
+                    
+                    if (currentQuiz.answers.hasOwnProperty(question.id)) {
+                        item.classList.add('answered');
+                    }
+                    
+                    item.addEventListener('click', () => this.loadQuestion(index));
+                    nav.appendChild(item);
+                });
+            },
+
+            submitQuiz() {
+                const unanswered = this.getUnansweredQuestions();
+                
+                // Update submission modal stats
+                const answeredCount = document.getElementById('answered-count');
+                const timeUsed = document.getElementById('time-used');
+                
+                if (answeredCount) {
+                    answeredCount.textContent = `${Object.keys(currentQuiz.answers).length}/${currentQuiz.questions.length}`;
+                }
+                if (timeUsed) {
+                    timeUsed.textContent = this.getElapsedTime();
+                }
+
+                this.openModal('submission-modal');
+            },
+
+            getUnansweredQuestions() {
+                return currentQuiz.questions.filter(q => !currentQuiz.answers.hasOwnProperty(q.id));
+            },
+
+            getElapsedTime() {
+                if (!currentQuiz.startTime) return '0:00';
+                const elapsed = Math.floor((Date.now() - currentQuiz.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            },
+
+            endQuiz(submitted = false) {
+                this.stopTimer();
+                currentQuiz.submitted = submitted;
+                currentQuiz.endTime = Date.now();
+                
+                this.calculateResults();
+                this.showScreen('results-screen');
+                
+                const message = submitted ? 'Quiz submitted successfully!' : 'Quiz time expired!';
+                this.showNotification('success', 'Quiz Complete', message);
+            },
+
+            calculateResults() {
+                let correct = 0;
+                let total = currentQuiz.questions.length;
+                let taxonomyStats = {};
+
+                // Calculate performance by taxonomy
+                currentQuiz.questions.forEach(question => {
+                    const userAnswer = currentQuiz.answers[question.id];
+                    const isCorrect = userAnswer === question.correct;
+                    
+                    if (isCorrect) correct++;
+
+                    // Track taxonomy performance
+                    const taxonomyKey = `${question.taxonomy.type}-${question.taxonomy.info}`;
+                    if (!taxonomyStats[taxonomyKey]) {
+                        taxonomyStats[taxonomyKey] = { correct: 0, total: 0, label: '' };
+                    }
+                    taxonomyStats[taxonomyKey].total++;
+                    taxonomyStats[taxonomyKey].label = `${question.taxonomy.type.toUpperCase()} - ${question.taxonomy.info.toUpperCase()}`;
+                    if (isCorrect) taxonomyStats[taxonomyKey].correct++;
+                });
+
+                const score = Math.round((correct / total) * 100);
+
+                // Update results display
+                const scoreDisplay = document.getElementById('score-display');
+                const correctDisplay = document.getElementById('correct-display');
+                const incorrectDisplay = document.getElementById('incorrect-display');
+                
+                if (scoreDisplay) scoreDisplay.textContent = `${score}%`;
+                if (correctDisplay) correctDisplay.textContent = correct;
+                if (incorrectDisplay) incorrectDisplay.textContent = total - correct;
+
+                // Update taxonomy breakdown
+                const breakdown = document.getElementById('taxonomy-breakdown');
+                if (breakdown) {
+                    breakdown.innerHTML = '';
+                    
+                    Object.entries(taxonomyStats).forEach(([key, stats]) => {
+                        const percentage = Math.round((stats.correct / stats.total) * 100);
+                        const performance = percentage >= 80 ? 'Excellent' : percentage >= 60 ? 'Good' : 'Needs Work';
+                        const color = percentage >= 80 ? 'var(--success)' : percentage >= 60 ? 'var(--warning)' : 'var(--error)';
+                        
+                        const div = document.createElement('div');
+                        div.className = 'mb-md';
+                        div.innerHTML = `
+                            <div class="flex justify-between items-center mb-sm">
+                                <span class="text-sm font-medium">${stats.label}</span>
+                                <span class="text-sm" style="color: ${color}; font-weight: 600;">${performance}</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-xs">
+                                <span class="text-sm text-muted">${stats.correct}/${stats.total} correct</span>
+                                <span class="text-sm font-semibold">${percentage}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${percentage}%; background: ${color}"></div>
+                            </div>
+                        `;
+                        breakdown.appendChild(div);
+                    });
+                }
+            },
+
+            isPremiumActive() {
+                return sessionStorage.getItem('premium_active') === 'true';
+            }
+        };
+
+        // Global Functions
+        function goHome() {
+            EPS.showScreen('home-screen');
+            EPS.stopTimer();
+            currentScreen = 'home';
+        }
+
+        function goBack() {
+            if (currentScreen === 'subject-selection') {
+                EPS.showScreen('home-screen');
+            } else if (currentScreen === 'quiz-screen') {
+                if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
+                    EPS.showScreen('subject-selection');
+                    EPS.stopTimer();
+                }
+            }
+        }
+
+        function selectExam(exam) {
+            if (exam === 'jamb') {
+                EPS.showScreen('subject-selection');
+            } else {
+                showComingSoon(`${exam.toUpperCase()} Exams`);
+            }
+        }
+
+        function selectSubject(subject) {
+            if (subject === 'mathematics') {
+                EPS.startQuiz('mathematics', 10);
+            } else {
+                showComingSoon(`${subject.charAt(0).toUpperCase() + subject.slice(1)} questions`);
+            }
+        }
+
+        async function startDemo() {
+            try {
+                EPS.showLoading();
+                EPS.hideLoading();
+                EPS.startQuiz('mathematics', 10);
+            } catch (error) {
+                EPS.hideLoading();
+                EPS.showError('Failed to load demo questions. Please try again.');
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuiz.currentQuestionIndex > 0) {
+                EPS.loadQuestion(currentQuiz.currentQuestionIndex - 1);
+            }
+        }
+
+        function nextQuestion() {
+            const isLast = currentQuiz.currentQuestionIndex === currentQuiz.questions.length - 1;
+            
+            if (isLast) {
+                EPS.submitQuiz();
+            } else {
+                EPS.loadQuestion(currentQuiz.currentQuestionIndex + 1);
+            }
+        }
+
+        function exitQuiz() {
+            if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
+                EPS.showScreen('subject-selection');
+                EPS.stopTimer();
+                EPS.showNotification('info', 'Quiz Exited', 'You can start a new quiz anytime.');
+            }
+        }
+
+        function confirmSubmission() {
+            EPS.closeModal('submission-modal');
+            EPS.endQuiz(true);
+        }
+
+        function showUpgradeModal() {
+            EPS.closeModal('submission-modal');
+            EPS.openModal('upgrade-modal');
+        }
+
+        function proceedWithFree() {
+            EPS.closeModal('upgrade-modal');
+            confirmSubmission();
+        }
+
+        function reviewAnswers() {
+            if (EPS.isPremiumActive()) {
+                showComingSoon('Detailed Answer Review');
+            } else {
+                EPS.showNotification('info', 'Premium Feature', 'Upgrade to access detailed answer reviews with step-by-step explanations.');
+                setTimeout(() => EPS.openModal('upgrade-modal'), 1000);
+            }
+        }
+
+        function retakeQuiz() {
+            if (confirm('Start a new quiz with different questions?')) {
+                EPS.startQuiz('mathematics', 10);
+            }
+        }
+
+        // Solana Payment Functions
+        async function initiateSolanaPayment(tier) {
+            try {
+                EPS.showLoading();
+                
+                // Generate payment details
+                const amount = SOLANA_CONFIG.PRICING[tier];
+                const reference = generatePaymentReference();
+                const paymentUrl = generateSolanaPayURL(amount, tier, reference);
+                
+                currentPayment = {
+                    reference,
+                    amount,
+                    tier,
+                    paymentUrl,
+                    timestamp: Date.now()
+                };
+
+                EPS.hideLoading();
+                showSolanaPaymentModal();
+                
+            } catch (error) {
+                EPS.hideLoading();
+                EPS.showError(`Payment initialization failed: ${error.message}`);
+            }
+        }
+
+        function generatePaymentReference() {
+            return 'EPS_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function generateSolanaPayURL(amount, tier, reference) {
+            const params = new URLSearchParams({
+                recipient: SOLANA_CONFIG.MERCHANT_WALLET,
+                amount: amount.toString(),
+                'spl-token': SOLANA_CONFIG.USDC_MINT,
+                reference: reference,
+                label: 'Exam Prep Standard',
+                message: `${tier} subscription payment`,
+                memo: `EPS_${tier}_${Date.now()}`
+            });
+
+            return `solana:${SOLANA_CONFIG.MERCHANT_WALLET}?${params.toString()}`;
+        }
+
+        function showSolanaPaymentModal() {
+            if (!currentPayment) return;
+
+            // Update modal content
+            const amountDisplay = document.getElementById('payment-amount');
+            const referenceDisplay = document.getElementById('payment-reference');
+            const qrContainer = document.getElementById('qr-container');
+            
+            if (amountDisplay) amountDisplay.textContent = `${currentPayment.amount} USDC`;
+            if (referenceDisplay) referenceDisplay.textContent = `Reference: ${currentPayment.reference}`;
+            
+            // Show QR code placeholder (in production, integrate with @solana/pay)
+            if (qrContainer) {
+                qrContainer.innerHTML = `
+                    <div style="width: 250px; height: 250px; border: 2px dashed var(--neutral-300); display: flex; align-items: center; justify-content: center; margin: 0 auto; border-radius: var(--radius);">
+                        <div class="text-center text-muted">
+                            <div class="mb-sm">📱</div>
+                            <div class="text-sm">QR Code for<br/>Solana Payment</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            EPS.closeModal('upgrade-modal');
+            EPS.openModal('solana-payment-modal');
+            
+            // Auto-check payment status (simplified for demo)
+            startPaymentStatusCheck();
+        }
+
+        function openSolanaWallet() {
+            if (currentPayment && currentPayment.paymentUrl) {
+                window.open(currentPayment.paymentUrl, '_blank');
+                EPS.showNotification('info', 'Payment Link Opened', 'Complete the payment in your Solana wallet.');
+            }
+        }
+
+        function startPaymentStatusCheck() {
+            let checkCount = 0;
+            const maxChecks = 20; // Check for 1 minute (3s intervals)
+            
+            const interval = setInterval(() => {
+                checkCount++;
+                const progressBar = document.getElementById('payment-progress');
+                const statusText = document.getElementById('payment-status');
+                
+                // Simulate payment verification (70% success rate for demo)
+                const isVerified = checkCount > 5 && Math.random() > 0.3;
+                
+                if (isVerified || checkCount >= maxChecks) {
+                    clearInterval(interval);
+                    
+                    if (isVerified) {
+                        if (progressBar) progressBar.style.width = '100%';
+                        if (statusText) statusText.textContent = 'Payment confirmed! Activating premium features...';
+                        
+                        setTimeout(() => {
+                            handleSuccessfulPayment();
+                        }, 2000);
+                    } else {
+                        if (statusText) statusText.textContent = 'Payment verification timeout. Please try again.';
+                    }
+                } else {
+                    // Update progress
+                    const progress = (checkCount / maxChecks) * 90; // Max 90% until confirmed
+                    if (progressBar) progressBar.style.width = `${progress}%`;
+                }
+            }, 3000);
+        }
+
+        function checkPaymentStatus() {
+            EPS.showLoading();
+            
+            // Simulate manual verification check
+            setTimeout(() => {
+                EPS.hideLoading();
+                const verified = Math.random() > 0.4; // 60% success rate for manual check
+                
+                if (verified) {
+                    handleSuccessfulPayment();
+                } else {
+                    EPS.showNotification('warning', 'Payment Pending', 'Payment not yet confirmed. Please wait or try again.');
+                }
+            }, 2000);
+        }
+
+        function handleSuccessfulPayment() {
+            // Activate premium features
+            sessionStorage.setItem('premium_active', 'true');
+            if (currentPayment) {
+                sessionStorage.setItem('payment_reference', currentPayment.reference);
+                sessionStorage.setItem('payment_tier', currentPayment.tier);
+            }
+            
+            EPS.closeModal('solana-payment-modal');
+            EPS.showNotification('success', 'Payment Successful!', 'Premium features activated. Enjoy your enhanced analytics!');
+            
+            // Return to quiz results with premium features
+            if (currentScreen === 'results-screen') {
+                EPS.calculateResults();
+            } else {
+                confirmSubmission();
+            }
+        }
+
+        function closeModal(modalId) {
+            EPS.closeModal(modalId);
+        }
+
+        function showComingSoon(feature) {
+            const message = document.getElementById('coming-soon-message');
+            if (message) {
+                message.textContent = `${feature} is coming soon! We're working hard to bring you this feature.`;
+            }
+            EPS.openModal('coming-soon-modal');
+        }
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal click-outside-to-close
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        EPS.closeModal(this.id);
+                    }
+                });
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const activeModal = document.querySelector('.modal-overlay.active');
+                    if (activeModal) {
+                        EPS.closeModal(activeModal.id);
+                    }
+                }
+
+                // Quiz navigation shortcuts
+                if (currentScreen === 'quiz-screen') {
+                    if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        previousQuestion();
+                    } else if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        nextQuestion();
+                    } else if (e.key >= '1' && e.key <= '4') {
+                        e.preventDefault();
+                        const optionIndex = parseInt(e.key) - 1;
+                        if (currentQuiz.questions[currentQuiz.currentQuestionIndex]) {
+                            const currentQuestion = currentQuiz.questions[currentQuiz.currentQuestionIndex];
+                            if (optionIndex < currentQuestion.options.length) {
+                                EPS.selectOption(currentQuestion.id, optionIndex);
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Welcome message
+            setTimeout(() => {
+                EPS.showNotification('info', 'Welcome to EPS', 'Your exam preparation journey starts here! Try our demo to experience the 5×2 taxonomy system.');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>>Full question access (600+ questions)</li>
+                                <li>Detailed answer explanations</li>
+                                <li>Advanced 5×2 taxonomy analytics</li>
+                                <li>Performance tracking & insights</li>
+                                <li>Mock exam simulations</li>
+                            </ul>
+                            <button class="btn btn-accent w-full" onclick="initiateSolanaPayment('premium')">
+                                Pay with Solana (USDC)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Professional Plan -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="font-semibold">Professional Monthly</h4>
+                            <div class="text-2xl font-bold text-accent">$19.99/mo</div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
+                                <li
