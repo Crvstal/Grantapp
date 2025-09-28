@@ -49,6 +49,7 @@
             color: var(--primary); 
             background: var(--secondary);
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         /* Typography */
@@ -188,9 +189,11 @@
             color: var(--primary);
             text-decoration: none;
             cursor: pointer;
+            transition: color var(--transition);
         }
 
         .breadcrumb-link:hover {
+            color: var(--accent);
             text-decoration: underline;
         }
 
@@ -516,28 +519,29 @@
             .container { padding: 0 var(--space-sm); }
             .question-card { padding: var(--space-lg); }
             .quiz-controls { flex-direction: column; gap: var(--space-md); }
+            .navbar { flex-direction: column; gap: var(--space-md); padding: var(--space-sm); }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <a href="#" class="navbar-brand" onclick="GrantApp.goHome()">GrantApp</a>
+        <a href="#" class="navbar-brand">GrantApp</a>
         <div class="flex items-center gap-md">
             <div class="tooltip-container">
-                <button class="btn btn-ghost premium-feature" onclick="GrantApp.redirectToPremium()">
+                <button class="btn btn-ghost premium-feature">
                     Analytics
                 </button>
                 <div class="tooltip">Upgrade to Premium for detailed analytics</div>
             </div>
             <div class="tooltip-container">
-                <button class="btn btn-ghost premium-feature" onclick="GrantApp.redirectToPremium()">
+                <button class="btn btn-ghost premium-feature">
                     Rankings
                 </button>
                 <div class="tooltip">Upgrade to Premium for leaderboards</div>
             </div>
-            <button class="btn btn-ghost" onclick="GrantApp.showComingSoon('Profile')">Profile</button>
-            <button class="btn btn-accent" onclick="GrantApp.redirectToPremium()">Upgrade</button>
+            <button class="btn btn-ghost">Profile</button>
+            <button class="btn btn-accent">Upgrade</button>
         </div>
     </nav>
 
@@ -1325,19 +1329,6 @@
                 return scoredQuestions[0].question;
             }
 
-            // Check if user has premium
-const premiumStatus = GrantAppPayments.getPremiumStatus();
-if (premiumStatus.active) {
-    // Enable premium features
-    enablePremiumFeatures(premiumStatus.plan);
-}
-
-// Initiate payment from your app
-GrantAppPayments.initiatePayment('pro_monthly', 15);
-
-// Check transaction history
-const transactions = GrantAppPayments.getTransactionHistory();
-
             // Update user profile with taxonomy tracking
             updateUserProfile(wasCorrect, responseTime) {
                 const question = this.currentQuiz.currentQuestion;
@@ -1627,27 +1618,59 @@ const transactions = GrantAppPayments.getTransactionHistory();
             currentStakeLevel: null,
             quizTimer: null,
             questionTimer: null,
-            timeRemaining: 1800, // 30 minutes in seconds
+            timeRemaining: 1800,
 
-            // Navigation and Screen Management
+            // Fixed Navigation and Screen Management
+            init() {
+                this.showScreen('home-screen');
+                this.updateBreadcrumb();
+            },
+
             showScreen(screenId) {
+                console.log('Showing screen:', screenId);
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.add('hidden');
                 });
-                document.getElementById(screenId).classList.remove('hidden');
-                this.currentScreen = screenId;
-                this.updateBreadcrumb();
+                
+                const targetScreen = document.getElementById(screenId);
+                if (targetScreen) {
+                    targetScreen.classList.remove('hidden');
+                    this.currentScreen = screenId;
+                    this.updateBreadcrumb();
+                } else {
+                    console.error('Screen not found:', screenId);
+                    this.showScreen('home-screen');
+                }
             },
 
             goHome() {
                 this.navigationStack = [];
-                this.showScreen('home-screen');
+                this.currentSubject = null;
+                this.currentStakeLevel = null;
                 this.clearTimers();
+                this.showScreen('home-screen');
             },
 
             goBack() {
                 if (this.navigationStack.length > 0) {
                     const previousScreen = this.navigationStack.pop();
+                    
+                    // Handle state cleanup based on navigation
+                    switch (this.currentScreen) {
+                        case 'subject-selection':
+                            this.currentSubject = null;
+                            break;
+                        case 'quiz-mode-selection':
+                            this.currentStakeLevel = null;
+                            break;
+                        case 'quiz-screen':
+                        case 'results-screen':
+                            this.currentSubject = null;
+                            this.currentStakeLevel = null;
+                            this.clearTimers();
+                            break;
+                    }
+                    
                     this.showScreen(previousScreen);
                 } else {
                     this.goHome();
@@ -1655,13 +1678,21 @@ const transactions = GrantAppPayments.getTransactionHistory();
             },
 
             navigateTo(screenId) {
-                this.navigationStack.push(this.currentScreen);
+                console.log('Navigating to:', screenId, 'from:', this.currentScreen);
+                
+                if (screenId !== this.currentScreen) {
+                    this.navigationStack.push(this.currentScreen);
+                    // Limit stack size to prevent memory issues
+                    if (this.navigationStack.length > 10) {
+                        this.navigationStack.shift();
+                    }
+                }
+                
                 this.showScreen(screenId);
             },
 
             updateBreadcrumb() {
                 const breadcrumb = document.getElementById('breadcrumb');
-                const container = document.getElementById('breadcrumb-container');
                 
                 if (this.currentScreen === 'home-screen') {
                     breadcrumb.style.display = 'none';
@@ -1672,32 +1703,49 @@ const transactions = GrantAppPayments.getTransactionHistory();
                 breadcrumb.innerHTML = '';
                 
                 // Home breadcrumb
-                this.addBreadcrumbItem(breadcrumb, 'Home', this.goHome.bind(this));
+                this.addBreadcrumbItem(breadcrumb, 'Home', () => this.goHome());
                 
-                // Subject selection
-                if (this.currentScreen === 'subject-selection') {
-                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null, true);
-                }
+                // Dynamic breadcrumb based on current flow
+                this.buildBreadcrumbPath();
+            },
+
+            buildBreadcrumbPath() {
+                const breadcrumb = document.getElementById('breadcrumb');
                 
-                // Quiz mode selection
-                if (this.currentScreen === 'quiz-mode-selection') {
-                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null);
-                    this.addBreadcrumbItem(breadcrumb, this.currentSubject, null, true);
-                }
-                
-                // Quiz screen
-                if (this.currentScreen === 'quiz-screen') {
-                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null);
-                    this.addBreadcrumbItem(breadcrumb, this.currentSubject, null);
-                    this.addBreadcrumbItem(breadcrumb, this.currentStakeLevel, null, true);
-                }
-                
-                // Results screen
-                if (this.currentScreen === 'results-screen') {
-                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null);
-                    this.addBreadcrumbItem(breadcrumb, this.currentSubject, null);
-                    this.addBreadcrumbItem(breadcrumb, this.currentStakeLevel, null);
-                    this.addBreadcrumbItem(breadcrumb, 'Results', null, true);
+                switch (this.currentScreen) {
+                    case 'subject-selection':
+                        this.addBreadcrumbItem(breadcrumb, 'Select Subject', null, true);
+                        break;
+                        
+                    case 'quiz-mode-selection':
+                        this.addBreadcrumbItem(breadcrumb, 'Select Subject', () => {
+                            this.navigateTo('subject-selection');
+                        });
+                        this.addBreadcrumbItem(breadcrumb, 'Quiz Mode', null, true);
+                        break;
+                        
+                    case 'quiz-screen':
+                        this.addBreadcrumbItem(breadcrumb, 'Select Subject', () => {
+                            this.navigateTo('subject-selection');
+                        });
+                        this.addBreadcrumbItem(breadcrumb, this.capitalizeFirst(this.currentSubject), () => {
+                            this.navigateTo('quiz-mode-selection');
+                        });
+                        this.addBreadcrumbItem(breadcrumb, this.capitalizeFirst(this.currentStakeLevel), null, true);
+                        break;
+                        
+                    case 'results-screen':
+                        this.addBreadcrumbItem(breadcrumb, 'Select Subject', () => {
+                            this.navigateTo('subject-selection');
+                        });
+                        this.addBreadcrumbItem(breadcrumb, this.capitalizeFirst(this.currentSubject), () => {
+                            this.navigateTo('quiz-mode-selection');
+                        });
+                        this.addBreadcrumbItem(breadcrumb, this.capitalizeFirst(this.currentStakeLevel), () => {
+                            this.retakeQuiz();
+                        });
+                        this.addBreadcrumbItem(breadcrumb, 'Results', null, true);
+                        break;
                 }
             },
 
@@ -1707,14 +1755,24 @@ const transactions = GrantAppPayments.getTransactionHistory();
                 
                 if (isActive) {
                     item.innerHTML = `<span class="text-muted">${text}</span>`;
+                } else if (onClick) {
+                    const link = document.createElement('a');
+                    link.className = 'breadcrumb-link';
+                    link.textContent = text;
+                    link.onclick = onClick;
+                    item.appendChild(link);
                 } else {
-                    item.innerHTML = `<a class="breadcrumb-link" onclick="${onClick ? onClick.toString().replace('function', '').trim() : 'GrantApp.goHome()'}">${text}</a>`;
+                    item.innerHTML = `<span>${text}</span>`;
                 }
                 
                 container.appendChild(item);
             },
 
-            // Exam and Subject Selection
+            capitalizeFirst(string) {
+                return string ? string.charAt(0).toUpperCase() + string.slice(1) : '';
+            },
+
+            // Fixed Exam and Subject Selection
             selectExam(examType) {
                 if (examType === 'jamb') {
                     this.currentSubject = null;
@@ -1729,8 +1787,13 @@ const transactions = GrantAppPayments.getTransactionHistory();
                 this.navigateTo('quiz-mode-selection');
             },
 
-            // Quiz Management
+            // Fixed Quiz Management
             async startQuiz(stakeLevel) {
+                if (!this.currentSubject) {
+                    this.showError('Subject Required', 'Please select a subject first.');
+                    return;
+                }
+
                 this.currentStakeLevel = stakeLevel;
                 this.showLoading('Loading questions...', 'Preparing your adaptive quiz experience');
                 
@@ -1748,7 +1811,10 @@ const transactions = GrantAppPayments.getTransactionHistory();
                     this.startTimers();
                     
                 } catch (error) {
+                    console.error('Quiz start error:', error);
                     this.showError('Failed to start quiz', error.message, error);
+                    // Go back to previous screen on error
+                    this.goBack();
                 } finally {
                     this.hideLoading();
                 }
@@ -1762,8 +1828,8 @@ const transactions = GrantAppPayments.getTransactionHistory();
 
             initializeQuizInterface() {
                 // Set quiz title and stake badge
-                document.getElementById('quiz-title').textContent = `${this.currentSubject} Quiz`;
-                document.getElementById('stake-badge').textContent = this.currentStakeLevel;
+                document.getElementById('quiz-title').textContent = `${this.capitalizeFirst(this.currentSubject)} Quiz`;
+                document.getElementById('stake-badge').textContent = this.capitalizeFirst(this.currentStakeLevel);
                 document.getElementById('stake-badge').className = `stake-badge stake-${this.currentStakeLevel}`;
                 
                 // Reset progress
@@ -1814,6 +1880,12 @@ const transactions = GrantAppPayments.getTransactionHistory();
                 
                 // Update adaptive metrics
                 this.updateAdaptiveMetrics();
+                
+                // Reset selection
+                document.querySelectorAll('.option-label').forEach(label => {
+                    label.classList.remove('selected');
+                });
+                document.getElementById('next-btn').disabled = false;
             },
 
             selectOption(optionIndex) {
@@ -1827,25 +1899,23 @@ const transactions = GrantAppPayments.getTransactionHistory();
                 if (labels[optionIndex]) {
                     labels[optionIndex].classList.add('selected');
                 }
-                
-                // Enable next button
-                document.getElementById('next-btn').disabled = false;
             },
 
             nextQuestion() {
                 const selectedLabel = document.querySelector('.option-label.selected');
-                if (!selectedLabel && this.quizEngine.currentQuiz.currentQuestionIndex < this.quizEngine.currentQuiz.questionCount) {
-                    this.showError('Selection Required', 'Please select an answer before proceeding.');
-                    return;
-                }
                 
-                // Process current answer if available
-                if (selectedLabel) {
+                // Allow finishing without selection (count as wrong answer)
+                if (!selectedLabel && this.quizEngine.currentQuiz.currentQuestionIndex < this.quizEngine.currentQuiz.questionCount) {
+                    if (!confirm('You haven\'t selected an answer. Continue anyway?')) {
+                        return;
+                    }
+                    // Record as incorrect answer
+                    this.quizEngine.answerQuestion(-1);
+                } else if (selectedLabel) {
                     const optionIndex = Array.from(document.querySelectorAll('.option-label')).indexOf(selectedLabel);
                     this.quizEngine.answerQuestion(optionIndex);
                 }
                 
-                // Get next question or finish quiz
                 if (this.quizEngine.currentQuiz.currentQuestionIndex >= this.quizEngine.currentQuiz.questionCount) {
                     this.finishQuiz();
                 } else {
@@ -1860,11 +1930,13 @@ const transactions = GrantAppPayments.getTransactionHistory();
             },
 
             previousQuestion() {
-                // Navigate to previous question (simplified implementation)
                 if (this.quizEngine.currentQuiz.currentQuestionIndex > 1) {
                     this.quizEngine.currentQuiz.currentQuestionIndex--;
-                    // In a real implementation, you'd need to track question history
-                    this.showError('Navigation Limited', 'Previous question navigation is limited in this demo.');
+                    // For demo purposes, we'll reload the current question
+                    // In a real app, you'd need to track question history
+                    const currentQuestion = this.quizEngine.currentQuiz.currentQuestion;
+                    this.displayQuestion(currentQuestion);
+                    this.resetQuestionTimer();
                 }
             },
 
@@ -1981,7 +2053,7 @@ const transactions = GrantAppPayments.getTransactionHistory();
             exitQuiz() {
                 if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
                     this.clearTimers();
-                    this.goHome();
+                    this.navigateTo('quiz-mode-selection');
                 }
             },
 
@@ -1994,7 +2066,11 @@ const transactions = GrantAppPayments.getTransactionHistory();
             },
 
             retakeQuiz() {
-                this.startQuiz(this.currentStakeLevel);
+                if (this.currentSubject && this.currentStakeLevel) {
+                    this.startQuiz(this.currentStakeLevel);
+                } else {
+                    this.navigateTo('quiz-mode-selection');
+                }
             },
 
             // Modal Management
@@ -2005,6 +2081,9 @@ const transactions = GrantAppPayments.getTransactionHistory();
             },
 
             showError(title, message, error = null) {
+                console.error('Application Error:', title, message, error);
+                lastFailedAction = this.retryLastAction.bind(this);
+                
                 document.getElementById('error-title').textContent = title;
                 document.getElementById('error-message').textContent = message;
                 
@@ -2036,9 +2115,8 @@ const transactions = GrantAppPayments.getTransactionHistory();
 
             retryLastAction() {
                 this.closeModal('error-modal');
-                if (lastFailedAction) {
-                    lastFailedAction();
-                }
+                // Default retry behavior - go home
+                this.goHome();
             },
 
             // Premium Features
@@ -2051,17 +2129,12 @@ const transactions = GrantAppPayments.getTransactionHistory();
             }
         };
 
-        // Initialize the application
+        // Enhanced initialization
         document.addEventListener('DOMContentLoaded', function() {
             console.log('GrantApp Adaptive Quiz Engine initialized');
+            GrantApp.init(); // Initialize the app properly
             
-            // Set current year in footer if exists
-            const yearElement = document.getElementById('current-year');
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
-            }
-            
-            // Initialize tooltips
+            // Fixed tooltip initialization
             const tooltipContainers = document.querySelectorAll('.tooltip-container');
             tooltipContainers.forEach(container => {
                 container.addEventListener('mouseenter', function() {
@@ -2080,10 +2153,10 @@ const transactions = GrantAppPayments.getTransactionHistory();
             });
         });
 
-        // Global error handler
+        // Enhanced global error handler
         window.addEventListener('error', function(e) {
             console.error('Global error:', e.error);
-            GrantApp.showError('Unexpected Error', 'An unexpected error occurred. Please refresh the page and try again.', e.error);
+            GrantApp.showError('Unexpected Error', 'An unexpected error occurred. The app will return to home screen.', e.error);
         });
 
         // Export for global access
