@@ -1325,6 +1325,19 @@
                 return scoredQuestions[0].question;
             }
 
+            // Check if user has premium
+const premiumStatus = GrantAppPayments.getPremiumStatus();
+if (premiumStatus.active) {
+    // Enable premium features
+    enablePremiumFeatures(premiumStatus.plan);
+}
+
+// Initiate payment from your app
+GrantAppPayments.initiatePayment('pro_monthly', 15);
+
+// Check transaction history
+const transactions = GrantAppPayments.getTransactionHistory();
+
             // Update user profile with taxonomy tracking
             updateUserProfile(wasCorrect, responseTime) {
                 const question = this.currentQuiz.currentQuestion;
