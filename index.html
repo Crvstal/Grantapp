@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrantApp - Adaptive Quiz Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             /* Design System Variables */
@@ -506,6 +507,53 @@
         .stake-mock { background: var(--warning); color: var(--secondary); }
         .stake-high { background: var(--error); color: var(--secondary); }
 
+        /* PDF Upload Styles */
+        .upload-area {
+            border: 2px dashed var(--neutral-300);
+            border-radius: var(--radius);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all var(--transition);
+            cursor: pointer;
+            margin-bottom: var(--space-lg);
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent);
+            background: var(--neutral-50);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--accent);
+            background: var(--neutral-100);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--neutral-500);
+            margin-bottom: var(--space-md);
+        }
+
+        .upload-text {
+            margin-bottom: var(--space-md);
+        }
+
+        .upload-btn {
+            margin-top: var(--space-md);
+        }
+
+        .upload-preview {
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            border: var(--border);
+            border-radius: var(--radius);
+            background: var(--neutral-50);
+        }
+
+        .upload-preview h4 {
+            margin-bottom: var(--space-sm);
+        }
+
         /* Utility Classes */
         .text-center { text-align: center; }
         .text-right { text-align: right; }
@@ -572,15 +620,15 @@
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">SAT</h3>
                             <p class="text-muted mb-lg">Math, English, Reading & Writing</p>
-                            <button class="btn btn-ghost w-full" onclick="GrantApp.showComingSoon('SAT Exams')">Coming Soon</button>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.selectExam('sat')">Start Practice</button>
                         </div>
                     </div>
                     
                     <div class="card">
                         <div class="card-body text-center">
-                            <h3 class="text-2xl font-semibold mb-sm">AWS Certs</h3>
-                            <p class="text-muted mb-lg">Cloud Practitioner, Solutions Architect</p>
-                            <button class="btn btn-ghost w-full" onclick="GrantApp.showComingSoon('AWS Certifications')">Coming Soon</button>
+                            <h3 class="text-2xl font-semibold mb-sm">AP Exams</h3>
+                            <p class="text-muted mb-lg">Calculus, Statistics, Physics, Chemistry</p>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.selectExam('ap')">Start Practice</button>
                         </div>
                     </div>
                 </div>
@@ -592,6 +640,37 @@
                     <div class="card-body">
                         <p class="text-muted mb-lg">Experience our adaptive quiz system with sample questions</p>
                         <button class="btn btn-accent btn-lg w-full" onclick="GrantApp.startDemo()">Try Demo Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PDF Upload Section -->
+            <section class="py-xl">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-xl font-semibold">Create Custom Quiz from PDF</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="upload-area" id="upload-area">
+                            <div class="upload-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <h4 class="upload-text">Upload PDF to Generate Questions</h4>
+                            <p class="text-muted mb-md">Drag & drop your PDF file here or click to browse</p>
+                            <input type="file" id="pdf-upload" accept=".pdf" class="hidden">
+                            <button class="btn btn-primary upload-btn" onclick="document.getElementById('pdf-upload').click()">
+                                Select PDF File
+                            </button>
+                        </div>
+                        
+                        <div class="upload-preview hidden" id="upload-preview">
+                            <h4>PDF Preview</h4>
+                            <p id="pdf-name">No file selected</p>
+                            <div class="flex gap-md mt-md">
+                                <button class="btn btn-primary" id="generate-questions-btn">Generate Questions</button>
+                                <button class="btn btn-ghost" id="cancel-upload-btn">Cancel</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -611,7 +690,7 @@
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Mathematics</h3>
                             <p class="text-muted mb-lg">500+ Questions | Full Taxonomy</p>
-                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('mathematics')">Start Practice</button>
+                            <a href="Jmaths.html" class="btn btn-primary w-full">Start Practice</a>
                         </div>
                     </div>
                     
@@ -619,7 +698,7 @@
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">English</h3>
                             <p class="text-muted mb-lg">400+ Questions | Full Taxonomy</p>
-                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('english')">Start Practice</button>
+                            <a href="jenglish.html" class="btn btn-primary w-full">Start Practice</a>
                         </div>
                     </div>
                     
@@ -627,7 +706,7 @@
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Physics</h3>
                             <p class="text-muted mb-lg">300+ Questions | Full Taxonomy</p>
-                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('physics')">Start Practice</button>
+                            <a href="jphysics.html" class="btn btn-primary w-full">Start Practice</a>
                         </div>
                     </div>
                     
@@ -635,7 +714,81 @@
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Chemistry</h3>
                             <p class="text-muted mb-lg">350+ Questions | Full Taxonomy</p>
-                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('chemistry')">Start Practice</button>
+                            <a href="jchemistry.html" class="btn btn-primary w-full">Start Practice</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SAT Subject Selection Screen -->
+        <div id="sat-subject-selection" class="screen hidden">
+            <section class="py-xl">
+                <div class="mb-xl">
+                    <button class="btn btn-ghost" onclick="GrantApp.goBack()">&larr; Back</button>
+                    <h2 class="text-3xl font-semibold text-center mb-lg">Select SAT Subject</h2>
+                    <p class="text-center text-muted">Choose your subject to begin practice</p>
+                </div>
+
+                <div class="grid grid-2 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">SAT Mathematics</h3>
+                            <p class="text-muted mb-lg">600+ Questions | Full Taxonomy</p>
+                            <a href="sat-maths.html" class="btn btn-primary w-full">Start Practice</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">SAT English</h3>
+                            <p class="text-muted mb-lg">500+ Questions | Full Taxonomy</p>
+                            <a href="sat-english.html" class="btn btn-primary w-full">Start Practice</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- AP Subject Selection Screen -->
+        <div id="ap-subject-selection" class="screen hidden">
+            <section class="py-xl">
+                <div class="mb-xl">
+                    <button class="btn btn-ghost" onclick="GrantApp.goBack()">&larr; Back</button>
+                    <h2 class="text-3xl font-semibold text-center mb-lg">Select AP Subject</h2>
+                    <p class="text-center text-muted">Choose your subject to begin practice</p>
+                </div>
+
+                <div class="grid grid-2 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">AP Calculus</h3>
+                            <p class="text-muted mb-lg">450+ Questions | Full Taxonomy</p>
+                            <a href="ap-calculus.html" class="btn btn-primary w-full">Start Practice</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">AP Statistics</h3>
+                            <p class="text-muted mb-lg">400+ Questions | Full Taxonomy</p>
+                            <a href="ap-statistics.html" class="btn btn-primary w-full">Start Practice</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">AP Physics</h3>
+                            <p class="text-muted mb-lg">500+ Questions | Full Taxonomy</p>
+                            <a href="ap-physics.html" class="btn btn-primary w-full">Start Practice</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">AP Chemistry</h3>
+                            <p class="text-muted mb-lg">450+ Questions | Full Taxonomy</p>
+                            <a href="ap-chemistry.html" class="btn btn-primary w-full">Start Practice</a>
                         </div>
                     </div>
                 </div>
@@ -1624,6 +1777,7 @@
             init() {
                 this.showScreen('home-screen');
                 this.updateBreadcrumb();
+                this.setupPDFUpload();
             },
 
             showScreen(screenId) {
@@ -1658,6 +1812,10 @@
                     // Handle state cleanup based on navigation
                     switch (this.currentScreen) {
                         case 'subject-selection':
+                            this.currentSubject = null;
+                            break;
+                        case 'sat-subject-selection':
+                        case 'ap-subject-selection':
                             this.currentSubject = null;
                             break;
                         case 'quiz-mode-selection':
@@ -1714,19 +1872,52 @@
                 
                 switch (this.currentScreen) {
                     case 'subject-selection':
+                        this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', () => {
+                            this.navigateTo('home-screen');
+                        });
+                        this.addBreadcrumbItem(breadcrumb, 'Select Subject', null, true);
+                        break;
+                        
+                    case 'sat-subject-selection':
+                        this.addBreadcrumbItem(breadcrumb, 'SAT', () => {
+                            this.navigateTo('home-screen');
+                        });
+                        this.addBreadcrumbItem(breadcrumb, 'Select Subject', null, true);
+                        break;
+                        
+                    case 'ap-subject-selection':
+                        this.addBreadcrumbItem(breadcrumb, 'AP Exams', () => {
+                            this.navigateTo('home-screen');
+                        });
                         this.addBreadcrumbItem(breadcrumb, 'Select Subject', null, true);
                         break;
                         
                     case 'quiz-mode-selection':
                         this.addBreadcrumbItem(breadcrumb, 'Select Subject', () => {
-                            this.navigateTo('subject-selection');
+                            if (this.currentSubject) {
+                                if (this.currentSubject.includes('jamb')) {
+                                    this.navigateTo('subject-selection');
+                                } else if (this.currentSubject.includes('sat')) {
+                                    this.navigateTo('sat-subject-selection');
+                                } else if (this.currentSubject.includes('ap')) {
+                                    this.navigateTo('ap-subject-selection');
+                                }
+                            }
                         });
                         this.addBreadcrumbItem(breadcrumb, 'Quiz Mode', null, true);
                         break;
                         
                     case 'quiz-screen':
                         this.addBreadcrumbItem(breadcrumb, 'Select Subject', () => {
-                            this.navigateTo('subject-selection');
+                            if (this.currentSubject) {
+                                if (this.currentSubject.includes('jamb')) {
+                                    this.navigateTo('subject-selection');
+                                } else if (this.currentSubject.includes('sat')) {
+                                    this.navigateTo('sat-subject-selection');
+                                } else if (this.currentSubject.includes('ap')) {
+                                    this.navigateTo('ap-subject-selection');
+                                }
+                            }
                         });
                         this.addBreadcrumbItem(breadcrumb, this.capitalizeFirst(this.currentSubject), () => {
                             this.navigateTo('quiz-mode-selection');
@@ -1736,7 +1927,15 @@
                         
                     case 'results-screen':
                         this.addBreadcrumbItem(breadcrumb, 'Select Subject', () => {
-                            this.navigateTo('subject-selection');
+                            if (this.currentSubject) {
+                                if (this.currentSubject.includes('jamb')) {
+                                    this.navigateTo('subject-selection');
+                                } else if (this.currentSubject.includes('sat')) {
+                                    this.navigateTo('sat-subject-selection');
+                                } else if (this.currentSubject.includes('ap')) {
+                                    this.navigateTo('ap-subject-selection');
+                                }
+                            }
                         });
                         this.addBreadcrumbItem(breadcrumb, this.capitalizeFirst(this.currentSubject), () => {
                             this.navigateTo('quiz-mode-selection');
@@ -1777,6 +1976,12 @@
                 if (examType === 'jamb') {
                     this.currentSubject = null;
                     this.navigateTo('subject-selection');
+                } else if (examType === 'sat') {
+                    this.currentSubject = null;
+                    this.navigateTo('sat-subject-selection');
+                } else if (examType === 'ap') {
+                    this.currentSubject = null;
+                    this.navigateTo('ap-subject-selection');
                 } else {
                     this.showComingSoon(`${examType.toUpperCase()} Exams`);
                 }
@@ -1785,6 +1990,95 @@
             selectSubject(subject) {
                 this.currentSubject = subject;
                 this.navigateTo('quiz-mode-selection');
+            },
+
+            // PDF Upload Functionality
+            setupPDFUpload() {
+                const uploadArea = document.getElementById('upload-area');
+                const fileInput = document.getElementById('pdf-upload');
+                const uploadPreview = document.getElementById('upload-preview');
+                const pdfName = document.getElementById('pdf-name');
+                const generateBtn = document.getElementById('generate-questions-btn');
+                const cancelBtn = document.getElementById('cancel-upload-btn');
+
+                // Handle drag and drop
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.add('dragover');
+                });
+
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.classList.remove('dragover');
+                });
+
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0 && files[0].type === 'application/pdf') {
+                        this.handlePDFUpload(files[0]);
+                    }
+                });
+
+                // Handle file input change
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.handlePDFUpload(e.target.files[0]);
+                    }
+                });
+
+                // Handle generate questions button
+                generateBtn.addEventListener('click', () => {
+                    this.generateQuestionsFromPDF();
+                });
+
+                // Handle cancel button
+                cancelBtn.addEventListener('click', () => {
+                    uploadPreview.classList.add('hidden');
+                    fileInput.value = '';
+                });
+            },
+
+            handlePDFUpload(file) {
+                const uploadPreview = document.getElementById('upload-preview');
+                const pdfName = document.getElementById('pdf-name');
+                
+                if (file && file.type === 'application/pdf') {
+                    pdfName.textContent = file.name;
+                    uploadPreview.classList.remove('hidden');
+                    
+                    // Store the file for later use
+                    this.uploadedPDF = file;
+                } else {
+                    this.showError('Invalid File', 'Please upload a valid PDF file.');
+                }
+            },
+
+            async generateQuestionsFromPDF() {
+                if (!this.uploadedPDF) {
+                    this.showError('No PDF', 'Please upload a PDF file first.');
+                    return;
+                }
+
+                this.showLoading('Processing PDF...', 'Extracting content and generating questions');
+
+                try {
+                    // In a real implementation, you would send the PDF to your backend
+                    // which would use the Gemini API to generate questions
+                    
+                    // For demo purposes, we'll simulate the process
+                    await this.delay(3000);
+                    
+                    // Simulate successful question generation
+                    this.showModal('coming-soon-modal');
+                    document.getElementById('coming-soon-message').textContent = 
+                        'PDF question generation is coming soon! This feature will use Google Gemini AI to analyze your PDF and create custom quiz questions.';
+                    
+                } catch (error) {
+                    this.showError('PDF Processing Failed', error.message, error);
+                } finally {
+                    this.hideLoading();
+                }
             },
 
             // Fixed Quiz Management
@@ -2126,6 +2420,10 @@
 
             redirectToSolpay() {
                 window.open('https://solpay.com/premium/grantapp', '_blank');
+            },
+
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
             }
         };
 
