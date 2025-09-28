@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grant App - Exam Preparation Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <title>GrantApp - Adaptive Quiz Engine</title>
     <style>
         :root {
+            /* Design System Variables */
             --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-luxury: 'Playfair Display', Georgia, serif;
             --font-mono: 'SF Mono', 'Monaco', monospace;
             
-            --primary: #1a365d;
+            --primary: #000000;
             --secondary: #FFFFFF;
-            --accent: #3182CE;
+            --accent: #D4AF37;
             --success: #059669;
             --warning: #D97706;
             --error: #DC2626;
@@ -42,6 +42,7 @@
             --border: 1px solid var(--neutral-200);
         }
 
+        /* Base Styles */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: var(--font-primary); 
@@ -50,6 +51,7 @@
             line-height: 1.6;
         }
 
+        /* Typography */
         .text-xs { font-size: 0.75rem; }
         .text-sm { font-size: 0.875rem; }
         .text-base { font-size: 1rem; }
@@ -65,6 +67,7 @@
         .font-semibold { font-weight: 600; }
         .font-bold { font-weight: 700; }
 
+        /* Layout */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); }
         .grid { display: grid; gap: var(--space-lg); }
         .grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -80,6 +83,7 @@
         .gap-md { gap: var(--space-md); }
         .gap-lg { gap: var(--space-lg); }
 
+        /* Spacing */
         .p-xs { padding: var(--space-xs); }
         .p-sm { padding: var(--space-sm); }
         .p-md { padding: var(--space-md); }
@@ -92,6 +96,7 @@
         .mb-lg { margin-bottom: var(--space-lg); }
         .mb-xl { margin-bottom: var(--space-xl); }
 
+        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -116,7 +121,7 @@
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .btn-primary { background: var(--primary); color: var(--secondary); border-color: var(--primary); }
-        .btn-accent { background: var(--accent); color: var(--secondary); border-color: var(--accent); }
+        .btn-accent { background: var(--accent); color: var(--primary); border-color: var(--accent); }
         .btn-success { background: var(--success); color: var(--secondary); border-color: var(--success); }
         .btn-error { background: var(--error); color: var(--secondary); border-color: var(--error); }
         .btn-ghost { border: none; background: none; }
@@ -146,6 +151,7 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
+        /* Cards */
         .card {
             background: var(--secondary);
             border: var(--border);
@@ -158,133 +164,7 @@
         .card-body { padding: var(--space-lg); }
         .card-footer { padding: var(--space-lg); border-top: var(--border); }
 
-        .form-group { margin-bottom: var(--space-lg); }
-        .form-label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
-            margin-bottom: var(--space-sm);
-        }
-        .form-input, .form-select {
-            width: 100%;
-            padding: var(--space-sm) var(--space-md);
-            border: var(--border);
-            border-radius: var(--radius);
-            font-family: inherit;
-            font-size: 1rem;
-            background: var(--secondary);
-            transition: all var(--transition);
-        }
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: var(--blur);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--transition);
-        }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-
-        .modal {
-            background: var(--secondary);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: scale(0.95) translateY(20px);
-            transition: all var(--transition);
-        }
-        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
-
-        .modal-sm { width: 400px; }
-        .modal-md { width: 600px; }
-        .modal-lg { width: 800px; }
-
-        .notification-container {
-            position: fixed;
-            top: var(--space-lg);
-            right: var(--space-lg);
-            z-index: 1001;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-            max-width: 400px;
-        }
-
-        .notification {
-            background: var(--secondary);
-            border: var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            padding: var(--space-md);
-            transform: translateX(100%);
-            transition: all var(--transition);
-            position: relative;
-            border-left: 4px solid var(--neutral-200);
-        }
-        .notification.show { transform: translateX(0); }
-
-        .notification-success { border-left-color: var(--success); }
-        .notification-error { border-left-color: var(--error); }
-        .notification-warning { border-left-color: var(--warning); }
-        .notification-info { border-left-color: var(--info); }
-
-        .notification-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: var(--space-xs);
-        }
-        .notification-title { font-weight: 600; font-size: 0.875rem; }
-        .notification-message { font-size: 0.875rem; color: var(--neutral-500); }
-        .notification-close {
-            background: none;
-            border: none;
-            color: var(--neutral-500);
-            cursor: pointer;
-            font-size: 1.125rem;
-            padding: 0;
-            line-height: 1;
-        }
-
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: var(--blur);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--transition);
-        }
-        .loading-overlay.active { opacity: 1; visibility: visible; }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--neutral-200);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
+        /* Navigation */
         .navbar {
             display: flex;
             align-items: center;
@@ -304,6 +184,7 @@
             letter-spacing: 0.05em;
         }
 
+        /* Progress */
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -318,6 +199,7 @@
             border-radius: var(--radius);
         }
 
+        /* Quiz Specific Styles */
         .quiz-container {
             max-width: 800px;
             margin: 0 auto;
@@ -460,12 +342,51 @@
             pointer-events: none;
         }
 
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: var(--space-lg);
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Stake Badges */
+        .stake-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stake-practice { background: var(--success); color: var(--secondary); }
+        .stake-mock { background: var(--warning); color: var(--secondary); }
+        .stake-high { background: var(--error); color: var(--secondary); }
+
+        /* Utility Classes */
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         .hidden { display: none; }
         .w-full { width: 100%; }
         .text-muted { color: var(--neutral-500); }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
             .container { padding: 0 var(--space-sm); }
@@ -475,8 +396,9 @@
     </style>
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
-        <a href="#" class="navbar-brand" onclick="goHome()">Grant App</a>
+        <a href="#" class="navbar-brand" onclick="goHome()">GrantApp</a>
         <div class="flex items-center gap-md">
             <button class="btn btn-ghost" onclick="showComingSoon('Analytics')">Analytics</button>
             <button class="btn btn-ghost" onclick="showComingSoon('Rankings')">Rankings</button>
@@ -485,25 +407,18 @@
     </nav>
 
     <div class="container">
+        <!-- Home Screen -->
         <div id="home-screen" class="screen">
             <section class="py-2xl text-center mb-xl">
-                <h1 class="font-luxury text-4xl mb-lg">Grant App</h1>
-                <p class="text-lg text-muted mb-xl">Master your exams with our proprietary 5×2 taxonomy framework</p>
+                <h1 class="font-luxury text-4xl mb-lg">GrantApp</h1>
+                <p class="text-lg text-muted mb-xl">Master your exams with our proprietary adaptive framework</p>
                 
-                <div class="grid grid-4 mb-xl">
+                <div class="grid grid-3 mb-xl">
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">JAMB/UTME</h3>
                             <p class="text-muted mb-lg">Mathematics, English, Physics, Chemistry</p>
                             <button class="btn btn-primary w-full" onclick="selectExam('jamb')">Start Practice</button>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h3 class="text-2xl font-semibold mb-sm">SAT Exams</h3>
-                            <p class="text-muted mb-lg">Mathematics, English</p>
-                            <button class="btn btn-primary w-full" onclick="selectExam('sat')">Start Practice</button>
                         </div>
                     </div>
                     
@@ -529,33 +444,107 @@
                         <h3 class="text-xl font-semibold">Quick Demo</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-lg">Experience our quiz system with sample Mathematics questions</p>
+                        <p class="text-muted mb-lg">Experience our adaptive quiz system with sample questions</p>
                         <button class="btn btn-accent btn-lg w-full" onclick="startDemo()">Try Demo Quiz</button>
                     </div>
                 </div>
             </section>
         </div>
 
+        <!-- Subject Selection Screen -->
         <div id="subject-selection" class="screen hidden">
             <section class="py-xl">
                 <div class="mb-xl">
                     <button class="btn btn-ghost" onclick="goBack()">&larr; Back</button>
-                    <h2 class="text-3xl font-semibold text-center mb-lg" id="exam-title">Select Subject</h2>
+                    <h2 class="text-3xl font-semibold text-center mb-lg">Select Subject</h2>
                     <p class="text-center text-muted">Choose your subject to begin practice</p>
                 </div>
 
-                <div class="grid grid-2 mb-xl" id="subject-grid">
+                <div class="grid grid-2 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Mathematics</h3>
+                            <p class="text-muted mb-lg">300+ Questions | Adaptive Framework</p>
+                            <button class="btn btn-primary w-full" onclick="selectSubject('mathematics')">Start Practice</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">English</h3>
+                            <p class="text-muted mb-lg">Coming Soon</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('English')">Coming Soon</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Physics</h3>
+                            <p class="text-muted mb-lg">50+ Questions | Adaptive Framework</p>
+                            <button class="btn btn-primary w-full" onclick="selectSubject('physics')">Start Practice</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Chemistry</h3>
+                            <p class="text-muted mb-lg">Coming Soon</p>
+                            <button class="btn btn-ghost w-full" onclick="showComingSoon('Chemistry')">Coming Soon</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
 
+        <!-- Quiz Mode Selection Screen -->
+        <div id="quiz-mode-selection" class="screen hidden">
+            <section class="py-xl">
+                <div class="mb-xl">
+                    <button class="btn btn-ghost" onclick="goBack()">&larr; Back</button>
+                    <h2 class="text-3xl font-semibold text-center mb-lg">Select Quiz Mode</h2>
+                    <p class="text-center text-muted">Choose your preferred quiz experience</p>
+                </div>
+
+                <div class="grid grid-3 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Practice Mode</h3>
+                            <p class="text-muted mb-lg">Low-stakes practice with adaptive difficulty</p>
+                            <button class="btn btn-primary w-full" onclick="startQuiz('practice')">Start Practice</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">Mock Exam</h3>
+                            <p class="text-muted mb-lg">Timed exam simulation with performance tracking</p>
+                            <button class="btn btn-accent w-full" onclick="startQuiz('mock')">Start Mock</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold mb-sm">High Stakes</h3>
+                            <p class="text-muted mb-lg">Advanced questions with detailed analytics</p>
+                            <button class="btn btn-error w-full" onclick="startQuiz('high')">Start Challenge</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Quiz Screen -->
         <div id="quiz-screen" class="screen hidden">
             <div class="quiz-container">
+                <!-- Quiz Header -->
                 <div class="card mb-lg">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-md">
-                            <h2 class="text-xl font-semibold" id="quiz-title">Practice Mode</h2>
-                            <button class="btn btn-ghost btn-sm" onclick="exitQuiz()">Exit Quiz</button>
+                            <h2 class="text-xl font-semibold" id="quiz-title">Adaptive Quiz</h2>
+                            <div class="flex items-center gap-md">
+                                <span class="stake-badge" id="stake-badge">Practice</span>
+                                <button class="btn btn-ghost btn-sm" onclick="exitQuiz()">Exit Quiz</button>
+                            </div>
                         </div>
                         <div class="progress-bar mb-md">
                             <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
@@ -567,6 +556,7 @@
                     </div>
                 </div>
 
+                <!-- Question Card -->
                 <div class="question-card">
                     <div class="question-header">
                         <span class="question-number" id="question-number">Question 1</span>
@@ -578,6 +568,7 @@
                     </div>
                     
                     <ul class="options-list" id="options-list">
+                        <!-- Options will be populated by JavaScript -->
                     </ul>
                     
                     <div class="quiz-controls">
@@ -589,55 +580,72 @@
                     </div>
                 </div>
 
+                <!-- Adaptive Metrics -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="font-semibold">Question Navigation</h4>
+                        <h4 class="font-semibold">Adaptive Metrics</h4>
                     </div>
                     <div class="card-body">
-                        <div class="pagination" id="question-nav">
+                        <div class="analytics-grid">
+                            <div class="metric-card">
+                                <div class="metric-value" id="current-score">0%</div>
+                                <div>Current Score</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="difficulty-level">Medium</div>
+                                <div>Difficulty Level</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="confidence-score">--</div>
+                                <div>AI Confidence</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="pattern-mastery">--</div>
+                                <div>Pattern Mastery</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Results Screen -->
         <div id="results-screen" class="screen hidden">
             <section class="py-xl text-center">
                 <h2 class="text-3xl font-semibold mb-lg">Quiz Complete!</h2>
                 
-                <div class="grid grid-3 mb-xl">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <div class="text-3xl font-bold text-accent mb-sm" id="score-display">0%</div>
-                            <div class="text-muted">Overall Score</div>
-                        </div>
+                <div class="analytics-grid mb-xl">
+                    <div class="metric-card">
+                        <div class="metric-value" id="score-display">0%</div>
+                        <div>Overall Score</div>
                     </div>
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <div class="text-3xl font-bold text-success mb-sm" id="correct-display">0</div>
-                            <div class="text-muted">Correct Answers</div>
-                        </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="correct-display">0</div>
+                        <div>Correct Answers</div>
                     </div>
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <div class="text-3xl font-bold text-error mb-sm" id="incorrect-display">0</div>
-                            <div class="text-muted">Incorrect Answers</div>
-                        </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="incorrect-display">0</div>
+                        <div>Incorrect Answers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="time-display">0:00</div>
+                        <div>Time Taken</div>
                     </div>
                 </div>
 
-                <div class="card mb-xl" style="max-width: 600px; margin: 0 auto;">
+                <div class="card mb-xl" style="max-width: 800px; margin: 0 auto;">
                     <div class="card-header">
                         <h3 class="text-xl font-semibold">Performance Analysis</h3>
                     </div>
                     <div class="card-body">
                         <div class="mb-lg">
-                            <h4 class="font-semibold mb-sm">Taxonomy Breakdown</h4>
-                            <div id="taxonomy-breakdown">
+                            <h4 class="font-semibold mb-sm">Cognitive Pattern Analysis</h4>
+                            <div id="pattern-breakdown">
+                                <!-- Will be populated by JavaScript -->
                             </div>
                         </div>
                         
-                        <div class="flex gap-md">
+                        <div class="flex gap-md justify-center">
                             <button class="btn btn-primary" onclick="reviewAnswers()">Review Answers</button>
                             <button class="btn btn-ghost" onclick="retakeQuiz()">Retake Quiz</button>
                             <button class="btn btn-ghost" onclick="showComingSoon('Detailed Analytics')">View Analytics</button>
@@ -648,7 +656,8 @@
         </div>
     </div>
 
-    <div id="coming-soon-modal" class="modal-overlay">
+    <!-- Coming Soon Modal -->
+    <div id="coming-soon-modal" class="modal-overlay hidden">
         <div class="modal modal-sm">
             <div class="card-header">
                 <h3 class="text-xl font-semibold">Coming Soon</h3>
@@ -656,7 +665,7 @@
             </div>
             <div class="card-body">
                 <p class="text-muted mb-lg" id="coming-soon-message">This feature is coming soon!</p>
-                <p class="text-sm text-muted">We're working hard to bring you the best exam preparation experience. Stay tuned for updates!</p>
+                <p class="text-sm text-muted">We're working hard to bring you the best quiz experience. Stay tuned for updates!</p>
             </div>
             <div class="card-footer">
                 <button class="btn btn-primary w-full" onclick="closeModal('coming-soon-modal')">Got it</button>
@@ -664,7 +673,8 @@
         </div>
     </div>
 
-    <div id="error-modal" class="modal-overlay">
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal-overlay hidden">
         <div class="modal modal-sm">
             <div class="card-header">
                 <h3 class="text-xl font-semibold text-error">Error</h3>
@@ -679,476 +689,750 @@
         </div>
     </div>
 
-    <div class="notification-container" id="notifications"></div>
-
-    <div class="loading-overlay" id="loading">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loading">
         <div class="loading-spinner"></div>
     </div>
 
     <script>
+        // API Configuration
         const API_CONFIG = {
-            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/quizbank/main/',
+            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/Grantapp/main/',
             ENDPOINTS: {
-                mathematics: 'jamb-mathematics.json',
-                physics: 'jamb-physics-bank.tsx',
-                chemistry: 'jamb-chemistry.json',
-                english: 'jamb-english.json',
-                sat_math: 'sat-mathematics.json',
-                sat_english: 'sat-english.json'
+                physics: 'physics-questions-json.json'
             },
-            CACHE_DURATION: 5 * 60 * 1000
+            CACHE_DURATION: 5 * 60 * 1000 // 5 minutes
         };
 
-        const SOLANA_CONFIG = {
-            MERCHANT_WALLET: 'GR8TuDpbnDvuLzW4JBCLjbeLvGFs1p21XBytLx6rA7XD',
-            RPC_ENDPOINT: 'https://api.mainnet-beta.solana.com',
-            NETWORK: 'mainnet-beta',
-            
-            PRICING: {
-                premium_monthly: 9.99,
-                premium_yearly: 99.99,
-                professional_monthly: 19.99,
-                professional_yearly: 199.99
-            },
-
-            USDC_MINT: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
-        };
-
-        class TSXQuestionParser {
-            static parseTSXContent(content) {
-                try {
-                    console.log('Starting TSX parsing...');
-                    
-                    const functionMatch = content.match(/const generatePhysicsQuestionBank = \(\) => \{([\s\S]*?)\n\};/);
-                    if (!functionMatch) {
-                        throw new Error('Could not find question generation function');
-                    }
-
-                    const topicsMatch = content.match(/const physicsTopics = \[([\s\S]*?)\];/);
-                    const topics = topicsMatch ? this.parseArray(topicsMatch[1]) : [];
-
-                    const templatesMatch = content.match(/const physicsQuestionTemplates = \[([\s\S]*?)\];/s);
-                    const templates = templatesMatch ? this.parseTemplates(templatesMatch[1]) : [];
-
-                    const questions = this.generateQuestionsFromTemplates(templates, topics);
-                    
-                    console.log(`Successfully parsed ${questions.length} questions from TSX`);
-                    return questions;
-                } catch (error) {
-                    console.error('TSX parsing error:', error);
-                    throw new Error(`Failed to parse TSX content: ${error.message}`);
-                }
-            }
-
-            static parseArray(arrayContent) {
-                return arrayContent
-                    .split('\n')
-                    .map(line => line.trim().replace(/['",]/g, '').trim())
-                    .filter(line => line && !line.startsWith('//'))
-                    .filter(Boolean);
-            }
-
-            static parseTemplates(templatesContent) {
-                const templates = [];
-                const templateRegex = /\{[\s\S]*?template: "([^"]+)",[\s\S]*?type: '([^']+)',[\s\S]*?info: '([^']+)',[\s\S]*?generator: \(\) => \{([\s\S]*?)\s*\}[^}]*\}/g;
-                
-                let match;
-                while ((match = templateRegex.exec(templatesContent)) !== null) {
-                    const [, template, type, info, generatorCode] = match;
-                    
-                    const generator = this.createSafeGenerator(generatorCode);
-                    
-                    if (generator) {
-                        templates.push({
-                            template,
-                            type,
-                            info,
-                            generator
-                        });
-                    }
-                }
-                
-                return templates;
-            }
-
-            static createSafeGenerator(generatorCode) {
-                try {
-                    const returnMatch = generatorCode.match(/return\s*\{([\s\S]*?)\}\s*;/);
-                    if (!returnMatch) return null;
-
-                    const returnContent = returnMatch[1];
-                    
-                    const questionMatch = returnContent.match(/question:\s*`([^`]*)`/);
-                    const optionsMatch = returnContent.match(/options:\s*\[([^\]]*)\]/);
-                    const correctMatch = returnContent.match(/correct:\s*(\d+)/);
-                    const explanationMatch = returnContent.match(/explanation:\s*`([^`]*)`/);
-
-                    if (!questionMatch || !optionsMatch || !correctMatch) return null;
-
-                    const optionsText = optionsMatch[1];
-                    const options = optionsText.split(',').map(opt => 
-                        opt.trim().replace(/^`|`$/g, '').replace(/^"|"$/g, '')
-                    );
-
-                    return () => ({
-                        question: questionMatch[1],
-                        options: options,
-                        correct: parseInt(correctMatch[1]),
-                        explanation: explanationMatch ? explanationMatch[1] : 'No explanation available'
-                    });
-                } catch (error) {
-                    console.error('Error creating generator:', error);
-                    return null;
-                }
-            }
-
-            static generateQuestionsFromTemplates(templates, topics) {
-                const questions = [];
-                const questionsPerTopic = Math.floor(300 / topics.length);
-                
-                topics.forEach((topic, topicIndex) => {
-                    const extraQuestions = topicIndex < (300 % topics.length) ? 1 : 0;
-                    const totalQuestions = questionsPerTopic + extraQuestions;
-                    
-                    for (let i = 0; i < totalQuestions; i++) {
-                        const template = templates[i % templates.length];
-                        if (template && template.generator) {
-                            try {
-                                const generated = template.generator();
-                                questions.push({
-                                    id: `jamb_phy_${(topicIndex * questionsPerTopic + i + 1).toString().padStart(3, '0')}`,
-                                    subject: 'Physics',
-                                    questionType: template.type,
-                                    infoType: template.info,
-                                    difficulty: ['Easy', 'Medium', 'Hard'][Math.floor(Math.random() * 3)],
-                                    topic: topic,
-                                    source: 'JAMB Physics Syllabus 2025',
-                                    examType: 'JAMB/UTME',
-                                    text: generated.question,
-                                    options: generated.options,
-                                    correct: generated.correct,
-                                    explanation: generated.explanation,
-                                    taxonomy: {
-                                        type: template.type,
-                                        info: template.info
-                                    }
-                                });
-                            } catch (error) {
-                                console.error('Error generating question:', error);
-                            }
-                        }
-                    }
-                });
-                
-                return questions;
-            }
-        }
-
+        // Question Cache
         let questionCache = {};
 
-        async function fetchQuestions(subject) {
-            const cacheKey = `${subject}_questions`;
-            const cacheTimestamp = `${subject}_timestamp`;
-            
-            const cachedQuestions = questionCache[cacheKey];
-            const cacheTime = questionCache[cacheTimestamp];
-            const now = Date.now();
-            
-            if (cachedQuestions && cacheTime && (now - cacheTime < API_CONFIG.CACHE_DURATION)) {
-                console.log(`Using cached questions for ${subject}`);
-                return cachedQuestions;
+        // Enhanced Adaptive Quiz Engine
+        class AdaptiveQuizEngine {
+            constructor() {
+                this.questions = [];
+                this.userProfile = this.initializeUserProfile();
+                this.currentQuiz = null;
+                this.confidenceThreshold = 0.7;
             }
 
-            const endpoint = API_CONFIG.ENDPOINTS[subject];
-            if (!endpoint) {
-                console.error(`No endpoint configured for subject: ${subject}`);
-                return getFallbackQuestions(subject);
+            // Initialize user performance profile
+            initializeUserProfile() {
+                return {
+                    patternMastery: {
+                        'linear_solve': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
+                        'formula_apply': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
+                        'function_eval': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
+                        'inequality_solve': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
+                        'differentiation': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
+                        'stats_basic': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
+                        'trig_identity': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
+                        'polynomial_mult': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 }
+                    },
+                    currentDifficultyLevel: 0.5,
+                    learningVelocity: 0.1,
+                    streakCount: 0,
+                    lastPerformance: [],
+                    skillLevel: 'intermediate',
+                    totalQuestions: 0,
+                    totalCorrect: 0
+                };
             }
 
-            const url = `${API_CONFIG.BASE_URL}${endpoint}`;
-            
-            try {
-                console.log(`Fetching questions from: ${url}`);
+            // Load questions from JSON and enhance with cognitive patterns
+            async loadQuestions(subject) {
+                const cacheKey = `${subject}_questions`;
+                const cacheTimestamp = `${subject}_timestamp`;
                 
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': endpoint.endsWith('.tsx') ? 'text/plain' : 'application/json',
-                        'Cache-Control': 'no-cache'
+                // Check cache first
+                const cachedQuestions = questionCache[cacheKey];
+                const cacheTime = questionCache[cacheTimestamp];
+                const now = Date.now();
+                
+                if (cachedQuestions && cacheTime && (now - cacheTime < API_CONFIG.CACHE_DURATION)) {
+                    console.log(`Using cached questions for ${subject}`);
+                    this.questions = cachedQuestions;
+                    return this.questions;
+                }
+
+                const endpoint = API_CONFIG.ENDPOINTS[subject];
+                if (!endpoint) {
+                    throw new Error(`No endpoint configured for subject: ${subject}`);
+                }
+
+                const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+                
+                try {
+                    console.log(`Fetching questions from: ${url}`);
+                    
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Cache-Control': 'no-cache'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
+
+                    const data = await response.json();
+                    
+                    // Extract questions array
+                    let questionsArray = [];
+                    if (data.questions && Array.isArray(data.questions)) {
+                        questionsArray = data.questions;
+                    } else if (Array.isArray(data)) {
+                        questionsArray = data;
+                    } else {
+                        throw new Error('Invalid question data structure');
+                    }
+
+                    if (questionsArray.length === 0) {
+                        throw new Error('No questions found in response');
+                    }
+
+                    // Convert and enhance questions
+                    this.questions = this.enhanceQuestions(questionsArray);
+
+                    // Cache the results
+                    questionCache[cacheKey] = this.questions;
+                    questionCache[cacheTimestamp] = now;
+                    
+                    console.log(`Successfully loaded ${this.questions.length} questions for ${subject}`);
+                    return this.questions;
+
+                } catch (error) {
+                    console.error(`Error fetching questions for ${subject}:`, error);
+                    throw error;
+                }
+            }
+
+            // Enhance questions with cognitive patterns and shuffle options
+            enhanceQuestions(questions) {
+                const cognitivePatterns = [
+                    { pattern: 'linear_solve', complexity: 0.3, abstraction: 0.2 },
+                    { pattern: 'formula_apply', complexity: 0.4, abstraction: 0.3 },
+                    { pattern: 'function_eval', complexity: 0.5, abstraction: 0.6 },
+                    { pattern: 'inequality_solve', complexity: 0.6, abstraction: 0.4 },
+                    { pattern: 'differentiation', complexity: 0.8, abstraction: 0.8 },
+                    { pattern: 'stats_basic', complexity: 0.3, abstraction: 0.1 },
+                    { pattern: 'trig_identity', complexity: 0.7, abstraction: 0.7 },
+                    { pattern: 'polynomial_mult', complexity: 0.4, abstraction: 0.3 }
+                ];
+
+                return questions.map((question, index) => {
+                    // Assign cognitive pattern (cycling through available patterns)
+                    const patternIndex = index % cognitivePatterns.length;
+                    const pattern = cognitivePatterns[patternIndex];
+                    
+                    // Shuffle options and update correct answer index
+                    const options = [...question.options];
+                    const originalCorrect = question.correctAnswer;
+                    
+                    // Find the index of the correct answer
+                    let correctIndex = options.findIndex(opt => opt === originalCorrect);
+                    
+                    // If we can't find the correct answer, default to first option
+                    if (correctIndex === -1) correctIndex = 0;
+                    
+                    return {
+                        id: question.id,
+                        text: question.question,
+                        options: this.shuffleArray(options),
+                        correct: correctIndex,
+                        explanation: question.explanation,
+                        topic: question.topic,
+                        difficulty: question.difficulty,
+                        _cognitive: pattern,
+                        _performance: { 
+                            avg_time: 60 + Math.random() * 60, 
+                            success_rate: 0.5 + Math.random() * 0.4,
+                            skill_level: question.difficulty || 'medium'
+                        },
+                        _meta: { 
+                            prerequisites: ['general_knowledge'], 
+                            teaches: [question.topic?.toLowerCase().replace(' ', '_') || 'general'] 
+                        }
+                    };
+                });
+            }
+
+            // Fisher-Yates shuffle algorithm
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+
+            // Core adaptive selection algorithm
+            selectNextQuestion(previousAnswer = null, responseTime = null) {
+                // Update profile based on previous answer
+                if (previousAnswer !== null) {
+                    this.updateUserProfile(previousAnswer, responseTime);
+                }
+
+                // Calculate current performance metrics
+                const recentPerformance = this.calculateRecentPerformance();
+                const weakAreas = this.identifyWeakAreas();
+                const targetDifficulty = this.calculateTargetDifficulty();
+
+                // Filter and score questions
+                const candidateQuestions = this.filterQuestions(targetDifficulty, weakAreas);
+                const scoredQuestions = this.scoreQuestions(candidateQuestions, weakAreas);
+
+                // Select best question using weighted random selection
+                return this.weightedSelection(scoredQuestions);
+            }
+
+            // Update user profile based on performance
+            updateUserProfile(wasCorrect, responseTime) {
+                const currentQuestion = this.currentQuiz.currentQuestion;
+                const pattern = currentQuestion._cognitive.pattern;
+                
+                // Update pattern mastery
+                const mastery = this.userProfile.patternMastery[pattern];
+                mastery.attempts++;
+                if (wasCorrect) {
+                    mastery.correct++;
+                    this.userProfile.streakCount++;
+                } else {
+                    this.userProfile.streakCount = 0;
+                }
+
+                // Update average response time
+                mastery.avg_time = (mastery.avg_time * (mastery.attempts - 1) + responseTime) / mastery.attempts;
+                
+                // Calculate confidence based on recent performance
+                mastery.confidence = mastery.correct / mastery.attempts;
+
+                // Update overall metrics
+                this.userProfile.totalQuestions++;
+                if (wasCorrect) {
+                    this.userProfile.totalCorrect++;
+                }
+
+                // Store recent performance for trend analysis
+                this.userProfile.lastPerformance.push({
+                    correct: wasCorrect,
+                    complexity: currentQuestion._cognitive.complexity,
+                    pattern: pattern,
+                    time: responseTime
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                // Keep only last 10 responses
+                if (this.userProfile.lastPerformance.length > 10) {
+                    this.userProfile.lastPerformance.shift();
                 }
 
-                let data;
-                
-                if (endpoint.endsWith('.tsx')) {
-                    const tsxContent = await response.text();
-                    data = TSXQuestionParser.parseTSXContent(tsxContent);
+                // Adaptive difficulty adjustment
+                this.adjustDifficulty(wasCorrect, responseTime, currentQuestion._cognitive.complexity);
+            }
+
+            // Adaptive difficulty adjustment
+            adjustDifficulty(wasCorrect, responseTime, questionComplexity) {
+                const targetTime = 60; // Target 60 seconds per question
+                const velocity = this.userProfile.learningVelocity;
+
+                if (wasCorrect) {
+                    if (responseTime < targetTime * 0.7) {
+                        // Answered quickly and correctly - increase difficulty
+                        this.userProfile.currentDifficultyLevel = Math.min(1.0, 
+                            this.userProfile.currentDifficultyLevel + velocity * 1.5);
+                    } else {
+                        // Correct but slow - slight increase
+                        this.userProfile.currentDifficultyLevel = Math.min(1.0,
+                            this.userProfile.currentDifficultyLevel + velocity * 0.5);
+                    }
                 } else {
-                    data = await response.json();
+                    // Incorrect answer - decrease difficulty
+                    this.userProfile.currentDifficultyLevel = Math.max(0.1,
+                        this.userProfile.currentDifficultyLevel - velocity * 2);
                 }
 
-                if (!Array.isArray(data) || data.length === 0) {
-                    throw new Error('Invalid question data structure');
+                // Update learning velocity based on performance stability
+                if (this.userProfile.streakCount > 3) {
+                    this.userProfile.learningVelocity = Math.min(0.15, this.userProfile.learningVelocity * 1.1);
+                } else if (this.userProfile.streakCount === 0) {
+                    this.userProfile.learningVelocity = Math.max(0.05, this.userProfile.learningVelocity * 0.9);
+                }
+            }
+
+            // Calculate recent performance trend
+            calculateRecentPerformance() {
+                if (this.userProfile.lastPerformance.length === 0) return 0.5;
+                
+                const recent = this.userProfile.lastPerformance.slice(-5);
+                const correctCount = recent.filter(p => p.correct).length;
+                return correctCount / recent.length;
+            }
+
+            // Identify weak cognitive patterns
+            identifyWeakAreas() {
+                const weakAreas = [];
+                const threshold = 0.6;
+
+                for (const [pattern, mastery] of Object.entries(this.userProfile.patternMastery)) {
+                    if (mastery.attempts > 0 && mastery.confidence < threshold) {
+                        weakAreas.push(pattern);
+                    }
                 }
 
-                const validatedQuestions = data.filter(question => {
-                    return question.id && 
-                           (question.text || question.question) && 
-                           Array.isArray(question.options) && 
-                           question.options.length >= 4 &&
-                           typeof question.correct === 'number';
+                return weakAreas;
+            }
+
+            // Calculate target difficulty for next question
+            calculateTargetDifficulty() {
+                const baseLevel = this.userProfile.currentDifficultyLevel;
+                const recentPerf = this.calculateRecentPerformance();
+                const streakBonus = Math.min(0.1, this.userProfile.streakCount * 0.02);
+
+                // Adjust based on recent performance
+                let adjustment = 0;
+                if (recentPerf > 0.8) {
+                    adjustment = 0.1; // Recent success - increase difficulty
+                } else if (recentPerf < 0.4) {
+                    adjustment = -0.15; // Recent struggles - decrease difficulty
+                }
+
+                return Math.max(0.1, Math.min(0.9, baseLevel + adjustment + streakBonus));
+            }
+
+            // Filter questions by difficulty and availability
+            filterQuestions(targetDifficulty, weakAreas) {
+                const tolerance = 0.2;
+                const answeredIds = this.currentQuiz ? 
+                    this.currentQuiz.answeredQuestions.map(q => q.question.id) : [];
+
+                return this.questions.filter(q => {
+                    // Skip already answered questions
+                    if (answeredIds.includes(q.id)) return false;
+
+                    // Check difficulty range
+                    const complexityMatch = Math.abs(q._cognitive.complexity - targetDifficulty) <= tolerance;
+                    
+                    // Prioritize weak areas
+                    const addressesWeakness = weakAreas.length === 0 || 
+                        weakAreas.includes(q._cognitive.pattern);
+
+                    return complexityMatch || addressesWeakness;
                 });
+            }
 
-                if (validatedQuestions.length === 0) {
-                    throw new Error('No valid questions found in response');
+            // Score questions for selection priority
+            scoreQuestions(questions, weakAreas) {
+                return questions.map(q => {
+                    let score = 1.0;
+
+                    // Higher score for addressing weak areas
+                    if (weakAreas.includes(q._cognitive.pattern)) {
+                        score += 2.0;
+                    }
+
+                    // Score based on user's pattern confidence
+                    const mastery = this.userProfile.patternMastery[q._cognitive.pattern];
+                    if (mastery.attempts > 0) {
+                        // Lower confidence = higher score (more practice needed)
+                        score += (1 - mastery.confidence) * 1.5;
+                    }
+
+                    // Adjust for variety (avoid repeating same pattern)
+                    const recentPatterns = this.userProfile.lastPerformance.slice(-3).map(p => p.pattern);
+                    if (recentPatterns.includes(q._cognitive.pattern)) {
+                        score *= 0.7;
+                    }
+
+                    // Success rate consideration
+                    const expectedSuccess = this.predictSuccessProbability(q);
+                    if (expectedSuccess < 0.3 || expectedSuccess > 0.9) {
+                        score *= 0.8; // Prefer moderate challenge
+                    }
+
+                    return { question: q, score };
+                });
+            }
+
+            // Predict success probability for a question
+            predictSuccessProbability(question) {
+                const pattern = question._cognitive.pattern;
+                const mastery = this.userProfile.patternMastery[pattern];
+                
+                if (mastery.attempts === 0) {
+                    // No data - estimate based on question complexity vs user level
+                    return Math.max(0.2, 1 - Math.abs(question._cognitive.complexity - this.userProfile.currentDifficultyLevel));
                 }
 
-                const normalizedQuestions = validatedQuestions.map(q => ({
-                    id: q.id,
-                    text: q.text || q.question,
-                    options: q.options,
-                    correct: q.correct,
-                    explanation: q.explanation || 'No explanation available',
-                    taxonomy: q.taxonomy || { type: 'unknown', info: 'unknown' },
-                    subject: q.subject || subject,
-                    difficulty: q.difficulty || 'Medium',
-                    topic: q.topic || 'General'
-                }));
+                // Base probability on pattern mastery
+                let probability = mastery.confidence;
 
-                questionCache[cacheKey] = normalizedQuestions;
-                questionCache[cacheTimestamp] = now;
-                
-                console.log(`Successfully loaded ${normalizedQuestions.length} questions for ${subject}`);
-                return normalizedQuestions;
+                // Adjust based on complexity difference
+                const complexityDiff = question._cognitive.complexity - this.userProfile.currentDifficultyLevel;
+                probability -= complexityDiff * 0.5;
 
-            } catch (error) {
-                console.error(`Error fetching questions for ${subject}:`, error);
-                GrantApp.showNotification('warning', 'Using Offline Mode', `Could not load latest questions. Using cached content.`);
+                // Factor in recent performance trend
+                const recentTrend = this.calculateRecentPerformance();
+                probability = (probability + recentTrend) / 2;
+
+                return Math.max(0.1, Math.min(0.95, probability));
+            }
+
+            // Weighted random selection from scored questions
+            weightedSelection(scoredQuestions) {
+                if (scoredQuestions.length === 0) {
+                    return this.questions[Math.floor(Math.random() * this.questions.length)];
+                }
+
+                const totalScore = scoredQuestions.reduce((sum, item) => sum + item.score, 0);
+                const random = Math.random() * totalScore;
+                let currentSum = 0;
+
+                for (const item of scoredQuestions) {
+                    currentSum += item.score;
+                    if (random <= currentSum) {
+                        return item.question;
+                    }
+                }
+
+                return scoredQuestions[0].question;
+            }
+
+            // Start quiz with specific stake level
+            startQuiz(stakeLevel, questionCount = 20) {
+                this.currentQuiz = {
+                    stakeLevel: stakeLevel,
+                    type: 'adaptive',
+                    questions: [],
+                    answeredQuestions: [],
+                    currentQuestion: null,
+                    startTime: Date.now(),
+                    questionStartTime: Date.now(),
+                    questionCount: questionCount
+                };
+
+                // Adjust parameters based on stake level
+                switch(stakeLevel) {
+                    case 'practice':
+                        this.userProfile.learningVelocity = 0.15; // Faster adaptation
+                        break;
+                    case 'mock':
+                        this.userProfile.learningVelocity = 0.1; // Moderate adaptation
+                        break;
+                    case 'high':
+                        this.userProfile.learningVelocity = 0.05; // Slower, more deliberate adaptation
+                        break;
+                }
+
+                return this.getNextQuestion();
+            }
+
+            // Get next question in quiz
+            getNextQuestion() {
+                if (!this.currentQuiz) return null;
                 
-                return cachedQuestions || getFallbackQuestions(subject);
+                const question = this.selectNextQuestion();
+                this.currentQuiz.currentQuestion = question;
+                this.currentQuiz.questionStartTime = Date.now();
+                
+                return question;
+            }
+
+            // Answer current question
+            answerQuestion(selectedOption) {
+                if (!this.currentQuiz || !this.currentQuiz.currentQuestion) return null;
+
+                const question = this.currentQuiz.currentQuestion;
+                const isCorrect = selectedOption === question.correct;
+                const responseTime = Date.now() - this.currentQuiz.questionStartTime;
+
+                // Store answer
+                const answerData = {
+                    question: question,
+                    selectedOption: selectedOption,
+                    isCorrect: isCorrect,
+                    responseTime: responseTime,
+                    timestamp: Date.now()
+                };
+
+                this.currentQuiz.answeredQuestions.push(answerData);
+                this.currentQuiz.questions.push(question);
+
+                // Update profile
+                this.updateUserProfile(isCorrect, responseTime / 1000);
+
+                return answerData;
+            }
+
+            // Get performance analytics
+            getAnalytics() {
+                const totalQuestions = this.userProfile.totalQuestions;
+                const totalCorrect = this.userProfile.totalCorrect;
+                const overallAccuracy = totalQuestions > 0 ? totalCorrect / totalQuestions : 0;
+
+                const patternAnalysis = {};
+                for (const [pattern, mastery] of Object.entries(this.userProfile.patternMastery)) {
+                    if (mastery.attempts > 0) {
+                        patternAnalysis[pattern] = {
+                            accuracy: mastery.confidence,
+                            avgTime: mastery.avg_time,
+                            attempts: mastery.attempts,
+                            level: mastery.confidence > 0.8 ? 'Strong' : mastery.confidence > 0.6 ? 'Moderate' : 'Weak'
+                        };
+                    }
+                }
+
+                return {
+                    overall: {
+                        accuracy: overallAccuracy,
+                        totalQuestions: totalQuestions,
+                        currentLevel: this.userProfile.skillLevel,
+                        difficultyLevel: this.userProfile.currentDifficultyLevel,
+                        streak: this.userProfile.streakCount
+                    },
+                    patterns: patternAnalysis,
+                    recommendations: this.generateRecommendations()
+                };
+            }
+
+            // Generate personalized recommendations
+            generateRecommendations() {
+                const recommendations = [];
+                const weakAreas = this.identifyWeakAreas();
+
+                if (weakAreas.length > 0) {
+                    recommendations.push({
+                        type: 'improvement',
+                        title: 'Focus Areas',
+                        message: `Practice more questions involving: ${weakAreas.map(area => area.replace('_', ' ')).join(', ')}`
+                    });
+                }
+
+                if (this.userProfile.streakCount > 5) {
+                    recommendations.push({
+                        type: 'achievement',
+                        title: 'Great Streak!',
+                        message: `You're on a ${this.userProfile.streakCount} question streak. Keep it up!`
+                    });
+                }
+
+                const recentPerf = this.calculateRecentPerformance();
+                if (recentPerf > 0.8) {
+                    recommendations.push({
+                        type: 'challenge',
+                        title: 'Ready for More',
+                        message: 'Your recent performance suggests you can handle more challenging questions.'
+                    });
+                } else if (recentPerf < 0.4) {
+                    recommendations.push({
+                        type: 'support',
+                        title: 'Take Your Time',
+                        message: 'Focus on understanding concepts rather than speed. Review explanations carefully.'
+                    });
+                }
+
+                return recommendations;
             }
         }
 
-        function getFallbackQuestions(subject) {
-            const mathQuestions = [
-                {
-                    id: 'fallback_1',
-                    text: "If 3x - 2 = 10, find the value of x.",
-                    options: ["A) 3", "B) 4", "C) 5", "D) 6"],
-                    correct: 1,
-                    taxonomy: { type: "mathematical", info: "essential" },
-                    explanation: "3x - 2 = 10\n3x = 10 + 2\n3x = 12\nx = 4"
-                },
-                {
-                    id: 'fallback_2',
-                    text: "What is the area of a circle with radius 7cm? (Take π = 22/7)",
-                    options: ["A) 154 cm²", "B) 44 cm²", "C) 22 cm²", "D) 308 cm²"],
-                    correct: 0,
-                    taxonomy: { type: "pragmatic", info: "applied" },
-                    explanation: "Area = πr² = (22/7) × 7² = (22/7) × 49 = 154 cm²"
-                }
-            ];
-
-            const physicsQuestions = [
-                {
-                    id: 'physics_fallback_1',
-                    text: "A car accelerates from 15 m/s at 3 m/s² for 5 seconds. Find the final velocity.",
-                    options: ["A) 30 m/s", "B) 25 m/s", "C) 20 m/s", "D) 35 m/s"],
-                    correct: 0,
-                    taxonomy: { type: "mathematical", info: "essential" },
-                    explanation: "Using v = u + at: v = 15 + 3 × 5 = 30 m/s"
-                },
-                {
-                    id: 'physics_fallback_2',
-                    text: "Convert 25°C to Kelvin.",
-                    options: ["A) 298 K", "B) 273 K", "C) 250 K", "D) 300 K"],
-                    correct: 0,
-                    taxonomy: { type: "canon", info: "essential" },
-                    explanation: "K = °C + 273 = 25 + 273 = 298 K"
-                }
-            ];
-
-            if (subject.includes('physics')) return physicsQuestions;
-            return mathQuestions;
-        }
-
-        function selectQuestionsByDifficulty(questions, difficulty = 'mixed', count = 20) {
-            const shuffled = [...questions].sort(() => 0.5 - Math.random());
-            
-            if (difficulty === 'mixed') {
-                return shuffled.slice(0, count);
-            }
-            
-            const filtered = shuffled.filter(q => {
-                const taxonomyComplexity = getTaxonomyComplexity(q.taxonomy);
-                return taxonomyComplexity === difficulty;
-            });
-            
-            return filtered.slice(0, Math.min(count, filtered.length));
-        }
-
-        function generateSolanaPayURL(amount, tier, reference) {
-            const params = new URLSearchParams({
-                recipient: SOLANA_CONFIG.MERCHANT_WALLET,
-                amount: amount.toString(),
-                'spl-token': SOLANA_CONFIG.USDC_MINT,
-                reference: reference,
-                label: 'Grant App',
-                message: `${tier} subscription payment`,
-                memo: `GrantApp_${tier}_${Date.now()}`
-            });
-
-            return `solana:${SOLANA_CONFIG.MERCHANT_WALLET}?${params.toString()}`;
-        }
-
-        function createSolanaPayQR(paymentUrl) {
-            const qrData = encodeURIComponent(paymentUrl);
-            return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${qrData}`;
-        }
-
-        async function initiateSolanaPayment(tier) {
-            const amount = SOLANA_CONFIG.PRICING[tier];
-            const reference = generatePaymentReference();
-            const paymentUrl = generateSolanaPayURL(amount, tier, reference);
-            const qrCodeUrl = createSolanaPayQR(paymentUrl);
-
-            const paymentDetails = {
-                reference,
-                amount,
-                tier,
-                timestamp: Date.now(),
-                status: 'pending'
-            };
-
-            sessionStorage.setItem(`payment_${reference}`, JSON.stringify(paymentDetails));
-
-            return {
-                paymentUrl,
-                qrCodeUrl,
-                reference,
-                amount
-            };
-        }
-
-        function generatePaymentReference() {
-            return 'GrantApp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        async function verifyPayment(reference) {
-            try {
-                const storedPayment = sessionStorage.getItem(`payment_${reference}`);
-                if (!storedPayment) throw new Error('Payment not found');
-
-                const paymentData = JSON.parse(storedPayment);
-                
-                await new Promise(resolve => setTimeout(resolve, 2000));
-
-                const isVerified = Math.random() > 0.3;
-
-                if (isVerified) {
-                    paymentData.status = 'completed';
-                    paymentData.confirmedAt = Date.now();
-                    sessionStorage.setItem(`payment_${reference}`, JSON.stringify(paymentData));
-                    return true;
-                } else {
-                    throw new Error('Payment verification failed');
-                }
-            } catch (error) {
-                console.error('Payment verification error:', error);
-                return false;
-            }
-        }
-
-        let currentScreen = 'home';
-        let currentExam = '';
-        let currentQuiz = {
-            subject: '',
-            questions: [],
-            currentQuestionIndex: 0,
-            answers: {},
-            startTime: null,
-            timeLimit: 30 * 60,
-            timer: null
-        };
-
+        // UI Controller
         const GrantApp = {
+            quizEngine: new AdaptiveQuizEngine(),
+            currentQuizState: null,
+            timerInterval: null,
+            currentSubject: null,
+
+            // Screen Management
             showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.add('hidden');
                 });
                 document.getElementById(screenId).classList.remove('hidden');
-                currentScreen = screenId;
             },
 
-            notificationId: 0,
-            showNotification(type, title, message, duration = 5000) {
-                const container = document.getElementById('notifications');
-                const id = `notification-${++this.notificationId}`;
+            // Navigation functions
+            selectExam(exam) {
+                if (exam === 'jamb') {
+                    this.showScreen('subject-selection');
+                } else {
+                    this.showComingSoon(`${exam.toUpperCase()} Exams`);
+                }
+            },
+
+            selectSubject(subject) {
+                this.currentSubject = subject;
+                this.showScreen('quiz-mode-selection');
+            },
+
+            // Start quiz with specific stake level
+            async startQuiz(stakeLevel) {
+                try {
+                    this.showLoading();
+                    
+                    // Load questions
+                    await this.quizEngine.loadQuestions(this.currentSubject);
+                    
+                    // Start quiz
+                    const question = this.quizEngine.startQuiz(stakeLevel, 20);
+                    this.currentQuizState = {
+                        stakeLevel: stakeLevel,
+                        questionsAnswered: 0,
+                        totalQuestions: 20,
+                        currentQuestion: question,
+                        startTime: Date.now(),
+                        timer: 30 * 60, // 30 minutes
+                        selectedAnswer: null
+                    };
+                    
+                    this.hideLoading();
+                    this.showScreen('quiz-screen');
+                    this.displayQuestion(question);
+                    this.updateQuizMetrics();
+                    this.startTimer();
+                    
+                    // Update UI based on stake level
+                    this.updateStakeUI(stakeLevel);
+                    
+                } catch (error) {
+                    this.hideLoading();
+                    this.showError(`Failed to start quiz: ${error.message}`);
+                }
+            },
+
+            // Update UI based on stake level
+            updateStakeUI(stakeLevel) {
+                const title = document.getElementById('quiz-title');
+                const badge = document.getElementById('stake-badge');
                 
-                const notification = document.createElement('div');
-                notification.className = `notification notification-${type}`;
-                notification.id = id;
-                notification.innerHTML = `
-                    <div class="notification-header">
-                        <div class="notification-title">${title}</div>
-                        <button class="notification-close" onclick="GrantApp.closeNotification('${id}')">&times;</button>
-                    </div>
-                    <div class="notification-message">${message}</div>
-                `;
+                switch(stakeLevel) {
+                    case 'practice':
+                        title.textContent = 'Practice Mode';
+                        badge.textContent = 'Practice';
+                        badge.className = 'stake-badge stake-practice';
+                        break;
+                    case 'mock':
+                        title.textContent = 'Mock Exam';
+                        badge.textContent = 'Mock';
+                        badge.className = 'stake-badge stake-mock';
+                        break;
+                    case 'high':
+                        title.textContent = 'High Stakes Challenge';
+                        badge.textContent = 'High Stakes';
+                        badge.className = 'stake-badge stake-high';
+                        break;
+                }
+            },
+
+            // Display question
+            displayQuestion(question) {
+                const display = document.getElementById('question-text');
+                const optionsList = document.getElementById('options-list');
                 
-                container.appendChild(notification);
-                setTimeout(() => notification.classList.add('show'), 100);
-                setTimeout(() => this.closeNotification(id), duration);
+                display.textContent = question.text;
+                optionsList.innerHTML = '';
+
+                question.options.forEach((option, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'option-item';
+                    
+                    const label = document.createElement('label');
+                    label.className = 'option-label';
+                    if (this.currentQuizState.selectedAnswer === index) {
+                        label.classList.add('selected');
+                    }
+                    label.innerHTML = `
+                        <div class="option-radio"></div>
+                        <div>${option}</div>
+                    `;
+                    
+                    label.addEventListener('click', () => this.selectOption(index));
+                    li.appendChild(label);
+                    optionsList.appendChild(li);
+                });
+
+                // Update progress
+                const progress = ((this.currentQuizState.questionsAnswered + 1) / this.currentQuizState.totalQuestions) * 100;
+                document.getElementById('quiz-progress').style.width = `${progress}%`;
+                document.getElementById('progress-text').textContent = 
+                    `Question ${this.currentQuizState.questionsAnswered + 1} of ${this.currentQuizState.totalQuestions}`;
+                document.getElementById('question-number').textContent = 
+                    `Question ${this.currentQuizState.questionsAnswered + 1}`;
+
+                // Update navigation buttons
+                document.getElementById('prev-btn').disabled = this.currentQuizState.questionsAnswered === 0;
+                const nextBtn = document.getElementById('next-btn');
+                nextBtn.textContent = this.currentQuizState.questionsAnswered === this.currentQuizState.totalQuestions - 1 ? 
+                    'Finish Quiz' : 'Next Question';
             },
 
-            closeNotification(id) {
-                const notification = document.getElementById(id);
-                if (notification) {
-                    notification.classList.remove('show');
-                    setTimeout(() => notification.remove(), 300);
+            // Select answer option
+            selectOption(index) {
+                this.currentQuizState.selectedAnswer = index;
+                
+                // Update visual selection
+                document.querySelectorAll('.option-label').forEach((label, i) => {
+                    if (i === index) {
+                        label.classList.add('selected');
+                    } else {
+                        label.classList.remove('selected');
+                    }
+                });
+            },
+
+            // Submit answer and proceed
+            submitAnswer() {
+                if (this.currentQuizState.selectedAnswer === null) return;
+                
+                const answerData = this.quizEngine.answerQuestion(this.currentQuizState.selectedAnswer);
+                this.currentQuizState.questionsAnswered++;
+                
+                // Check if quiz should continue
+                if (this.currentQuizState.questionsAnswered < this.currentQuizState.totalQuestions) {
+                    const nextQuestion = this.quizEngine.getNextQuestion();
+                    this.currentQuizState.currentQuestion = nextQuestion;
+                    this.currentQuizState.selectedAnswer = null;
+                    this.displayQuestion(nextQuestion);
+                    this.updateQuizMetrics();
+                } else {
+                    this.endQuiz();
                 }
             },
 
-            openModal(modalId) {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
+            // Update quiz metrics display
+            updateQuizMetrics() {
+                const analytics = this.quizEngine.getAnalytics();
+                
+                document.getElementById('current-score').textContent = 
+                    `${(analytics.overall.accuracy * 100).toFixed(0)}%`;
+                
+                const difficulty = analytics.overall.difficultyLevel;
+                let difficultyText = 'Easy';
+                if (difficulty > 0.7) difficultyText = 'Hard';
+                else if (difficulty > 0.4) difficultyText = 'Medium';
+                
+                document.getElementById('difficulty-level').textContent = difficultyText;
+                
+                // Calculate AI confidence
+                const confidence = this.quizEngine.predictSuccessProbability(this.currentQuizState.currentQuestion);
+                document.getElementById('confidence-score').textContent = 
+                    `${(confidence * 100).toFixed(0)}%`;
+                
+                // Pattern mastery
+                const pattern = this.currentQuizState.currentQuestion._cognitive.pattern;
+                const mastery = this.quizEngine.userProfile.patternMastery[pattern];
+                const masteryPercent = mastery.attempts > 0 ? (mastery.confidence * 100) : 50;
+                document.getElementById('pattern-mastery').textContent = `${masteryPercent.toFixed(0)}%`;
             },
 
-            closeModal(modalId) {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            },
-
-            showLoading() {
-                document.getElementById('loading').classList.add('active');
-            },
-
-            hideLoading() {
-                document.getElementById('loading').classList.remove('active');
-            },
-
-            showError(message) {
-                document.getElementById('error-message').textContent = message;
-                this.openModal('error-modal');
-            },
-
+            // Start quiz timer
             startTimer() {
-                if (currentQuiz.timer) clearInterval(currentQuiz.timer);
+                if (this.timerInterval) clearInterval(this.timerInterval);
                 
-                currentQuiz.startTime = Date.now();
-                currentQuiz.timer = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - currentQuiz.startTime) / 1000);
-                    const remaining = Math.max(0, currentQuiz.timeLimit - elapsed);
+                this.timerInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - this.currentQuizState.startTime) / 1000);
+                    const remaining = Math.max(0, this.currentQuizState.timer - elapsed);
                     
                     const minutes = Math.floor(remaining / 60);
                     const seconds = remaining % 60;
@@ -1162,644 +1446,178 @@
                 }, 1000);
             },
 
-            stopTimer() {
-                if (currentQuiz.timer) {
-                    clearInterval(currentQuiz.timer);
-                    currentQuiz.timer = null;
+            // End quiz and show results
+            endQuiz() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
                 }
-            },
-
-            loadQuestion(index) {
-                if (index < 0 || index >= currentQuiz.questions.length) return;
                 
-                const question = currentQuiz.questions[index];
-                currentQuiz.currentQuestionIndex = index;
-
-                document.getElementById('question-number').textContent = `Question ${index + 1}`;
-                document.getElementById('question-text').textContent = question.text;
-
-                const optionsList = document.getElementById('options-list');
-                optionsList.innerHTML = '';
-
-                question.options.forEach((option, optIndex) => {
-                    const li = document.createElement('li');
-                    li.className = 'option-item';
-                    
-                    const label = document.createElement('label');
-                    label.className = 'option-label';
-                    if (currentQuiz.answers[question.id] === optIndex) {
-                        label.classList.add('selected');
-                    }
-                    
-                    label.innerHTML = `
-                        <div class="option-radio"></div>
-                        <div>${option}</div>
-                    `;
-                    
-                    label.addEventListener('click', () => this.selectOption(question.id, optIndex));
-                    li.appendChild(label);
-                    optionsList.appendChild(li);
-                });
-
-                const progress = ((index + 1) / currentQuiz.questions.length) * 100;
-                document.getElementById('quiz-progress').style.width = `${progress}%`;
-                document.getElementById('progress-text').textContent = 
-                    `Question ${index + 1} of ${currentQuiz.questions.length}`;
-
-                document.getElementById('prev-btn').disabled = index === 0;
-                const nextBtn = document.getElementById('next-btn');
-                nextBtn.textContent = index === currentQuiz.questions.length - 1 ? 'Finish Quiz' : 'Next Question';
-
-                this.updateQuestionNavigation();
-            },
-
-            selectOption(questionId, optionIndex) {
-                currentQuiz.answers[questionId] = optionIndex;
-                
-                const labels = document.querySelectorAll('.option-label');
-                labels.forEach((label, index) => {
-                    if (index === optionIndex) {
-                        label.classList.add('selected');
-                    } else {
-                        label.classList.remove('selected');
-                    }
-                });
-
-                this.updateQuestionNavigation();
-            },
-
-            updateQuestionNavigation() {
-                const nav = document.getElementById('question-nav');
-                nav.innerHTML = '';
-
-                currentQuiz.questions.forEach((question, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'pagination-item';
-                    item.textContent = index + 1;
-                    
-                    if (index === currentQuiz.currentQuestionIndex) {
-                        item.classList.add('active');
-                    }
-                    
-                    if (currentQuiz.answers.hasOwnProperty(question.id)) {
-                        item.style.background = 'var(--success)';
-                        item.style.color = 'var(--secondary)';
-                    }
-                    
-                    item.addEventListener('click', () => this.loadQuestion(index));
-                    nav.appendChild(item);
-                });
-            },
-
-            async startQuiz(subject, questionCount = 20) {
-                this.showLoading();
-                
-                try {
-                    const allQuestions = await fetchQuestions(subject);
-                    const selectedQuestions = selectQuestionsByDifficulty(allQuestions, 'mixed', questionCount);
-                    
-                    if (selectedQuestions.length === 0) {
-                        throw new Error('No questions available');
-                    }
-
-                    currentQuiz = {
-                        subject: subject,
-                        questions: selectedQuestions,
-                        currentQuestionIndex: 0,
-                        answers: {},
-                        startTime: null,
-                        timeLimit: 30 * 60,
-                        timer: null,
-                        submitted: false
-                    };
-
-                    this.hideLoading();
-                    this.showScreen('quiz-screen');
-                    
-                    const examName = currentExam === 'jamb' ? 'JAMB' : 'SAT';
-                    const subjectName = subject.includes('math') ? 'Mathematics' : 
-                                       subject.includes('english') ? 'English' : 
-                                       subject.includes('physics') ? 'Physics' : subject;
-                    document.getElementById('quiz-title').textContent = `${examName} ${subjectName} - Practice Mode`;
-                    
-                    this.loadQuestion(0);
-                    this.startTimer();
-                    
-                    const sourceType = API_CONFIG.ENDPOINTS[subject].endsWith('.tsx') ? 'TSX component' : 'JSON file';
-                    this.showNotification('success', 'Quiz Loaded', `${selectedQuestions.length} questions loaded from ${sourceType}.`);
-                    
-                } catch (error) {
-                    this.hideLoading();
-                    console.error('Failed to start quiz:', error);
-                    this.showError(`Failed to load questions: ${error.message}. Please check your internet connection and try again.`);
-                }
-            },
-
-            endQuiz(submitted = false) {
-                this.stopTimer();
-                currentQuiz.submitted = submitted;
-                currentQuiz.endTime = Date.now();
-                
-                this.calculateResults();
                 this.showScreen('results-screen');
-                
-                const message = submitted ? 'Quiz submitted successfully!' : 'Quiz completed!';
-                this.showNotification('success', 'Quiz Complete', message);
+                this.calculateResults();
             },
 
-            submitQuiz() {
-                const unanswered = this.getUnansweredQuestions();
-                
-                if (unanswered.length > 0) {
-                    const confirmMsg = `You have ${unanswered.length} unanswered questions. Submit anyway?`;
-                    if (!confirm(confirmMsg)) return;
-                }
-
-                const modal = this.createSubmissionModal();
-                document.body.appendChild(modal);
-            },
-
-            closeUpgradeModal() {
-                const modal = document.getElementById('upgrade-modal');
-                if (modal) {
-                    modal.classList.remove('active');
-                    setTimeout(() => modal.remove(), 300);
-                }
-            },
-
-            async initiateSolanaPayment(tier) {
-                this.showLoading();
-                
-                try {
-                    const paymentData = await initiateSolanaPayment(tier);
-                    this.hideLoading();
-                    this.showSolanaPaymentModal(paymentData);
-                } catch (error) {
-                    this.hideLoading();
-                    this.showError(`Payment initialization failed: ${error.message}`);
-                }
-            },
-
-            showSolanaPaymentModal(paymentData) {
-                const modal = document.createElement('div');
-                modal.id = 'solana-payment-modal';
-                modal.className = 'modal-overlay active';
-                modal.innerHTML = `
-                    <div class="modal modal-md">
-                        <div class="card-header">
-                            <h3 class="text-xl font-semibold">Solana Payment</h3>
-                            <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeSolanaPayment()">&times;</button>
-                        </div>
-                        <div class="card-body text-center">
-                            <div class="mb-lg">
-                                <h4 class="font-semibold mb-sm">Payment Amount</h4>
-                                <div class="text-3xl font-bold text-accent mb-sm">${paymentData.amount} USDC</div>
-                                <div class="text-sm text-muted">Reference: ${paymentData.reference}</div>
-                            </div>
-                            
-                            <div class="mb-lg">
-                                <img src="${paymentData.qrCodeUrl}" alt="Solana Pay QR Code" style="max-width: 250px; margin: 0 auto; border: 1px solid var(--neutral-200); border-radius: var(--radius);">
-                            </div>
-                            
-                            <div class="mb-lg">
-                                <p class="text-sm text-muted mb-md">Scan with your Solana wallet or click the link below:</p>
-                                <a href="${paymentData.paymentUrl}" class="btn btn-accent" target="_blank">
-                                    Open Solana Wallet
-                                </a>
-                            </div>
-                            
-                            <div class="mb-lg">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="payment-progress" style="width: 0%"></div>
-                                </div>
-                                <div class="text-sm text-muted mt-sm" id="payment-status">Waiting for payment...</div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="flex gap-md">
-                                <button class="btn btn-ghost" onclick="GrantApp.closeSolanaPayment()">Cancel</button>
-                                <button class="btn btn-primary" onclick="GrantApp.checkPaymentStatus('${paymentData.reference}')">
-                                    Check Payment Status
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                this.closeUpgradeModal();
-                document.body.appendChild(modal);
-                
-                this.startPaymentStatusCheck(paymentData.reference);
-            },
-
-            startPaymentStatusCheck(reference) {
-                const interval = setInterval(async () => {
-                    const verified = await verifyPayment(reference);
-                    const progressBar = document.getElementById('payment-progress');
-                    const statusText = document.getElementById('payment-status');
-                    
-                    if (verified) {
-                        clearInterval(interval);
-                        if (progressBar) progressBar.style.width = '100%';
-                        if (statusText) statusText.textContent = 'Payment confirmed!';
-                        
-                        setTimeout(() => {
-                            this.closeSolanaPayment();
-                            this.handleSuccessfulPayment(reference);
-                        }, 2000);
-                    } else {
-                        const currentWidth = parseInt(progressBar?.style.width) || 0;
-                        if (progressBar && currentWidth < 90) {
-                            progressBar.style.width = `${Math.min(currentWidth + 10, 90)}%`;
-                        }
-                    }
-                }, 3000);
-                
-                setTimeout(() => {
-                    clearInterval(interval);
-                    const statusText = document.getElementById('payment-status');
-                    if (statusText) statusText.textContent = 'Payment timeout. Please try again.';
-                }, 5 * 60 * 1000);
-            },
-
-            async checkPaymentStatus(reference) {
-                this.showLoading();
-                const verified = await verifyPayment(reference);
-                this.hideLoading();
-                
-                if (verified) {
-                    this.closeSolanaPayment();
-                    this.handleSuccessfulPayment(reference);
-                } else {
-                    this.showNotification('warning', 'Payment Pending', 'Payment not yet confirmed. Please wait or try again.');
-                }
-            },
-
-            handleSuccessfulPayment(reference) {
-                sessionStorage.setItem('premium_active', 'true');
-                sessionStorage.setItem('payment_reference', reference);
-                
-                this.showNotification('success', 'Payment Successful!', 'Premium features activated. Enjoy your enhanced analytics!');
-                
-                this.confirmSubmission();
-            },
-
-            closeSolanaPayment() {
-                const modal = document.getElementById('solana-payment-modal');
-                if (modal) {
-                    modal.classList.remove('active');
-                    setTimeout(() => modal.remove(), 300);
-                }
-            },
-
-            proceedWithFree() {
-                this.closeUpgradeModal();
-                this.confirmSubmission();
-            },
-
-            getElapsedTime() {
-                if (!currentQuiz.startTime) return '0:00';
-                const elapsed = Math.floor((Date.now() - currentQuiz.startTime) / 1000);
-                const minutes = Math.floor(elapsed / 60);
-                const seconds = elapsed % 60;
-                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            },
-
-            isPremiumActive() {
-                return sessionStorage.getItem('premium_active') === 'true';
-            },
-
-            getUnansweredQuestions() {
-                return currentQuiz.questions.filter(q => !currentQuiz.answers.hasOwnProperty(q.id));
-            },
-
-            createSubmissionModal() {
-                const modal = document.createElement('div');
-                modal.id = 'submission-modal';
-                modal.className = 'modal-overlay active';
-                modal.innerHTML = `
-                    <div class="modal modal-md">
-                        <div class="card-header">
-                            <h3 class="text-xl font-semibold">Submit Quiz</h3>
-                            <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeModal('submission-modal')">&times;</button>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-lg">
-                                <h4 class="font-semibold mb-sm">Quiz Summary</h4>
-                                <div class="grid grid-2 gap-md text-sm">
-                                    <div>Answered: <strong>${Object.keys(currentQuiz.answers).length}/${currentQuiz.questions.length}</strong></div>
-                                    <div>Time Used: <strong>${this.getElapsedTime()}</strong></div>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-lg">
-                                <h4 class="font-semibold mb-sm">Premium Features Available</h4>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <ul class="text-sm text-muted" style="list-style: disc; padding-left: 1rem;">
-                                            <li>Detailed answer explanations</li>
-                                            <li>Advanced performance analytics</li>
-                                            <li>Taxonomy-based insights</li>
-                                            <li>Progress tracking & streaks</li>
-                                            <li>Mock exam simulations</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <p class="text-muted mb-lg">Choose how to proceed with your quiz submission:</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="flex gap-md">
-                                <button class="btn btn-primary" onclick="GrantApp.confirmSubmission()">
-                                    📊 Submit & Get Basic Results
-                                </button>
-                                <button class="btn btn-accent" onclick="GrantApp.showUpgradeModal()">
-                                    ⭐ Upgrade for Full Analytics
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                return modal;
-            },
-
-            confirmSubmission() {
-                this.closeModal('submission-modal');
-                const submissionModal = document.getElementById('submission-modal');
-                if (submissionModal) submissionModal.remove();
-                
-                this.endQuiz(true);
-            },
-
-            showUpgradeModal() {
-                this.closeModal('submission-modal');
-                const submissionModal = document.getElementById('submission-modal');
-                if (submissionModal) submissionModal.remove();
-                
-                this.createUpgradeModal();
-            },
-
-            createUpgradeModal() {
-                const modal = document.createElement('div');
-                modal.id = 'upgrade-modal';
-                modal.className = 'modal-overlay active';
-                modal.innerHTML = `
-                    <div class="modal modal-lg">
-                        <div class="card-header">
-                            <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
-                            <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeUpgradeModal()">&times;</button>
-                        </div>
-                        <div class="card-body">
-                            <div class="grid grid-2 gap-lg mb-lg">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="font-semibold">Premium Monthly</h4>
-                                        <div class="text-2xl font-bold text-accent">$9.99/mo</div>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
-                                            <li>Full question access (600+ questions)</li>
-                                            <li>All stake levels (Practice → Mock → High Stakes)</li>
-                                            <li>Detailed corrections & explanations</li>
-                                            <li>Advanced analytics & streak tracking</li>
-                                            <li>WES CGPA converter</li>
-                                        </ul>
-                                        <button class="btn btn-accent w-full" onclick="GrantApp.initiateSolanaPayment('premium_monthly')">
-                                            🚀 Pay with Solana
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="font-semibold">Professional Monthly</h4>
-                                        <div class="text-2xl font-bold text-accent">$19.99/mo</div>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="text-sm mb-lg" style="list-style: disc; padding-left: 1rem;">
-                                            <li>Multi-exam preparation (JAMB + SAT + AP + AWS)</li>
-                                            <li>Global rankings in high-stake exams</li>
-                                            <li>Priority support</li>
-                                            <li>Advanced ML insights</li>
-                                            <li>Bulk institutional licenses</li>
-                                        </ul>
-                                        <button class="btn btn-accent w-full" onclick="GrantApp.initiateSolanaPayment('professional_monthly')">
-                                            ⭐ Pay with Solana
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="text-center">
-                                <button class="btn btn-ghost" onclick="GrantApp.proceedWithFree()">Continue with Free Results</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            },
-
+            // Calculate and display results
             calculateResults() {
-                let correct = 0;
-                let total = currentQuiz.questions.length;
-                let taxonomyStats = {};
-
-                currentQuiz.questions.forEach(question => {
-                    const userAnswer = currentQuiz.answers[question.id];
-                    const isCorrect = userAnswer === question.correct;
-                    
-                    if (isCorrect) correct++;
-
-                    const key = `${question.taxonomy.type}-${question.taxonomy.info}`;
-                    if (!taxonomyStats[key]) {
-                        taxonomyStats[key] = { correct: 0, total: 0 };
-                    }
-                    taxonomyStats[key].total++;
-                    if (isCorrect) taxonomyStats[key].correct++;
-                });
-
-                const score = Math.round((correct / total) * 100);
-
-                document.getElementById('score-display').textContent = `${score}%`;
-                document.getElementById('correct-display').textContent = correct;
-                document.getElementById('incorrect-display').textContent = total - correct;
-
-                const breakdown = document.getElementById('taxonomy-breakdown');
+                const analytics = this.quizEngine.getAnalytics();
+                const totalTime = Date.now() - this.currentQuizState.startTime;
+                const minutes = Math.floor(totalTime / 60000);
+                const seconds = Math.floor((totalTime % 60000) / 1000);
+                
+                document.getElementById('score-display').textContent = 
+                    `${(analytics.overall.accuracy * 100).toFixed(0)}%`;
+                document.getElementById('correct-display').textContent = 
+                    this.quizEngine.userProfile.totalCorrect;
+                document.getElementById('incorrect-display').textContent = 
+                    this.quizEngine.userProfile.totalQuestions - this.quizEngine.userProfile.totalCorrect;
+                document.getElementById('time-display').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Pattern breakdown
+                const breakdown = document.getElementById('pattern-breakdown');
                 breakdown.innerHTML = '';
                 
-                Object.entries(taxonomyStats).forEach(([key, stats]) => {
-                    const percentage = Math.round((stats.correct / stats.total) * 100);
-                    const div = document.createElement('div');
-                    div.className = 'mb-sm';
-                    div.innerHTML = `
-                        <div class="flex justify-between items-center mb-xs">
-                            <span class="text-sm font-medium">${key.replace('-', ' ').toUpperCase()}</span>
-                            <span class="text-sm">${stats.correct}/${stats.total} (${percentage}%)</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${percentage}%"></div>
-                        </div>
-                    `;
-                    breakdown.appendChild(div);
+                Object.entries(analytics.patterns).forEach(([pattern, data]) => {
+                    if (data.attempts > 0) {
+                        const div = document.createElement('div');
+                        div.className = 'mb-sm';
+                        div.innerHTML = `
+                            <div class="flex justify-between items-center mb-xs">
+                                <span class="text-sm font-medium">${pattern.replace('_', ' ').toUpperCase()}</span>
+                                <span class="text-sm">${data.attempts} attempts, ${(data.accuracy * 100).toFixed(0)}% accuracy</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${data.accuracy * 100}%"></div>
+                            </div>
+                        `;
+                        breakdown.appendChild(div);
+                    }
                 });
+            },
+
+            // Navigation functions
+            previousQuestion() {
+                // Note: In a full implementation, we would track question history
+                // For now, this is a placeholder
+                this.showComingSoon('Question History Navigation');
+            },
+
+            nextQuestion() {
+                if (this.currentQuizState.questionsAnswered < this.currentQuizState.totalQuestions - 1) {
+                    this.submitAnswer();
+                } else {
+                    this.endQuiz();
+                }
+            },
+
+            // Utility functions
+            showLoading() {
+                document.getElementById('loading').classList.remove('hidden');
+            },
+
+            hideLoading() {
+                document.getElementById('loading').classList.add('hidden');
+            },
+
+            showError(message) {
+                document.getElementById('error-message').textContent = message;
+                this.openModal('error-modal');
+            },
+
+            showComingSoon(feature) {
+                document.getElementById('coming-soon-message').textContent = 
+                    `${feature} is coming soon!`;
+                this.openModal('coming-soon-modal');
+            },
+
+            openModal(modalId) {
+                document.getElementById(modalId).classList.remove('hidden');
+            },
+
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.add('hidden');
             }
         };
 
+        // Global functions for UI interaction
         function goHome() {
             GrantApp.showScreen('home-screen');
-            GrantApp.stopTimer();
+            if (GrantApp.timerInterval) {
+                clearInterval(GrantApp.timerInterval);
+                GrantApp.timerInterval = null;
+            }
         }
 
         function goBack() {
+            const currentScreen = document.querySelector('.screen:not(.hidden)').id;
+            
             if (currentScreen === 'subject-selection') {
-                GrantApp.showScreen('home-screen');
+                goHome();
+            } else if (currentScreen === 'quiz-mode-selection') {
+                GrantApp.showScreen('subject-selection');
             } else if (currentScreen === 'quiz-screen') {
-                if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
-                    GrantApp.showScreen('subject-selection');
-                    GrantApp.stopTimer();
+                if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
+                    GrantApp.showScreen('quiz-mode-selection');
                 }
+            } else if (currentScreen === 'results-screen') {
+                GrantApp.showScreen('quiz-mode-selection');
             }
         }
 
         function selectExam(exam) {
-            currentExam = exam;
-            GrantApp.showScreen('subject-selection');
-            
-            document.getElementById('exam-title').textContent = `Select ${exam.toUpperCase()} Subject`;
-            
-            const subjectGrid = document.getElementById('subject-grid');
-            subjectGrid.innerHTML = '';
-            
-            let subjects = [];
-            
-            if (exam === 'jamb') {
-                subjects = [
-                    { id: 'mathematics', name: 'Mathematics', status: 'available', questions: '300+ Questions' },
-                    { id: 'english', name: 'English', status: 'coming-soon', questions: 'Coming Soon' },
-                    { id: 'physics', name: 'Physics', status: 'available', questions: '300+ Questions (TSX)' },
-                    { id: 'chemistry', name: 'Chemistry', status: 'coming-soon', questions: 'Coming Soon' }
-                ];
-            } else if (exam === 'sat') {
-                subjects = [
-                    { id: 'sat_math', name: 'SAT Mathematics', status: 'available', questions: '250+ Questions' },
-                    { id: 'sat_english', name: 'SAT English', status: 'available', questions: '200+ Questions' }
-                ];
-            }
-            
-            subjects.forEach(subject => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold mb-sm">${subject.name}</h3>
-                        <p class="text-muted mb-lg">${subject.questions} | 5×2 Taxonomy</p>
-                        ${subject.status === 'available' ? 
-                            `<button class="btn btn-primary w-full" onclick="selectSubject('${subject.id}')">Start Practice</button>` :
-                            `<button class="btn btn-ghost w-full" onclick="showComingSoon('${subject.name}')">Coming Soon</button>`
-                        }
-                    </div>
-                `;
-                subjectGrid.appendChild(card);
-            });
+            GrantApp.selectExam(exam);
         }
 
         function selectSubject(subject) {
-            GrantApp.startQuiz(subject, 20);
+            GrantApp.selectSubject(subject);
         }
 
-        async function startDemo() {
-            try {
-                GrantApp.showLoading();
-                const questions = await fetchQuestions('mathematics');
-                const demoQuestions = questions.slice(0, 10);
-                GrantApp.hideLoading();
-                currentExam = 'jamb';
-                GrantApp.startQuiz('mathematics', 10);
-            } catch (error) {
-                GrantApp.hideLoading();
-                GrantApp.showError('Failed to load demo questions. Please try again.');
-            }
+        function startQuiz(stakeLevel) {
+            GrantApp.startQuiz(stakeLevel);
+        }
+
+        function startDemo() {
+            GrantApp.currentSubject = 'physics';
+            GrantApp.startQuiz('practice');
         }
 
         function previousQuestion() {
-            if (currentQuiz.currentQuestionIndex > 0) {
-                GrantApp.loadQuestion(currentQuiz.currentQuestionIndex - 1);
-            }
+            GrantApp.previousQuestion();
         }
 
         function nextQuestion() {
-            const isLast = currentQuiz.currentQuestionIndex === currentQuiz.questions.length - 1;
-            
-            if (isLast) {
-                GrantApp.submitQuiz();
-            } else {
-                GrantApp.loadQuestion(currentQuiz.currentQuestionIndex + 1);
-            }
+            GrantApp.nextQuestion();
         }
 
         function exitQuiz() {
             if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
-                GrantApp.showScreen('subject-selection');
-                GrantApp.stopTimer();
-                GrantApp.showNotification('info', 'Quiz Exited', 'You can start a new quiz anytime.');
+                GrantApp.showScreen('quiz-mode-selection');
             }
         }
 
         function reviewAnswers() {
-            if (GrantApp.isPremiumActive()) {
-                showComingSoon('Detailed Answer Review');
-            } else {
-                GrantApp.showNotification('info', 'Premium Feature', 'Upgrade to access detailed answer reviews.');
-                setTimeout(() => GrantApp.createUpgradeModal(), 1000);
-            }
+            GrantApp.showComingSoon('Detailed Answer Review');
         }
 
         function retakeQuiz() {
             if (confirm('Start a new quiz with different questions?')) {
-                selectSubject(currentQuiz.subject);
+                GrantApp.startQuiz(GrantApp.currentQuizState.stakeLevel);
             }
         }
 
-        function getTaxonomyComplexity(taxonomy) {
-            const complexityMap = {
-                'essential': 'easy',
-                'contextual': 'medium', 
-                'abstract': 'hard',
-                'applied': 'medium',
-                'proofs': 'hard'
-            };
-            return complexityMap[taxonomy.info] || 'medium';
-        }
-
         function showComingSoon(feature) {
-            document.getElementById('coming-soon-message').textContent = 
-                `${feature} is coming soon! We're working hard to bring you this feature.`;
-            GrantApp.openModal('coming-soon-modal');
+            GrantApp.showComingSoon(feature);
         }
 
         function closeModal(modalId) {
             GrantApp.closeModal(modalId);
         }
 
+        // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.modal-overlay').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        GrantApp.closeModal(this.id);
-                    }
-                });
-            });
-
+            // Add keyboard navigation
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    const activeModal = document.querySelector('.modal-overlay.active');
-                    if (activeModal) {
-                        GrantApp.closeModal(activeModal.id);
-                    }
-                }
-
-                if (currentScreen === 'quiz-screen') {
+                if (GrantApp.currentQuizState && document.getElementById('quiz-screen').classList.contains('hidden') === false) {
                     if (e.key === 'ArrowLeft') {
                         e.preventDefault();
                         previousQuestion();
@@ -1808,18 +1626,19 @@
                         nextQuestion();
                     } else if (e.key >= '1' && e.key <= '4') {
                         e.preventDefault();
-                        const optionIndex = parseInt(e.key) - 1;
-                        const currentQuestion = currentQuiz.questions[currentQuiz.currentQuestionIndex];
-                        if (optionIndex < currentQuestion.options.length) {
-                            GrantApp.selectOption(currentQuestion.id, optionIndex);
-                        }
+                        GrantApp.selectOption(parseInt(e.key) - 1);
                     }
                 }
             });
 
-            setTimeout(() => {
-                GrantApp.showNotification('info', 'Welcome to Grant App', 'Your exam preparation journey starts here!');
-            }, 1000);
+            // Modal click outside to close
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        GrantApp.closeModal(this.id);
+                    }
+                });
+            });
         });
     </script>
 </body>
