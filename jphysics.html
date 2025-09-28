@@ -36,7 +36,12 @@
             --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
         body { 
             font-family: var(--font-primary); 
             color: var(--primary); 
@@ -45,8 +50,16 @@
             min-height: 100vh;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); }
-        .hidden { display: none; }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 var(--space-md); 
+        }
+
+        .hidden { 
+            display: none !important; 
+        }
+
         .text-center { text-align: center; }
         .w-full { width: 100%; }
         .flex { display: flex; }
@@ -132,15 +145,59 @@
             border-radius: var(--radius);
         }
 
-        .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
-        .btn-primary { background: var(--primary); color: var(--secondary); border-color: var(--primary); }
-        .btn-accent { background: var(--accent); color: var(--primary); border-color: var(--accent); }
-        .btn-success { background: var(--success); color: var(--secondary); border-color: var(--success); }
-        .btn-error { background: var(--error); color: var(--secondary); border-color: var(--error); }
-        .btn-ghost { border: none; background: none; }
-        .btn-ghost:hover { background: var(--neutral-100); }
-        .btn-lg { padding: var(--space-md) var(--space-xl); font-size: 1rem; }
-        .btn-sm { padding: var(--space-xs) var(--space-sm); font-size: 0.75rem; }
+        .btn:hover:not(:disabled) { 
+            transform: translateY(-1px); 
+            box-shadow: var(--shadow); 
+        }
+        
+        .btn:disabled { 
+            opacity: 0.5; 
+            cursor: not-allowed; 
+            transform: none; 
+        }
+        
+        .btn-primary { 
+            background: var(--primary); 
+            color: var(--secondary); 
+            border-color: var(--primary); 
+        }
+        
+        .btn-accent { 
+            background: var(--accent); 
+            color: var(--primary); 
+            border-color: var(--accent); 
+        }
+        
+        .btn-success { 
+            background: var(--success); 
+            color: var(--secondary); 
+            border-color: var(--success); 
+        }
+        
+        .btn-error { 
+            background: var(--error); 
+            color: var(--secondary); 
+            border-color: var(--error); 
+        }
+        
+        .btn-ghost { 
+            border: none; 
+            background: none; 
+        }
+        
+        .btn-ghost:hover { 
+            background: var(--neutral-100); 
+        }
+        
+        .btn-lg { 
+            padding: var(--space-md) var(--space-xl); 
+            font-size: 1rem; 
+        }
+        
+        .btn-sm { 
+            padding: var(--space-xs) var(--space-sm); 
+            font-size: 0.75rem; 
+        }
 
         /* Quiz Styles */
         .quiz-container {
@@ -169,6 +226,12 @@
         .question-number {
             font-size: 0.875rem;
             color: var(--neutral-500);
+            font-weight: 600;
+        }
+
+        .question-timer {
+            font-size: 0.875rem;
+            color: var(--accent);
             font-weight: 600;
         }
 
@@ -210,18 +273,6 @@
             color: var(--primary);
         }
 
-        .option-label.correct {
-            background: var(--success);
-            border-color: var(--success);
-            color: var(--secondary);
-        }
-
-        .option-label.incorrect {
-            background: var(--error);
-            border-color: var(--error);
-            color: var(--secondary);
-        }
-
         .option-radio {
             width: 20px;
             height: 20px;
@@ -253,6 +304,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-md);
         }
 
         /* Progress */
@@ -263,6 +316,7 @@
             border-radius: var(--radius);
             overflow: hidden;
         }
+        
         .progress-fill {
             height: 100%;
             background: var(--accent);
@@ -382,93 +436,67 @@
         }
 
         /* Grid */
-        .grid { display: grid; gap: var(--space-lg); }
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
-
-        /* Explanation Box */
-        .explanation-box {
-            background: var(--neutral-50);
-            border: var(--border);
-            border-radius: var(--radius);
-            padding: var(--space-lg);
-            margin-top: var(--space-lg);
+        .grid { 
+            display: grid; 
+            gap: var(--space-lg); 
         }
-
-        .explanation-title {
-            font-weight: 600;
-            margin-bottom: var(--space-sm);
-            color: var(--primary);
+        
+        .grid-2 { 
+            grid-template-columns: repeat(2, 1fr); 
         }
-
-        .correct-answer {
-            color: var(--success);
-            font-weight: 600;
-            margin-top: var(--space-sm);
-        }
-
-        /* Error States */
-        .error-container {
-            background: #fee;
-            border: 1px solid var(--error);
-            color: var(--error);
-            padding: var(--space-md);
-            border-radius: var(--radius);
-            margin: var(--space-md) 0;
-        }
-
-        /* Question Bank */
-        .question-bank-container {
-            max-height: 60vh;
-            overflow-y: auto;
-            border: var(--border);
-            border-radius: var(--radius);
-        }
-
-        .question-bank-item {
-            padding: var(--space-md);
-            border-bottom: var(--border);
-            cursor: pointer;
-            transition: background-color var(--transition);
-        }
-
-        .question-bank-item:hover {
-            background: var(--neutral-50);
-        }
-
-        .question-bank-item:last-child {
-            border-bottom: none;
+        
+        .grid-3 { 
+            grid-template-columns: repeat(3, 1fr); 
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .container { padding: 0 var(--space-sm); }
-            .question-card { padding: var(--space-lg); }
-            .quiz-controls { flex-direction: column; gap: var(--space-md); }
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
-        }
+            .container { 
+                padding: 0 var(--space-sm); 
+            }
+            
+            .question-card { 
+                padding: var(--space-lg); 
+            }
+            
+            .quiz-controls { 
+                flex-direction: column; 
+                gap: var(--space-md); 
+            }
+            
+            .grid-2, .grid-3 { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .question-header { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: var(--space-sm); 
+            }
 
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
+            .navbar {
+                padding: var(--space-sm) var(--space-md);
+            }
+
+            .navbar .flex {
+                flex-direction: row;
+                gap: var(--space-sm);
+            }
+
+            .btn {
+                font-size: 0.75rem;
+                padding: var(--space-xs) var(--space-sm);
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
-        <a href="index.html" class="navbar-brand">GrantApp</a>
+    <nav class="navbar">
+        <a href="#" class="navbar-brand" onclick="PhysicsQuiz.goHome(); return false;">GrantApp</a>
         <div class="flex items-center gap-md">
-            <button class="btn btn-ghost" onclick="PhysicsQuiz.showQuestionBank()" aria-label="View question bank">Question Bank</button>
-            <button class="btn btn-accent" onclick="PhysicsQuiz.showPremiumModal()" aria-label="Upgrade to premium">Upgrade</button>
+            <button class="btn btn-ghost" onclick="PhysicsQuiz.showQuestionBank()">Question Bank</button>
+            <button class="btn btn-accent" onclick="PhysicsQuiz.showPremiumModal()">Upgrade</button>
         </div>
     </nav>
 
@@ -499,7 +527,7 @@
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">High Stakes</h3>
-                            <p class="text-muted mb-lg">Advanced questions & analytics</p>
+                            <p class="text-muted mb-lg">Advanced questions &amp; analytics</p>
                             <button class="btn btn-success w-full" onclick="PhysicsQuiz.startQuiz('high')">Start Challenge</button>
                         </div>
                     </div>
@@ -547,7 +575,7 @@
                             <span class="question-number" id="question-number">Question 1</span>
                             <span class="premium-badge" id="question-taxonomy" style="margin-left: 10px;">Pragmatic</span>
                         </div>
-                        <span class="question-timer" id="question-timer">00:30</span>
+                        <span class="question-timer" id="question-timer">01:00</span>
                     </div>
                     
                     <div class="question-text" id="question-text">
@@ -557,13 +585,6 @@
                     <ul class="options-list" id="options-list">
                         <!-- Options populated by JavaScript -->
                     </ul>
-
-                    <!-- Explanation Box (Initially Hidden) -->
-                    <div class="explanation-box hidden" id="explanation-box">
-                        <div class="explanation-title">Explanation</div>
-                        <div id="explanation-content"></div>
-                        <div class="correct-answer hidden" id="correct-answer-display"></div>
-                    </div>
                     
                     <div class="quiz-controls">
                         <button class="btn btn-ghost" id="prev-btn" onclick="PhysicsQuiz.previousQuestion()" disabled>Previous</button>
@@ -577,7 +598,7 @@
                 <!-- Adaptive Metrics -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="font-semibold">Adaptive Metrics & Taxonomy Analysis</h4>
+                        <h4 class="font-semibold">Adaptive Metrics &amp; Taxonomy Analysis</h4>
                     </div>
                     <div class="card-body">
                         <div class="analytics-grid">
@@ -632,7 +653,7 @@
 
                 <div class="card mb-xl" style="max-width: 800px; margin: 0 auto;">
                     <div class="card-header">
-                        <h3 class="text-xl font-semibold">Taxonomy Analysis & Performance Matrix</h3>
+                        <h3 class="text-xl font-semibold">Taxonomy Analysis &amp; Performance Matrix</h3>
                     </div>
                     <div class="card-body">
                         <div class="mb-lg">
@@ -654,43 +675,15 @@
                 </div>
             </section>
         </div>
-
-        <!-- Question Bank Screen -->
-        <div id="question-bank-screen" class="screen hidden">
-            <section class="py-xl">
-                <div class="mb-xl">
-                    <button class="btn btn-ghost mb-lg" onclick="PhysicsQuiz.goHome()">&larr; Back to Home</button>
-                    <h2 class="text-3xl font-semibold text-center mb-lg">Physics Question Bank</h2>
-                    <p class="text-center text-muted mb-lg">Browse all available physics questions</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-xl font-semibold">All Questions (8 total)</h3>
-                            <div class="flex gap-sm">
-                                <input type="text" id="question-search" placeholder="Search questions..." class="p-2 border rounded text-sm">
-                                <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.filterQuestions()">Filter</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="question-bank-container" id="question-bank-list">
-                            <!-- Questions will be populated here -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
     </div>
 
     <!-- Premium Modal -->
-    <div id="premium-modal" class="modal-overlay hidden">
-        <div class="modal" style="max-width: 500px;">
+    <div id="premium-modal" class="modal-overlay hidden" onclick="PhysicsQuiz.handleModalBackdrop(event, 'premium-modal')">
+        <div class="modal" style="max-width: 500px;" onclick="event.stopPropagation()">
             <div class="card">
                 <div class="card-header flex justify-between items-center">
                     <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
-                    <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.closeModal('premium-modal')" aria-label="Close modal">&times;</button>
+                    <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.closeModal('premium-modal')">&times;</button>
                 </div>
                 <div class="card-body">
                     <p class="mb-lg">Unlock advanced analytics and unlimited questions</p>
@@ -714,37 +707,14 @@
         </div>
     </div>
 
-    <!-- Error Modal -->
-    <div id="error-modal" class="modal-overlay hidden">
-        <div class="modal" style="max-width: 500px;">
-            <div class="card">
-                <div class="card-header flex justify-between items-center">
-                    <h3 class="text-xl font-semibold text-error">Error</h3>
-                    <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.closeModal('error-modal')">&times;</button>
-                </div>
-                <div class="card-body">
-                    <div class="error-container">
-                        <div id="error-message">An error occurred</div>
-                    </div>
-                    <div class="flex justify-end gap-sm mt-lg">
-                        <button class="btn btn-primary" onclick="PhysicsQuiz.closeModal('error-modal')">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Loading Overlay -->
     <div class="loading-overlay hidden" id="loading">
         <div class="loading-spinner"></div>
         <div class="text-lg font-semibold" id="loading-text">Loading questions...</div>
     </div>
 
-    <!-- Screen Reader Announcements -->
-    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
     <script>
-        // Enhanced Physics Question Bank with Taxonomic System
+        // Physics Question Bank with Fixed Mathematical Symbols
         const PHYSICS_QUESTIONS = [
             {
                 id: "jamb_phy_001",
@@ -756,7 +726,7 @@
                 question: "A car accelerates from 15 m/s at 4 m/s² for 5 seconds. Find the final velocity.",
                 options: ["35 m/s", "40 m/s", "20 m/s", "19 m/s"],
                 correct: 0,
-                explanation: "Using the equation v = u + at, where u is initial velocity, a is acceleration, and t is time: v = 15 + (4 × 5) = 15 + 20 = 35 m/s",
+                explanation: "Using v = u + at: v = 15 + 4 × 5 = 35 m/s",
                 avgTime: 45,
                 complexity: 0.6
             },
@@ -770,7 +740,7 @@
                 question: "Calculate the force needed to accelerate a 10 kg object at 5 m/s².",
                 options: ["50 N", "15 N", "2 N", "5 N"],
                 correct: 0,
-                explanation: "Using Newton's second law: F = ma, where m is mass and a is acceleration: F = 10 × 5 = 50 N",
+                explanation: "Using F = ma: F = 10 × 5 = 50 N",
                 avgTime: 35,
                 complexity: 0.5
             },
@@ -784,7 +754,7 @@
                 question: "A 12V battery supplies 2A to a circuit. Calculate the resistance of the circuit.",
                 options: ["6Ω", "24Ω", "14Ω", "10Ω"],
                 correct: 0,
-                explanation: "Using Ohm's law: R = V/I, where V is voltage and I is current: R = 12/2 = 6Ω",
+                explanation: "Using Ohm's law: R = V/I = 12/2 = 6Ω",
                 avgTime: 40,
                 complexity: 0.4
             },
@@ -798,7 +768,7 @@
                 question: "A wave has frequency 100 Hz and wavelength 0.3 m. Calculate its velocity.",
                 options: ["30 m/s", "130 m/s", "0.33 m/s", "300 m/s"],
                 correct: 0,
-                explanation: "Using the wave equation: v = fλ, where f is frequency and λ is wavelength: v = 100 × 0.3 = 30 m/s",
+                explanation: "Using wave equation: v = fλ = 100 × 0.3 = 30 m/s",
                 avgTime: 50,
                 complexity: 0.5
             },
@@ -812,7 +782,7 @@
                 question: "Convert 25°C to Kelvin.",
                 options: ["298 K", "25 K", "125 K", "-248 K"],
                 correct: 0,
-                explanation: "Using the conversion formula: K = °C + 273. So, 25°C + 273 = 298 K",
+                explanation: "K = °C + 273 = 25 + 273 = 298 K",
                 avgTime: 25,
                 complexity: 0.3
             },
@@ -826,7 +796,7 @@
                 question: "Carbon has 6 protons and 6 neutrons. What is its mass number?",
                 options: ["12", "6", "0", "18"],
                 correct: 0,
-                explanation: "Mass number = number of protons + number of neutrons = 6 + 6 = 12",
+                explanation: "Mass number = protons + neutrons = 6 + 6 = 12",
                 avgTime: 30,
                 complexity: 0.4
             },
@@ -840,7 +810,7 @@
                 question: "A 60 kg object is lifted to 15 m height. Calculate its potential energy. (g = 10 m/s²)",
                 options: ["9000 J", "75 J", "150 J", "600 J"],
                 correct: 0,
-                explanation: "Using the potential energy formula: PE = mgh, where m is mass, g is gravity, and h is height: PE = 60 × 10 × 15 = 9000 J",
+                explanation: "PE = mgh = 60 × 10 × 15 = 9000 J",
                 avgTime: 35,
                 complexity: 0.5
             },
@@ -854,91 +824,47 @@
                 question: "An object is placed 20 cm from a convex lens of focal length 12 cm. The image formed is:",
                 options: ["Real and inverted", "Virtual and upright", "At infinity", "No image formed"],
                 correct: 0,
-                explanation: "Using the lens formula and sign convention, when object is beyond the focal length of a convex lens, the image is real and inverted.",
+                explanation: "Since object is beyond focal length, image is real and inverted",
                 avgTime: 60,
                 complexity: 0.7
+            },
+            {
+                id: "jamb_phy_009",
+                subject: "Physics",
+                questionType: "canon",
+                infoType: "essential",
+                difficulty: "Easy",
+                topic: "Simple Harmonic Motion",
+                question: "What is the period of a simple pendulum of length 1 m? (g = 10 m/s²)",
+                options: ["2.0 s", "1.0 s", "0.5 s", "3.14 s"],
+                correct: 0,
+                explanation: "T = 2π√(L/g) = 2π√(1/10) ≈ 2.0 s",
+                avgTime: 40,
+                complexity: 0.4
+            },
+            {
+                id: "jamb_phy_010",
+                subject: "Physics",
+                questionType: "mathematical",
+                infoType: "proofs",
+                difficulty: "Hard",
+                topic: "Projectile Motion",
+                question: "A projectile is launched at 45° with initial velocity 20 m/s. Find the maximum height. (g = 10 m/s²)",
+                options: ["10 m", "20 m", "5 m", "15 m"],
+                correct: 0,
+                explanation: "H = (u²sin²θ)/(2g) = (400 × 0.5)/20 = 10 m",
+                avgTime: 60,
+                complexity: 0.8
             }
         ];
 
         // Enhanced Adaptive Quiz Engine
         class PhysicsAdaptiveEngine {
             constructor() {
-                this.questions = this.validateQuestions(PHYSICS_QUESTIONS);
+                this.questions = PHYSICS_QUESTIONS;
                 this.userProfile = this.initializeUserProfile();
                 this.currentQuiz = null;
                 this.confidenceThreshold = 0.7;
-                
-                // Scoring weights for adaptive selection
-                this.scoringWeights = {
-                    weakAreaBonus: 2.0,
-                    difficultyMatchBonus: 1.5,
-                    varietyBonus: 0.5
-                };
-                
-                // Learning parameters
-                this.learningParams = {
-                    targetResponseTime: 60,
-                    maxDifficulty: 1.0,
-                    minDifficulty: 0.1,
-                    velocityMultipliers: {
-                        fastCorrect: 1.5,
-                        normalCorrect: 0.5,
-                        incorrect: 2.0
-                    }
-                };
-            }
-
-            /**
-             * Validates the question structure and data integrity
-             * @param {Array} questions - Array of question objects
-             * @returns {Array} Validated questions array
-             */
-            validateQuestions(questions) {
-                if (!Array.isArray(questions) || questions.length === 0) {
-                    throw new Error('Invalid questions data: must be a non-empty array');
-                }
-
-                return questions.map((q, index) => {
-                    const requiredFields = ['id', 'question', 'options', 'correct', 'explanation'];
-                    const missingFields = requiredFields.filter(field => !q[field] && q[field] !== 0);
-                    
-                    if (missingFields.length > 0) {
-                        console.warn(`Question ${q.id || index} missing required fields:`, missingFields);
-                    }
-
-                    if (!Array.isArray(q.options) || q.options.length < 2) {
-                        throw new Error(`Question ${q.id || index} must have at least 2 options`);
-                    }
-
-                    if (q.correct < 0 || q.correct >= q.options.length) {
-                        throw new Error(`Question ${q.id || index} has invalid correct answer index`);
-                    }
-
-                    return {
-                        id: q.id || `q_${index}`,
-                        subject: q.subject || 'Physics',
-                        questionType: q.questionType || 'pragmatic',
-                        infoType: q.infoType || 'essential',
-                        difficulty: q.difficulty || 'Medium',
-                        topic: q.topic || 'General',
-                        question: q.question,
-                        options: q.options,
-                        correct: q.correct,
-                        explanation: q.explanation,
-                        avgTime: q.avgTime || 45,
-                        complexity: this.normalizeComplexity(q.complexity)
-                    };
-                });
-            }
-
-            /**
-             * Normalizes complexity to ensure it's between 0 and 1
-             * @param {number} complexity - The complexity value
-             * @returns {number} Normalized complexity
-             */
-            normalizeComplexity(complexity) {
-                const value = parseFloat(complexity);
-                return isNaN(value) ? 0.5 : Math.max(0, Math.min(1, value));
             }
 
             initializeUserProfile() {
@@ -949,21 +875,11 @@
                 const informationMastery = {};
                 
                 patterns.forEach(pattern => {
-                    patternMastery[pattern] = { 
-                        attempts: 0, 
-                        correct: 0, 
-                        avg_time: 0, 
-                        confidence: 0.5 
-                    };
+                    patternMastery[pattern] = { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 };
                 });
 
                 infoTypes.forEach(type => {
-                    informationMastery[type] = { 
-                        attempts: 0, 
-                        correct: 0, 
-                        avg_time: 0, 
-                        confidence: 0.5 
-                    };
+                    informationMastery[type] = { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 };
                 });
 
                 return {
@@ -974,48 +890,20 @@
                     streakCount: 0,
                     lastPerformance: [],
                     totalQuestions: 0,
-                    totalCorrect: 0,
-                    sessionStart: Date.now()
+                    totalCorrect: 0
                 };
             }
 
-            /**
-             * Selects the next question based on adaptive learning logic
-             * @param {Object} previousAnswer - Previous answer data
-             * @param {number} responseTime - Time taken for previous question
-             * @returns {Object|null} Selected question or null if none available
-             */
             selectNextQuestion(previousAnswer = null, responseTime = null) {
-                try {
-                    if (previousAnswer !== null) {
-                        this.updateUserProfile(previousAnswer, responseTime);
-                    }
-
-                    const candidateQuestions = this.filterAvailableQuestions();
-                    if (candidateQuestions.length === 0) {
-                        console.warn('No available questions found');
-                        return null;
-                    }
-
-                    const scoredQuestions = this.scoreQuestions(candidateQuestions);
-                    return this.weightedSelection(scoredQuestions);
-                    
-                } catch (error) {
-                    console.error('Error selecting next question:', error);
-                    return this.getFallbackQuestion();
+                if (previousAnswer !== null) {
+                    this.updateUserProfile(previousAnswer, responseTime);
                 }
-            }
 
-            /**
-             * Gets a fallback question when adaptive selection fails
-             * @returns {Object} A random question
-             */
-            getFallbackQuestion() {
-                const available = this.filterAvailableQuestions();
-                if (available.length === 0) {
-                    throw new Error('No questions available for fallback');
-                }
-                return available[Math.floor(Math.random() * available.length)];
+                const candidateQuestions = this.filterAvailableQuestions();
+                if (candidateQuestions.length === 0) return null;
+
+                const scoredQuestions = this.scoreQuestions(candidateQuestions);
+                return this.weightedSelection(scoredQuestions);
             }
 
             filterAvailableQuestions() {
@@ -1029,25 +917,16 @@
                 const weakInformation = this.identifyWeakInformationTypes();
                 
                 return questions.map(q => {
-                    let score = 1.0; // Base score
+                    let score = 1.0;
                     
-                    // Prioritize weak areas
-                    if (weakPatterns.includes(q.questionType)) {
-                        score += this.scoringWeights.weakAreaBonus;
-                    }
-                    if (weakInformation.includes(q.infoType)) {
-                        score += this.scoringWeights.weakAreaBonus;
-                    }
+                    if (weakPatterns.includes(q.questionType)) score += 2.0;
+                    if (weakInformation.includes(q.infoType)) score += 1.5;
                     
-                    // Difficulty matching
                     const complexityDiff = Math.abs(q.complexity - this.userProfile.currentDifficultyLevel);
-                    score += (1 - complexityDiff) * this.scoringWeights.difficultyMatchBonus;
+                    score += (1 - complexityDiff) * 1.5;
                     
-                    // Variety bonus
                     const recentPatterns = this.userProfile.lastPerformance.slice(-3).map(p => p.pattern);
-                    if (!recentPatterns.includes(q.questionType)) {
-                        score += this.scoringWeights.varietyBonus;
-                    }
+                    if (!recentPatterns.includes(q.questionType)) score += 0.5;
                     
                     return { question: q, score };
                 });
@@ -1055,11 +934,6 @@
 
             weightedSelection(scoredQuestions) {
                 const totalScore = scoredQuestions.reduce((sum, item) => sum + item.score, 0);
-                
-                if (totalScore === 0) {
-                    return scoredQuestions[0]?.question || null;
-                }
-                
                 let random = Math.random() * totalScore;
                 
                 for (const item of scoredQuestions) {
@@ -1067,28 +941,23 @@
                     if (random <= 0) return item.question;
                 }
                 
-                return scoredQuestions[scoredQuestions.length - 1].question;
+                return scoredQuestions[0].question;
             }
 
             identifyWeakPatterns() {
                 return Object.entries(this.userProfile.patternMastery)
-                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < this.confidenceThreshold)
+                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < 0.6)
                     .map(([pattern, _]) => pattern);
             }
 
             identifyWeakInformationTypes() {
                 return Object.entries(this.userProfile.informationMastery)
-                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < this.confidenceThreshold)
+                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < 0.6)
                     .map(([type, _]) => type);
             }
 
             updateUserProfile(wasCorrect, responseTime) {
                 const question = this.currentQuiz.currentQuestion;
-                if (!question) {
-                    console.warn('No current question for profile update');
-                    return;
-                }
-
                 const pattern = question.questionType;
                 const infoType = question.infoType;
                 
@@ -1108,11 +977,9 @@
                     pattern: pattern,
                     infoType: infoType,
                     time: responseTime,
-                    complexity: question.complexity,
-                    timestamp: Date.now()
+                    complexity: question.complexity
                 });
                 
-                // Keep only last 10 performances
                 if (this.userProfile.lastPerformance.length > 10) {
                     this.userProfile.lastPerformance.shift();
                 }
@@ -1123,52 +990,29 @@
             updateMastery(masteryObj, wasCorrect, responseTime) {
                 masteryObj.attempts++;
                 if (wasCorrect) masteryObj.correct++;
-                
-                // Update average time with exponential smoothing
-                masteryObj.avg_time = masteryObj.attempts === 1 ? 
-                    responseTime : 
-                    (masteryObj.avg_time * (masteryObj.attempts - 1) + responseTime) / masteryObj.attempts;
-                
+                masteryObj.avg_time = (masteryObj.avg_time * (masteryObj.attempts - 1) + responseTime) / masteryObj.attempts;
                 masteryObj.confidence = masteryObj.correct / masteryObj.attempts;
             }
 
             adjustDifficulty(wasCorrect, responseTime, questionComplexity) {
-                const { targetResponseTime, velocityMultipliers } = this.learningParams;
+                const targetTime = 60;
                 const velocity = this.userProfile.learningVelocity;
                 
                 if (wasCorrect) {
-                    if (responseTime < targetResponseTime * 0.7) {
-                        // Fast correct answer - increase difficulty
-                        this.userProfile.currentDifficultyLevel = Math.min(
-                            this.learningParams.maxDifficulty,
-                            this.userProfile.currentDifficultyLevel + velocity * velocityMultipliers.fastCorrect
-                        );
+                    if (responseTime < targetTime * 0.7) {
+                        this.userProfile.currentDifficultyLevel = Math.min(1.0, 
+                            this.userProfile.currentDifficultyLevel + velocity * 1.5);
                     } else {
-                        // Normal correct answer - slight increase
-                        this.userProfile.currentDifficultyLevel = Math.min(
-                            this.learningParams.maxDifficulty,
-                            this.userProfile.currentDifficultyLevel + velocity * velocityMultipliers.normalCorrect
-                        );
+                        this.userProfile.currentDifficultyLevel = Math.min(1.0,
+                            this.userProfile.currentDifficultyLevel + velocity * 0.5);
                     }
                 } else {
-                    // Incorrect answer - decrease difficulty
-                    this.userProfile.currentDifficultyLevel = Math.max(
-                        this.learningParams.minDifficulty,
-                        this.userProfile.currentDifficultyLevel - velocity * velocityMultipliers.incorrect
-                    );
+                    this.userProfile.currentDifficultyLevel = Math.max(0.1,
+                        this.userProfile.currentDifficultyLevel - velocity * 2);
                 }
             }
 
             startQuiz(stakeLevel, questionCount = 5) {
-                if (this.questions.length === 0) {
-                    throw new Error('No questions available to start quiz');
-                }
-
-                if (questionCount > this.questions.length) {
-                    console.warn(`Requested ${questionCount} questions but only ${this.questions.length} available`);
-                    questionCount = this.questions.length;
-                }
-
                 this.currentQuiz = {
                     stakeLevel,
                     questions: [],
@@ -1178,43 +1022,40 @@
                     questionStartTime: Date.now(),
                     questionCount,
                     currentQuestionIndex: 0,
-                    status: 'active'
+                    selectedOption: null
                 };
                 
-                // Adjust learning parameters by stake level
-                const velocitySettings = {
-                    practice: 0.15,
-                    mock: 0.1,
-                    high: 0.05
-                };
-                
-                this.userProfile.learningVelocity = velocitySettings[stakeLevel] || 0.1;
+                switch(stakeLevel) {
+                    case 'practice':
+                        this.userProfile.learningVelocity = 0.15;
+                        break;
+                    case 'mock':
+                        this.userProfile.learningVelocity = 0.1;
+                        break;
+                    case 'high':
+                        this.userProfile.learningVelocity = 0.05;
+                        break;
+                }
                 
                 return this.getNextQuestion();
             }
 
             getNextQuestion() {
-                if (!this.currentQuiz) {
-                    throw new Error('No active quiz session');
-                }
+                if (!this.currentQuiz) return null;
                 
                 const question = this.selectNextQuestion();
-                if (!question) {
-                    console.warn('No next question available');
-                    return null;
-                }
+                if (!question) return null;
                 
                 this.currentQuiz.currentQuestion = question;
                 this.currentQuiz.questionStartTime = Date.now();
                 this.currentQuiz.currentQuestionIndex++;
+                this.currentQuiz.selectedOption = null;
                 
                 return question;
             }
 
             answerQuestion(selectedOption) {
-                if (!this.currentQuiz?.currentQuestion) {
-                    throw new Error('No current question to answer');
-                }
+                if (!this.currentQuiz?.currentQuestion) return null;
                 
                 const question = this.currentQuiz.currentQuestion;
                 const isCorrect = selectedOption === question.correct;
@@ -1235,101 +1076,47 @@
             }
 
             getResults() {
-                if (!this.currentQuiz) {
-                    throw new Error('No quiz session to get results from');
-                }
+                if (!this.currentQuiz) return null;
                 
                 const answered = this.currentQuiz.answeredQuestions;
-                if (answered.length === 0) {
-                    throw new Error('No answers recorded for results');
-                }
-                
                 const correctCount = answered.filter(a => a.isCorrect).length;
                 const totalTime = (Date.now() - this.currentQuiz.startTime) / 1000;
                 
-                const performanceByPattern = this.calculatePerformanceByCategory('questionType');
-                const performanceByInformation = this.calculatePerformanceByCategory('infoType');
+                const performanceByPattern = {};
+                ['pragmatic', 'logical', 'canon', 'statistics', 'mathematical'].forEach(pattern => {
+                    const patternAnswers = answered.filter(a => a.question.questionType === pattern);
+                    if (patternAnswers.length > 0) {
+                        const correct = patternAnswers.filter(a => a.isCorrect).length;
+                        performanceByPattern[pattern] = {
+                            total: patternAnswers.length,
+                            correct,
+                            percentage: (correct / patternAnswers.length) * 100
+                        };
+                    }
+                });
+                
+                const performanceByInformation = {};
+                ['essential', 'contextual', 'abstract', 'supply_chain', 'proofs'].forEach(type => {
+                    const typeAnswers = answered.filter(a => a.question.infoType === type);
+                    if (typeAnswers.length > 0) {
+                        const correct = typeAnswers.filter(a => a.isCorrect).length;
+                        performanceByInformation[type] = {
+                            total: typeAnswers.length,
+                            correct,
+                            percentage: (correct / typeAnswers.length) * 100
+                        };
+                    }
+                });
                 
                 return {
                     totalQuestions: answered.length,
                     correctCount,
-                    score: (correctCount / answered.length) * 100,
+                    score: answered.length > 0 ? (correctCount / answered.length) * 100 : 0,
                     totalTime,
-                    averageTime: totalTime / answered.length,
-                    streak: this.userProfile.streakCount,
                     performanceByPattern,
                     performanceByInformation,
-                    userProfile: { ...this.userProfile },
-                    quizDetails: {
-                        stakeLevel: this.currentQuiz.stakeLevel,
-                        status: this.currentQuiz.status,
-                        startTime: this.currentQuiz.startTime,
-                        endTime: Date.now()
-                    }
+                    userProfile: { ...this.userProfile }
                 };
-            }
-
-            calculatePerformanceByCategory(category) {
-                const performance = {};
-                const answered = this.currentQuiz.answeredQuestions;
-                
-                answered.forEach(answer => {
-                    const categoryValue = answer.question[category];
-                    if (!performance[categoryValue]) {
-                        performance[categoryValue] = { total: 0, correct: 0 };
-                    }
-                    performance[categoryValue].total++;
-                    if (answer.isCorrect) {
-                        performance[categoryValue].correct++;
-                    }
-                });
-                
-                // Calculate percentages
-                Object.keys(performance).forEach(key => {
-                    performance[key].percentage = (performance[key].correct / performance[key].total) * 100;
-                });
-                
-                return performance;
-            }
-
-            /**
-             * Saves progress to localStorage
-             */
-            saveProgress() {
-                try {
-                    const progress = {
-                        userProfile: this.userProfile,
-                        currentQuiz: this.currentQuiz,
-                        timestamp: Date.now(),
-                        version: '1.0'
-                    };
-                    localStorage.setItem('physics-quiz-progress', JSON.stringify(progress));
-                    return true;
-                } catch (error) {
-                    console.error('Failed to save progress:', error);
-                    return false;
-                }
-            }
-
-            /**
-             * Loads progress from localStorage
-             */
-            loadProgress() {
-                try {
-                    const saved = localStorage.getItem('physics-quiz-progress');
-                    if (saved) {
-                        const progress = JSON.parse(saved);
-                        // Validate loaded progress
-                        if (progress.userProfile && progress.timestamp) {
-                            this.userProfile = progress.userProfile;
-                            return true;
-                        }
-                    }
-                    return false;
-                } catch (error) {
-                    console.error('Failed to load progress:', error);
-                    return false;
-                }
             }
         }
 
@@ -1339,53 +1126,21 @@
             currentScreen: 'home-screen',
             quizTimer: null,
             questionTimer: null,
-            timeRemaining: 1800, // 30 minutes
-            currentExplanation: null,
+            timeRemaining: 1800,
+            questionTimeRemaining: 60,
 
             init() {
-                try {
-                    // Load any saved progress
-                    if (this.quizEngine.loadProgress()) {
-                        console.log('Previous progress loaded');
-                    }
-                    
-                    this.showScreen('home-screen');
-                    this.announceToScreenReader('JAMB Physics quiz application loaded');
-                    
-                } catch (error) {
-                    this.showError('Initialization Failed', error.message);
-                }
+                this.showScreen('home-screen');
             },
 
             showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.add('hidden');
                 });
-                
                 const targetScreen = document.getElementById(screenId);
                 if (targetScreen) {
                     targetScreen.classList.remove('hidden');
                     this.currentScreen = screenId;
-                    
-                    // Update screen reader announcement
-                    const screenNames = {
-                        'home-screen': 'Home screen',
-                        'quiz-screen': 'Quiz screen',
-                        'results-screen': 'Results screen',
-                        'question-bank-screen': 'Question bank'
-                    };
-                    
-                    this.announceToScreenReader(screenNames[screenId] || 'New screen');
-                } else {
-                    console.error('Screen not found:', screenId);
-                    this.showScreen('home-screen');
-                }
-            },
-
-            announceToScreenReader(message) {
-                const announcer = document.getElementById('sr-announcer');
-                if (announcer) {
-                    announcer.textContent = message;
                 }
             },
 
@@ -1396,31 +1151,18 @@
 
             startQuiz(stakeLevel) {
                 try {
-                    this.showLoading('Preparing your adaptive quiz...');
-                    
-                    // Small delay to show loading state
-                    setTimeout(() => {
-                        try {
-                            const firstQuestion = this.quizEngine.startQuiz(stakeLevel);
-                            if (!firstQuestion) {
-                                throw new Error('Failed to initialize quiz with questions');
-                            }
-                            
-                            this.showScreen('quiz-screen');
-                            this.initializeQuizInterface(stakeLevel);
-                            this.displayQuestion(firstQuestion);
-                            this.startTimers();
-                            this.hideLoading();
-                            
-                        } catch (error) {
-                            this.hideLoading();
-                            this.showError('Quiz Start Failed', error.message);
-                        }
-                    }, 500);
-                    
+                    const firstQuestion = this.quizEngine.startQuiz(stakeLevel);
+                    if (firstQuestion) {
+                        this.showScreen('quiz-screen');
+                        this.initializeQuizInterface(stakeLevel);
+                        this.displayQuestion(firstQuestion);
+                        this.startTimers();
+                    } else {
+                        alert('No questions available for this quiz type.');
+                    }
                 } catch (error) {
-                    this.hideLoading();
-                    this.showError('Quiz Start Failed', error.message);
+                    console.error('Error starting quiz:', error);
+                    alert('Error starting quiz. Please try again.');
                 }
             },
 
@@ -1429,231 +1171,229 @@
             },
 
             initializeQuizInterface(stakeLevel) {
-                document.getElementById('quiz-title').textContent = 'JAMB Physics Adaptive Quiz';
-                document.getElementById('stake-badge').textContent = this.capitalizeFirst(stakeLevel);
-                document.getElementById('stake-badge').className = `stake-badge stake-${stakeLevel}`;
-                document.getElementById('quiz-progress').style.width = '0%';
-                document.getElementById('progress-text').textContent = `Question 1 of ${this.quizEngine.currentQuiz.questionCount}`;
-                this.timeRemaining = stakeLevel === 'mock' ? 1800 : 3600; // 30 min for mock, 60 min otherwise
-                this.updateTimerDisplay();
+                const elements = {
+                    title: document.getElementById('quiz-title'),
+                    stakeBadge: document.getElementById('stake-badge'),
+                    progress: document.getElementById('quiz-progress'),
+                    progressText: document.getElementById('progress-text'),
+                    timer: document.getElementById('timer-display')
+                };
+
+                if (elements.title) elements.title.textContent = 'JAMB Physics Adaptive Quiz';
                 
-                // Reset explanation box
-                this.hideExplanation();
+                if (elements.stakeBadge) {
+                    elements.stakeBadge.textContent = stakeLevel.charAt(0).toUpperCase() + stakeLevel.slice(1);
+                    elements.stakeBadge.className = `stake-badge stake-${stakeLevel}`;
+                }
+                
+                if (elements.progress) elements.progress.style.width = '0%';
+                if (elements.progressText) elements.progressText.textContent = 'Question 1 of 5';
+                
+                this.timeRemaining = stakeLevel === 'mock' ? 1800 : 3600;
+                this.questionTimeRemaining = 60;
+                this.updateTimerDisplay();
             },
 
             displayQuestion(question) {
-                if (!question) {
-                    this.showError('Question Error', 'No question to display');
-                    return;
-                }
+                if (!question) return;
                 
-                document.getElementById('question-text').textContent = question.question;
-                document.getElementById('question-number').textContent = `Question ${this.quizEngine.currentQuiz.currentQuestionIndex}`;
-                document.getElementById('question-taxonomy').textContent = this.capitalizeFirst(question.questionType);
+                const elements = {
+                    text: document.getElementById('question-text'),
+                    number: document.getElementById('question-number'),
+                    taxonomy: document.getElementById('question-taxonomy'),
+                    progress: document.getElementById('quiz-progress'),
+                    progressText: document.getElementById('progress-text'),
+                    optionsList: document.getElementById('options-list'),
+                    prevBtn: document.getElementById('prev-btn'),
+                    nextBtn: document.getElementById('next-btn')
+                };
+
+                if (elements.text) elements.text.innerHTML = question.question;
+                if (elements.number) elements.number.textContent = `Question ${this.quizEngine.currentQuiz.currentQuestionIndex}`;
+                if (elements.taxonomy) elements.taxonomy.textContent = 
+                    question.questionType.charAt(0).toUpperCase() + question.questionType.slice(1);
                 
                 // Update progress
                 const progress = (this.quizEngine.currentQuiz.currentQuestionIndex / this.quizEngine.currentQuiz.questionCount) * 100;
-                document.getElementById('quiz-progress').style.width = `${progress}%`;
-                document.getElementById('progress-text').textContent = 
+                if (elements.progress) elements.progress.style.width = `${progress}%`;
+                if (elements.progressText) elements.progressText.textContent = 
                     `Question ${this.quizEngine.currentQuiz.currentQuestionIndex} of ${this.quizEngine.currentQuiz.questionCount}`;
                 
                 // Display options
-                const optionsList = document.getElementById('options-list');
-                optionsList.innerHTML = '';
-                
-                question.options.forEach((option, index) => {
-                    const li = document.createElement('li');
-                    li.className = 'option-item';
-                    li.innerHTML = `
-                        <label class="option-label" onclick="PhysicsQuiz.selectOption(${index})" aria-label="Select option ${String.fromCharCode(65 + index)}">
-                            <span class="option-radio" aria-hidden="true"></span>
-                            <span class="option-text">${option}</span>
-                        </label>
-                    `;
-                    optionsList.appendChild(li);
-                });
+                if (elements.optionsList) {
+                    elements.optionsList.innerHTML = '';
+                    question.options.forEach((option, index) => {
+                        const li = document.createElement('li');
+                        li.className = 'option-item';
+                        li.innerHTML = `
+                            <label class="option-label" onclick="PhysicsQuiz.selectOption(${index})">
+                                <span class="option-radio"></span>
+                                <span class="option-text">${option}</span>
+                            </label>
+                        `;
+                        elements.optionsList.appendChild(li);
+                    });
+                }
                 
                 // Update navigation buttons
-                document.getElementById('prev-btn').disabled = this.quizEngine.currentQuiz.currentQuestionIndex === 1;
-                document.getElementById('next-btn').textContent = 
-                    this.quizEngine.currentQuiz.currentQuestionIndex === this.quizEngine.currentQuiz.questionCount ? 
-                    'Finish Quiz' : 'Next Question';
+                if (elements.prevBtn) {
+                    elements.prevBtn.disabled = this.quizEngine.currentQuiz.currentQuestionIndex === 1;
+                }
                 
-                // Update adaptive metrics
+                if (elements.nextBtn) {
+                    elements.nextBtn.textContent = 
+                        this.quizEngine.currentQuiz.currentQuestionIndex === this.quizEngine.currentQuiz.questionCount ? 
+                        'Finish Quiz' : 'Next Question';
+                }
+                
                 this.updateAdaptiveMetrics();
                 
-                // Reset selection and explanation
-                this.clearOptionSelection();
-                this.hideExplanation();
+                // Reset selection
+                document.querySelectorAll('.option-label').forEach(label => {
+                    label.classList.remove('selected');
+                });
                 
-                // Announce new question to screen reader
-                this.announceToScreenReader(`Question ${this.quizEngine.currentQuiz.currentQuestionIndex}: ${question.question.substring(0, 100)}...`);
+                // Reset question timer
+                this.questionTimeRemaining = 60;
             },
 
             selectOption(optionIndex) {
-                this.clearOptionSelection();
+                document.querySelectorAll('.option-label').forEach(label => {
+                    label.classList.remove('selected');
+                });
                 const labels = document.querySelectorAll('.option-label');
                 if (labels[optionIndex]) {
                     labels[optionIndex].classList.add('selected');
-                    this.announceToScreenReader(`Option ${String.fromCharCode(65 + optionIndex)} selected`);
+                    this.quizEngine.currentQuiz.selectedOption = optionIndex;
                 }
-            },
-
-            clearOptionSelection() {
-                document.querySelectorAll('.option-label').forEach(label => {
-                    label.classList.remove('selected', 'correct', 'incorrect');
-                });
-            },
-
-            showExplanation(question, selectedOption, isCorrect) {
-                const explanationBox = document.getElementById('explanation-box');
-                const explanationContent = document.getElementById('explanation-content');
-                const correctAnswerDisplay = document.getElementById('correct-answer-display');
-                
-                explanationContent.textContent = question.explanation;
-                
-                if (!isCorrect) {
-                    correctAnswerDisplay.textContent = `Correct answer: ${question.options[question.correct]}`;
-                    correctAnswerDisplay.classList.remove('hidden');
-                } else {
-                    correctAnswerDisplay.classList.add('hidden');
-                }
-                
-                explanationBox.classList.remove('hidden');
-                
-                // Highlight correct/incorrect answers
-                const labels = document.querySelectorAll('.option-label');
-                labels[question.correct].classList.add('correct');
-                if (!isCorrect && selectedOption >= 0) {
-                    labels[selectedOption].classList.add('incorrect');
-                }
-            },
-
-            hideExplanation() {
-                const explanationBox = document.getElementById('explanation-box');
-                explanationBox.classList.add('hidden');
             },
 
             nextQuestion() {
-                const selectedLabel = document.querySelector('.option-label.selected');
-                let selectedOption = -1;
-                let showExplanation = false;
-                
-                if (selectedLabel) {
-                    const labels = Array.from(document.querySelectorAll('.option-label'));
-                    selectedOption = labels.indexOf(selectedLabel);
-                    showExplanation = true;
-                } else if (this.quizEngine.currentQuiz.currentQuestionIndex < this.quizEngine.currentQuiz.questionCount) {
-                    if (!confirm('Continue without selecting an answer?')) return;
-                }
-                
-                if (selectedOption >= 0) {
-                    const answerData = this.quizEngine.answerQuestion(selectedOption);
-                    if (showExplanation) {
-                        this.showExplanation(
-                            this.quizEngine.currentQuiz.currentQuestion,
-                            selectedOption,
-                            answerData.isCorrect
-                        );
-                        
-                        // Auto-advance after explanation
-                        setTimeout(() => {
-                            this.advanceToNextQuestion();
-                        }, 3000);
-                        return;
+                try {
+                    const selectedOption = this.quizEngine.currentQuiz.selectedOption;
+                    
+                    if (selectedOption === null && this.quizEngine.currentQuiz.currentQuestionIndex < this.quizEngine.currentQuiz.questionCount) {
+                        if (!confirm('Continue without selecting an answer?')) return;
+                        this.quizEngine.answerQuestion(-1);
+                    } else if (selectedOption !== null) {
+                        this.quizEngine.answerQuestion(selectedOption);
                     }
-                }
-                
-                this.advanceToNextQuestion();
-            },
-
-            advanceToNextQuestion() {
-                if (this.quizEngine.currentQuiz.currentQuestionIndex >= this.quizEngine.currentQuiz.questionCount) {
-                    this.finishQuiz();
-                } else {
-                    const nextQuestion = this.quizEngine.getNextQuestion();
-                    if (nextQuestion) {
-                        this.displayQuestion(nextQuestion);
-                    } else {
+                    
+                    if (this.quizEngine.currentQuiz.currentQuestionIndex >= this.quizEngine.currentQuiz.questionCount) {
                         this.finishQuiz();
+                    } else {
+                        const nextQuestion = this.quizEngine.getNextQuestion();
+                        if (nextQuestion) {
+                            this.displayQuestion(nextQuestion);
+                        } else {
+                            this.finishQuiz();
+                        }
                     }
+                } catch (error) {
+                    console.error('Error in nextQuestion:', error);
+                    alert('An error occurred. Please try again.');
                 }
             },
 
             previousQuestion() {
-                // In a full implementation, this would navigate back through question history
-                alert('Previous question functionality would track question history in full implementation. For now, please continue with the next question.');
+                alert('Previous question navigation is available in the premium version.');
             },
 
             finishQuiz() {
-                try {
-                    this.clearTimers();
-                    const results = this.quizEngine.getResults();
+                this.clearTimers();
+                const results = this.quizEngine.getResults();
+                if (results) {
                     this.displayResults(results);
                     this.showScreen('results-screen');
-                    
-                    // Save progress
-                    this.quizEngine.saveProgress();
-                    
-                } catch (error) {
-                    this.showError('Results Error', error.message);
+                } else {
+                    alert('Error calculating results. Please try again.');
                 }
             },
 
             displayResults(results) {
-                document.getElementById('score-display').textContent = `${results.score.toFixed(1)}%`;
-                document.getElementById('correct-display').textContent = results.correctCount;
-                document.getElementById('incorrect-display').textContent = results.totalQuestions - results.correctCount;
-                document.getElementById('time-display').textContent = this.formatTime(results.totalTime);
+                const elements = {
+                    score: document.getElementById('score-display'),
+                    correct: document.getElementById('correct-display'),
+                    incorrect: document.getElementById('incorrect-display'),
+                    time: document.getElementById('time-display'),
+                    patternBreakdown: document.getElementById('pattern-breakdown'),
+                    informationBreakdown: document.getElementById('information-breakdown')
+                };
+
+                if (elements.score) elements.score.textContent = `${Math.round(results.score)}%`;
+                if (elements.correct) elements.correct.textContent = results.correctCount;
+                if (elements.incorrect) elements.incorrect.textContent = results.totalQuestions - results.correctCount;
+                if (elements.time) elements.time.textContent = this.formatTime(results.totalTime);
                 
                 // Display pattern breakdown
-                const patternBreakdown = document.getElementById('pattern-breakdown');
-                patternBreakdown.innerHTML = Object.entries(results.performanceByPattern)
-                    .map(([pattern, data]) => `
-                        <div class="flex justify-between mb-xs">
-                            <span>${this.capitalizeFirst(pattern)}:</span>
-                            <span>${data.percentage.toFixed(1)}% (${data.correct}/${data.total})</span>
-                        </div>
-                    `).join('');
+                if (elements.patternBreakdown) {
+                    if (Object.keys(results.performanceByPattern).length > 0) {
+                        elements.patternBreakdown.innerHTML = Object.entries(results.performanceByPattern)
+                            .map(([pattern, data]) => `
+                                <div class="flex justify-between mb-xs">
+                                    <span>${pattern.charAt(0).toUpperCase() + pattern.slice(1)}:</span>
+                                    <span>${Math.round(data.percentage)}% (${data.correct}/${data.total})</span>
+                                </div>
+                            `).join('');
+                    } else {
+                        elements.patternBreakdown.innerHTML = '<p class="text-muted">No pattern data available</p>';
+                    }
+                }
                 
                 // Display information breakdown
-                const informationBreakdown = document.getElementById('information-breakdown');
-                informationBreakdown.innerHTML = Object.entries(results.performanceByInformation)
-                    .map(([type, data]) => `
-                        <div class="flex justify-between mb-xs">
-                            <span>${this.capitalizeFirst(type)}:</span>
-                            <span>${data.percentage.toFixed(1)}% (${data.correct}/${data.total})</span>
-                        </div>
-                    `).join('');
-                    
-                this.announceToScreenReader(`Quiz completed with score ${results.score.toFixed(1)} percent`);
+                if (elements.informationBreakdown) {
+                    if (Object.keys(results.performanceByInformation).length > 0) {
+                        elements.informationBreakdown.innerHTML = Object.entries(results.performanceByInformation)
+                            .map(([type, data]) => `
+                                <div class="flex justify-between mb-xs">
+                                    <span>${type.charAt(0).toUpperCase() + type.slice(1)}:</span>
+                                    <span>${Math.round(data.percentage)}% (${data.correct}/${data.total})</span>
+                                </div>
+                            `).join('');
+                    } else {
+                        elements.informationBreakdown.innerHTML = '<p class="text-muted">No information type data available</p>';
+                    }
+                }
             },
 
             updateAdaptiveMetrics() {
                 const profile = this.quizEngine.userProfile;
-                const currentScore = profile.totalQuestions > 0 ? 
-                    ((profile.totalCorrect / profile.totalQuestions) * 100) : 0;
-                    
-                document.getElementById('current-score').textContent = `${currentScore.toFixed(1)}%`;
+                const elements = {
+                    currentScore: document.getElementById('current-score'),
+                    difficultyLevel: document.getElementById('difficulty-level'),
+                    patternType: document.getElementById('pattern-type'),
+                    infoClassification: document.getElementById('info-classification')
+                };
+
+                if (elements.currentScore) {
+                    elements.currentScore.textContent = 
+                        profile.totalQuestions > 0 ? `${Math.round((profile.totalCorrect / profile.totalQuestions) * 100)}%` : '0%';
+                }
                 
-                document.getElementById('difficulty-level').textContent = 
-                    profile.currentDifficultyLevel < 0.4 ? 'Easy' : 
-                    profile.currentDifficultyLevel < 0.7 ? 'Medium' : 'Hard';
+                if (elements.difficultyLevel) {
+                    elements.difficultyLevel.textContent = 
+                        profile.currentDifficultyLevel < 0.4 ? 'Easy' : 
+                        profile.currentDifficultyLevel < 0.7 ? 'Medium' : 'Hard';
+                }
                 
                 const currentPattern = this.quizEngine.currentQuiz?.currentQuestion?.questionType;
-                if (currentPattern) {
-                    document.getElementById('pattern-type').textContent = this.capitalizeFirst(currentPattern);
+                if (currentPattern && elements.patternType) {
+                    elements.patternType.textContent = 
+                        currentPattern.charAt(0).toUpperCase() + currentPattern.slice(1);
                 }
                 
                 const currentInfo = this.quizEngine.currentQuiz?.currentQuestion?.infoType;
-                if (currentInfo) {
-                    document.getElementById('info-classification').textContent = this.capitalizeFirst(currentInfo);
+                if (currentInfo && elements.infoClassification) {
+                    elements.infoClassification.textContent = 
+                        currentInfo.charAt(0).toUpperCase() + currentInfo.slice(1);
                 }
             },
 
             // Timer Management
             startTimers() {
                 this.clearTimers();
+                
+                // Main quiz timer
                 this.quizTimer = setInterval(() => {
                     this.timeRemaining--;
                     this.updateTimerDisplay();
@@ -1661,13 +1401,43 @@
                         this.finishQuiz();
                     }
                 }, 1000);
+                
+                // Question timer
+                this.questionTimer = setInterval(() => {
+                    this.questionTimeRemaining--;
+                    this.updateQuestionTimer();
+                    if (this.questionTimeRemaining <= 0) {
+                        this.nextQuestion();
+                    }
+                }, 1000);
             },
 
             updateTimerDisplay() {
                 const minutes = Math.floor(this.timeRemaining / 60);
                 const seconds = this.timeRemaining % 60;
-                document.getElementById('timer-display').textContent = 
-                    `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                const timerElement = document.getElementById('timer-display');
+                if (timerElement) {
+                    timerElement.textContent = 
+                        `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            },
+
+            updateQuestionTimer() {
+                const minutes = Math.floor(this.questionTimeRemaining / 60);
+                const seconds = this.questionTimeRemaining % 60;
+                const timerElement = document.getElementById('question-timer');
+                if (timerElement) {
+                    timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    // Change color when time is running low
+                    if (this.questionTimeRemaining <= 10) {
+                        timerElement.style.color = 'var(--error)';
+                    } else if (this.questionTimeRemaining <= 30) {
+                        timerElement.style.color = 'var(--warning)';
+                    } else {
+                        timerElement.style.color = 'var(--accent)';
+                    }
+                }
             },
 
             clearTimers() {
@@ -1687,128 +1457,257 @@
                 return `${mins}:${secs.toString().padStart(2, '0')}`;
             },
 
-            capitalizeFirst(string) {
-                return string ? string.charAt(0).toUpperCase() + string.slice(1) : '';
-            },
-
             // Navigation
             exitQuiz() {
-                if (confirm('Are you sure you want to exit the quiz? Your progress will be saved.')) {
-                    this.quizEngine.saveProgress();
+                if (confirm('Exit quiz? Progress will be lost.')) {
                     this.clearTimers();
                     this.showScreen('home-screen');
                 }
             },
 
             retakeQuiz() {
-                this.startQuiz('practice');
+                const stakeLevel = this.quizEngine.currentQuiz?.stakeLevel || 'practice';
+                this.startQuiz(stakeLevel);
             },
 
             reviewAnswers() {
-                alert('Full answer review feature would show detailed explanations for all questions. This is available in the premium version.');
+                if (!this.quizEngine.currentQuiz?.answeredQuestions) {
+                    alert('No answers to review.');
+                    return;
+                }
+                
+                const answers = this.quizEngine.currentQuiz.answeredQuestions;
+                let reviewText = 'Quiz Review:\n\n';
+                
+                answers.forEach((answer, index) => {
+                    const question = answer.question;
+                    const selectedText = answer.selectedOption >= 0 ? question.options[answer.selectedOption] : 'No answer';
+                    const correctText = question.options[question.correct];
+                    
+                    reviewText += `Question ${index + 1}: ${question.question}\n`;
+                    reviewText += `Your answer: ${selectedText}\n`;
+                    reviewText += `Correct answer: ${correctText}\n`;
+                    reviewText += `Result: ${answer.isCorrect ? '✓ Correct' : '✗ Incorrect'}\n`;
+                    if (question.explanation) {
+                        reviewText += `Explanation: ${question.explanation}\n`;
+                    }
+                    reviewText += '\n';
+                });
+                
+                alert(reviewText);
             },
 
             showQuestionBank() {
-                this.displayQuestionBank();
-                this.showScreen('question-bank-screen');
-            },
-
-            displayQuestionBank() {
-                const container = document.getElementById('question-bank-list');
-                container.innerHTML = '';
-                
-                this.quizEngine.questions.forEach((question, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'question-bank-item';
-                    item.innerHTML = `
-                        <div class="flex justify-between items-start mb-sm">
-                            <strong>${question.id}</strong>
-                            <span class="premium-badge">${this.capitalizeFirst(question.questionType)}</span>
-                        </div>
-                        <p class="mb-sm">${question.question}</p>
-                        <div class="text-sm text-muted">
-                            <span>Topic: ${question.topic}</span>
-                            <span class="mx-2">•</span>
-                            <span>Difficulty: ${question.difficulty}</span>
-                        </div>
-                    `;
-                    item.addEventListener('click', () => {
-                        alert(`Question: ${question.question}\n\nCorrect Answer: ${question.options[question.correct]}\n\nExplanation: ${question.explanation}`);
+                let bankText = 'JAMB Physics Question Bank:\n\n';
+                PHYSICS_QUESTIONS.forEach((q, index) => {
+                    bankText += `${index + 1}. [${q.topic}] ${q.question}\n`;
+                    q.options.forEach((option, i) => {
+                        bankText += `   ${String.fromCharCode(65 + i)}. ${option}\n`;
                     });
-                    container.appendChild(item);
+                    bankText += `   Correct: ${String.fromCharCode(65 + q.correct)}\n\n`;
                 });
-            },
-
-            filterQuestions() {
-                const searchTerm = document.getElementById('question-search').value.toLowerCase();
-                const items = document.querySelectorAll('.question-bank-item');
-                
-                items.forEach(item => {
-                    const text = item.textContent.toLowerCase();
-                    item.style.display = text.includes(searchTerm) ? 'block' : 'none';
-                });
+                alert(bankText);
             },
 
             // Modal Management
             showPremiumModal() {
-                document.getElementById('premium-modal').classList.remove('hidden');
+                const modal = document.getElementById('premium-modal');
+                if (modal) modal.classList.remove('hidden');
             },
 
             closeModal(modalId) {
-                document.getElementById(modalId).classList.add('hidden');
+                const modal = document.getElementById(modalId);
+                if (modal) modal.classList.add('hidden');
             },
 
-            showError(title, message) {
-                document.getElementById('error-message').textContent = message;
-                document.getElementById('error-modal').classList.remove('hidden');
-                console.error(`${title}: ${message}`);
-            },
-
-            async processPayment() {
-                try {
-                    this.showLoading('Processing payment with Solana...');
-                    
-                    // Simulate payment processing
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    
-                    this.hideLoading();
-                    this.closeModal('premium-modal');
-                    alert('Payment successful! Premium features unlocked.');
-                    
-                } catch (error) {
-                    this.hideLoading();
-                    this.showError('Payment Failed', error.message);
+            handleModalBackdrop(event, modalId) {
+                if (event.target === event.currentTarget) {
+                    this.closeModal(modalId);
                 }
             },
 
+            // Payment Processing
+            async processPayment() {
+                try {
+                    this.showLoading('Processing Solana payment...');
+                    
+                    setTimeout(() => {
+                        this.hideLoading();
+                        this.closeModal('premium-modal');
+                        alert('Payment successful! Premium features unlocked.\n\nPremium features include:\n• Unlimited questions\n• Detailed analytics\n• Question explanations\n• Progress tracking');
+                    }, 3000);
+                    
+                } catch (error) {
+                    this.hideLoading();
+                    alert('Payment failed: ' + error.message);
+                }
+            },
+
+            // Loading States
             showLoading(text = 'Loading...') {
-                document.getElementById('loading-text').textContent = text;
-                document.getElementById('loading').classList.remove('hidden');
+                const loadingText = document.getElementById('loading-text');
+                const loading = document.getElementById('loading');
+                if (loadingText) loadingText.textContent = text;
+                if (loading) loading.classList.remove('hidden');
             },
 
             hideLoading() {
-                document.getElementById('loading').classList.add('hidden');
+                const loading = document.getElementById('loading');
+                if (loading) loading.classList.add('hidden');
             },
 
+            // Save Progress
             saveProgress() {
-                if (this.quizEngine.saveProgress()) {
-                    alert('Progress saved successfully!');
-                } else {
-                    this.showError('Save Failed', 'Could not save progress to browser storage');
+                if (!this.quizEngine.currentQuiz) {
+                    alert('No active quiz to save.');
+                    return;
+                }
+                
+                try {
+                    const progressData = {
+                        quiz: this.quizEngine.currentQuiz,
+                        userProfile: this.quizEngine.userProfile,
+                        timestamp: Date.now()
+                    };
+                    
+                    // In a real implementation, this would sync with a server
+                    // For now, we'll just show a success message
+                    alert('Progress saved successfully! (Note: This is a demo - real version would sync to cloud)');
+                } catch (error) {
+                    alert('Failed to save progress. Please try again.');
+                    console.error('Save error:', error);
                 }
             }
         };
 
-        // Initialize the application
+        // Initialize the application when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            PhysicsQuiz.init();
+            try {
+                PhysicsQuiz.init();
+            } catch (error) {
+                console.error('Initialization error:', error);
+                alert('Failed to initialize quiz application. Please refresh the page.');
+            }
         });
 
-        // Global error handler
-        window.addEventListener('error', function(e) {
-            console.error('Global error:', e.error);
-            PhysicsQuiz.showError('Unexpected Error', 'An unexpected error occurred. The app will return to home screen.');
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (PhysicsQuiz.currentScreen === 'quiz-screen') {
+                // Number keys 1-4 for option selection
+                if (event.key >= '1' && event.key <= '4') {
+                    event.preventDefault();
+                    const optionIndex = parseInt(event.key) - 1;
+                    const options = document.querySelectorAll('.option-label');
+                    if (options[optionIndex]) {
+                        PhysicsQuiz.selectOption(optionIndex);
+                    }
+                }
+                
+                // Enter key for next question
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    PhysicsQuiz.nextQuestion();
+                }
+                
+                // Escape key to exit quiz
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    PhysicsQuiz.exitQuiz();
+                }
+            }
+            
+            // Close modals with Escape
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal-overlay:not(.hidden)');
+                modals.forEach(modal => {
+                    const modalId = modal.id;
+                    if (modalId) {
+                        PhysicsQuiz.closeModal(modalId);
+                    }
+                });
+            }
         });
+
+        // Prevent accidental page reload during quiz
+        window.addEventListener('beforeunload', function(event) {
+            if (PhysicsQuiz.currentScreen === 'quiz-screen' && 
+                PhysicsQuiz.quizEngine.currentQuiz && 
+                PhysicsQuiz.quizEngine.currentQuiz.answeredQuestions.length > 0) {
+                event.preventDefault();
+                event.returnValue = 'You have an active quiz. Are you sure you want to leave?';
+                return event.returnValue;
+            }
+        });
+
+        // Handle visibility change to manage timers
+        document.addEventListener('visibilitychange', function() {
+            if (PhysicsQuiz.currentScreen === 'quiz-screen' && PhysicsQuiz.quizEngine.currentQuiz) {
+                if (document.hidden) {
+                    // Pause timers when tab becomes hidden
+                    PhysicsQuiz.clearTimers();
+                } else {
+                    // Resume timers when tab becomes visible
+                    PhysicsQuiz.startTimers();
+                }
+            }
+        });
+
+        // Touch/swipe support for mobile navigation
+        let touchStartY = 0;
+        let touchEndY = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(event) {
+            touchStartY = event.changedTouches[0].screenY;
+            touchStartX = event.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', function(event) {
+            touchEndY = event.changedTouches[0].screenY;
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diffY = touchStartY - touchEndY;
+            const diffX = touchStartX - touchEndX;
+            
+            if (PhysicsQuiz.currentScreen === 'quiz-screen') {
+                // Prioritize vertical swipes
+                if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > swipeThreshold) {
+                    if (diffY > 0) {
+                        // Swipe up - next question
+                        PhysicsQuiz.nextQuestion();
+                    }
+                    // Swipe down could be used for other actions in future
+                }
+                // Horizontal swipes could be used for navigation between questions
+                else if (Math.abs(diffX) > swipeThreshold) {
+                    if (diffX > 0) {
+                        // Swipe left - could implement question navigation
+                    } else {
+                        // Swipe right - could implement question navigation
+                    }
+                }
+            }
+        }
+
+        // Error handling for uncaught errors
+        window.addEventListener('error', function(event) {
+            console.error('JavaScript error:', event.error);
+            // In development, you might want to show errors
+            // In production, you'd log them to a service
+        });
+
+        // Service worker registration for potential offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Service worker would be registered here for offline support
+                // navigator.serviceWorker.register('/sw.js');
+            });
+        }
     </script>
 </body>
 </html>
