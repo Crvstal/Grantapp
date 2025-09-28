@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrantApp - Solana Payment Integration</title>
+    <style>
+        :root {
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --primary: #000000;
+            --secondary: #FFFFFF;
+            --accent: #D4AF37;
+            --success: #059669;
+            --warning: #D97706;
+            --error: #DC2626;
+            --info: #2563EB;
+            --neutral-100: #F5F5F5;
+            --neutral-200: #E5E5E5;
+            --neutral-500: #737373;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --radius: 0.375rem;
+            --border: 1px solid var(--neutral-200);
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: var(--font-primary);
+            margin: 0;
+            padding: var(--space-lg);
+            background: var(--neutral-100);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--secondary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: var(--space-lg);
+            text-align: center;
+        }
+
+        .content {
+            padding: var(--space-xl);
+        }
+
+        .section {
+            margin-bottom: var(--space-xl);
+            padding: var(--space-lg);
+            border: var(--border);
+            border-radius: var(--radius);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            margin: var(--space-sm);
+            transition: all var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary { background: var(--primary); color: var(--secondary); }
+        .btn-success { background: var(--success); color: var(--secondary); }
+        .btn-info { background: var(--info); color: var(--secondary); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .card {
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow);
+        }
+
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            border-radius: var(--radius);
+            padding: var(--space-xl);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: var(--space-lg) auto;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--neutral-200);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: var(--space-md) 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width var(--transition);
+        }
+
+        .hidden { display: none; }
+        
+        @media (max-width: 768px) {
+            body { padding: var(--space-sm); }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GrantApp - Solana Payment Integration</h1>
+            <p>Secure cryptocurrency payments for premium features</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Premium Subscription Plans</h2>
+                <p>Upgrade your GrantApp experience with premium features</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>Basic Premium</h3>
+                        <div class="price">5 USDC / month</div>
+                        <ul>
+                            <li>Full question access</li>
+                            <li>Basic analytics</li>
+                            <li>Ad-free experience</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="initiatePayment('basic_monthly', 5)">Pay with Solana</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Pro Premium</h3>
+                        <div class="price">15 USDC / month</div>
+                        <ul>
+                            <li>All Basic features</li>
+                            <li>Advanced analytics</li>
+                            <li>Priority support</li>
+                            <li>Early access to features</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="initiatePayment('pro_monthly', 15)">Pay with Solana</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Annual Pro</h3>
+                        <div class="price">150 USDC / year</div>
+                        <ul>
+                            <li>All Pro features</li>
+                            <li>2 months free</li>
+                            <li>Highest priority support</li>
+                            <li>Custom features</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="initiatePayment('annual_pro', 150)">Pay with Solana</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Transaction History</h2>
+                <div id="transaction-history">
+                    <p>No transactions yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="payment-modal hidden">
+        <div class="modal-content">
+            <h3>Complete Your Payment</h3>
+            <p id="payment-amount">Amount: 0 USDC</p>
+            <p id="payment-plan">Plan: Loading...</p>
+            
+            <div class="qr-code" id="qr-code-container">
+                <span>Generating QR Code...</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="payment-progress" style="width: 0%"></div>
+            </div>
+            <p id="payment-status">Waiting for payment...</p>
+            
+            <div style="margin-top: var(--space-lg);">
+                <button class="btn" onclick="closePaymentModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="checkPaymentStatus()">Check Status</button>
+                <a id="wallet-link" href="#" target="_blank" class="btn btn-success">Open Wallet</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Solana Pay Configuration
+        const SOLANA_CONFIG = {
+            // Your wallet address
+            MERCHANT_WALLET: 'GR8TuDpbnDvuLzW4JBCLjbeLvGFs1p21XBytLx6rA7XD',
+            
+            // RPC endpoints (fallback options)
+            RPC_ENDPOINTS: [
+                'https://api.mainnet-beta.solana.com',
+                'https://solana-mainnet.rpc.extrnode.com',
+                'https://rpc.ankr.com/solana'
+            ],
+            
+            // USDC Token Mint on Mainnet
+            USDC_MINT: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+            
+            // Network
+            NETWORK: 'mainnet-beta',
+            
+            // Payment timeout (5 minutes)
+            PAYMENT_TIMEOUT: 5 * 60 * 1000
+        };
+
+        // Current payment state
+        let currentPayment = {
+            reference: null,
+            amount: 0,
+            plan: '',
+            status: 'pending',
+            startTime: null,
+            verificationInterval: null
+        };
+
+        // Transaction history
+        let transactionHistory = JSON.parse(localStorage.getItem('grantapp_transactions') || '[]');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTransactionHistory();
+        });
+
+        // Generate a unique reference for each payment
+        function generatePaymentReference() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 15);
+            return `grantapp_${timestamp}_${random}`;
+        }
+
+        // Create Solana Pay URL
+        function createSolanaPayURL(amount, reference, label = 'GrantApp Premium') {
+            const params = new URLSearchParams({
+                recipient: SOLANA_CONFIG.MERCHANT_WALLET,
+                amount: amount.toString(),
+                'spl-token': SOLANA_CONFIG.USDC_MINT,
+                reference: reference,
+                label: label,
+                message: `Payment for ${label} subscription`,
+                memo: `GrantApp_${reference}`
+            });
+
+            return `solana:${SOLANA_CONFIG.MERCHANT_WALLET}?${params.toString()}`;
+        }
+
+        // Generate QR code for payment
+        function generateQRCode(url, container) {
+            // Using a simple QR code generation service
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+            
+            container.innerHTML = `<img src="${qrUrl}" alt="Solana Pay QR Code" style="width: 100%; height: 100%; border-radius: var(--radius);">`;
+        }
+
+        // Initiate payment process
+        async function initiatePayment(plan, amount) {
+            try {
+                // Generate payment reference
+                const reference = generatePaymentReference();
+                
+                // Create payment URL
+                const paymentUrl = createSolanaPayURL(amount, reference, `GrantApp ${plan.replace('_', ' ')}`);
+                
+                // Update current payment state
+                currentPayment = {
+                    reference: reference,
+                    amount: amount,
+                    plan: plan,
+                    status: 'pending',
+                    startTime: Date.now(),
+                    paymentUrl: paymentUrl
+                };
+
+                // Show payment modal
+                showPaymentModal(amount, plan, paymentUrl, reference);
+                
+                // Start payment verification
+                startPaymentVerification(reference);
+                
+            } catch (error) {
+                console.error('Payment initiation error:', error);
+                alert('Error initiating payment. Please try again.');
+            }
+        }
+
+        // Show payment modal
+        function showPaymentModal(amount, plan, paymentUrl, reference) {
+            document.getElementById('payment-amount').textContent = `Amount: ${amount} USDC`;
+            document.getElementById('payment-plan').textContent = `Plan: ${plan.replace('_', ' ')}`;
+            
+            // Generate QR code
+            generateQRCode(paymentUrl, document.getElementById('qr-code-container'));
+            
+            // Update wallet link
+            document.getElementById('wallet-link').href = paymentUrl;
+            
+            // Show modal
+            document.getElementById('payment-modal').classList.remove('hidden');
+            
+            // Update progress
+            updatePaymentProgress(10);
+        }
+
+        // Close payment modal
+        function closePaymentModal() {
+            document.getElementById('payment-modal').classList.add('hidden');
+            
+            // Clear verification interval
+            if (currentPayment.verificationInterval) {
+                clearInterval(currentPayment.verificationInterval);
+            }
+            
+            // Reset payment state
+            currentPayment.status = 'cancelled';
+        }
+
+        // Start payment verification process
+        function startPaymentVerification(reference) {
+            let progress = 10;
+            updatePaymentProgress(progress);
+            
+            currentPayment.verificationInterval = setInterval(async () => {
+                try {
+                    const verified = await verifyPaymentOnChain(reference);
+                    
+                    if (verified) {
+                        // Payment verified successfully
+                        clearInterval(currentPayment.verificationInterval);
+                        handleSuccessfulPayment();
+                    } else {
+                        // Continue checking
+                        progress = Math.min(progress + 5, 90);
+                        updatePaymentProgress(progress);
+                        
+                        // Check if timeout reached
+                        if (Date.now() - currentPayment.startTime > SOLANA_CONFIG.PAYMENT_TIMEOUT) {
+                            clearInterval(currentPayment.verificationInterval);
+                            handlePaymentTimeout();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Payment verification error:', error);
+                    progress = Math.min(progress + 2, 90);
+                    updatePaymentProgress(progress);
+                }
+            }, 3000); // Check every 3 seconds
+        }
+
+        // Verify payment on Solana blockchain
+        async function verifyPaymentOnChain(reference) {
+            try {
+                // Try different RPC endpoints
+                for (const endpoint of SOLANA_CONFIG.RPC_ENDPOINTS) {
+                    try {
+                        const verified = await verifyWithRPC(endpoint, reference);
+                        if (verified !== null) return verified;
+                    } catch (error) {
+                        console.warn(`RPC endpoint ${endpoint} failed:`, error);
+                        continue;
+                    }
+                }
+                return false;
+            } catch (error) {
+                console.error('All RPC endpoints failed:', error);
+                return false;
+            }
+        }
+
+        // Verify payment using specific RPC endpoint
+        async function verifyWithRPC(endpoint, reference) {
+            // This is a simplified verification - in production, you'd use proper Solana web3.js
+            // For demo purposes, we'll simulate verification with random success
+            
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // In a real implementation, you would:
+            // 1. Connect to Solana using @solana/web3.js
+            // 2. Search for transactions to your wallet with the reference memo
+            // 3. Verify the transaction amount and confirmation status
+            
+            // For demo, randomly succeed after some time
+            const elapsed = Date.now() - currentPayment.startTime;
+            if (elapsed > 10000) { // Succeed after 10 seconds for demo
+                return Math.random() > 0.3; // 70% success rate for demo
+            }
+            
+            return false;
+        }
+
+        // Update payment progress bar
+        function updatePaymentProgress(percent) {
+            document.getElementById('payment-progress').style.width = `${percent}%`;
+            
+            if (percent < 30) {
+                document.getElementById('payment-status').textContent = 'Waiting for payment...';
+            } else if (percent < 70) {
+                document.getElementById('payment-status').textContent = 'Checking blockchain...';
+            } else {
+                document.getElementById('payment-status').textContent = 'Finalizing...';
+            }
+        }
+
+        // Handle successful payment
+        function handleSuccessfulPayment() {
+            updatePaymentProgress(100);
+            document.getElementById('payment-status').textContent = 'Payment confirmed! 🎉';
+            document.getElementById('payment-status').style.color = 'var(--success)';
+            
+            // Add to transaction history
+            const transaction = {
+                reference: currentPayment.reference,
+                amount: currentPayment.amount,
+                plan: currentPayment.plan,
+                timestamp: Date.now(),
+                status: 'completed'
+            };
+            
+            transactionHistory.unshift(transaction);
+            localStorage.setItem('grantapp_transactions', JSON.stringify(transactionHistory));
+            
+            // Update UI
+            updateTransactionHistory();
+            
+            // Activate premium features
+            activatePremiumFeatures(currentPayment.plan);
+            
+            // Close modal after delay
+            setTimeout(() => {
+                closePaymentModal();
+                alert('Payment successful! Premium features activated.');
+            }, 2000);
+        }
+
+        // Handle payment timeout
+        function handlePaymentTimeout() {
+            document.getElementById('payment-status').textContent = 'Payment timeout. Please try again.';
+            document.getElementById('payment-status').style.color = 'var(--error)';
+            
+            // Add to transaction history as failed
+            const transaction = {
+                reference: currentPayment.reference,
+                amount: currentPayment.amount,
+                plan: currentPayment.plan,
+                timestamp: Date.now(),
+                status: 'timeout'
+            };
+            
+            transactionHistory.unshift(transaction);
+            localStorage.setItem('grantapp_transactions', JSON.stringify(transactionHistory));
+            updateTransactionHistory();
+        }
+
+        // Manual payment status check
+        async function checkPaymentStatus() {
+            try {
+                document.getElementById('payment-status').textContent = 'Checking status...';
+                
+                const verified = await verifyPaymentOnChain(currentPayment.reference);
+                
+                if (verified) {
+                    handleSuccessfulPayment();
+                } else {
+                    document.getElementById('payment-status').textContent = 'Payment not confirmed yet.';
+                }
+            } catch (error) {
+                document.getElementById('payment-status').textContent = 'Error checking status.';
+                console.error('Status check error:', error);
+            }
+        }
+
+        // Activate premium features
+        function activatePremiumFeatures(plan) {
+            // Store premium status
+            const premiumData = {
+                active: true,
+                plan: plan,
+                activatedAt: Date.now(),
+                features: getFeaturesForPlan(plan)
+            };
+            
+            localStorage.setItem('grantapp_premium', JSON.stringify(premiumData));
+            
+            // You would typically trigger feature activation in your main app here
+            console.log('Premium features activated:', plan);
+        }
+
+        // Get features for each plan
+        function getFeaturesForPlan(plan) {
+            const features = {
+                basic_monthly: ['full_question_access', 'basic_analytics', 'ad_free'],
+                pro_monthly: ['full_question_access', 'advanced_analytics', 'priority_support', 'early_access'],
+                annual_pro: ['full_question_access', 'advanced_analytics', 'priority_support', 'early_access', 'custom_features']
+            };
+            
+            return features[plan] || [];
+        }
+
+        // Update transaction history display
+        function updateTransactionHistory() {
+            const container = document.getElementById('transaction-history');
+            
+            if (transactionHistory.length === 0) {
+                container.innerHTML = '<p>No transactions yet</p>';
+                return;
+            }
+            
+            container.innerHTML = transactionHistory.map(tx => `
+                <div class="card" style="margin-bottom: var(--space-sm);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${tx.plan.replace('_', ' ')}</strong>
+                            <div style="font-size: 0.875rem; color: var(--neutral-500);">
+                                ${new Date(tx.timestamp).toLocaleDateString()}
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div>${tx.amount} USDC</div>
+                            <div style="font-size: 0.875rem; color: ${
+                                tx.status === 'completed' ? 'var(--success)' : 
+                                tx.status === 'timeout' ? 'var(--error)' : 'var(--warning)'
+                            };">
+                                ${tx.status.toUpperCase()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Export payment functionality for use in main app
+        window.GrantAppPayments = {
+            initiatePayment,
+            checkPaymentStatus,
+            closePaymentModal,
+            getPremiumStatus: () => JSON.parse(localStorage.getItem('grantapp_premium') || '{"active": false}'),
+            getTransactionHistory: () => transactionHistory
+        };
+    </script>
+</body>
+</html>
