@@ -130,27 +130,6 @@
         .btn-sm { padding: var(--space-xs) var(--space-sm); font-size: 0.75rem; }
         .btn-lg { padding: var(--space-md) var(--space-xl); font-size: 1rem; }
 
-        .btn-loading {
-            color: transparent !important;
-            pointer-events: none;
-        }
-        .btn-loading::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 16px; height: 16px;
-            border: 2px solid transparent;
-            border-top: 2px solid currentColor;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
         /* Cards */
         .card {
             background: var(--secondary);
@@ -182,6 +161,188 @@
             text-decoration: none;
             color: var(--primary);
             letter-spacing: 0.05em;
+        }
+
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) 0;
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .breadcrumb-item:not(:last-child)::after {
+            content: '›';
+            color: var(--neutral-300);
+        }
+
+        .breadcrumb-link {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .breadcrumb-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal System */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: var(--blur);
+        }
+
+        .modal {
+            background: var(--secondary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .modal-sm { max-width: 400px; }
+        .modal-md { max-width: 600px; }
+        .modal-lg { max-width: 800px; }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            backdrop-filter: var(--blur);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--neutral-200);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--space-md);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error States */
+        .error-container {
+            background: #fee;
+            border: 1px solid var(--error);
+            color: var(--error);
+            padding: var(--space-md);
+            border-radius: var(--radius);
+            margin: var(--space-md) 0;
+        }
+
+        .error-icon {
+            width: 20px;
+            height: 20px;
+            fill: var(--error);
+            margin-right: var(--space-sm);
+        }
+
+        /* Tooltip System */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--primary);
+            color: var(--secondary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition);
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 5px;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--primary);
+        }
+
+        .tooltip-container:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* Premium Features */
+        .premium-badge {
+            background: linear-gradient(45deg, var(--accent), #f4c430);
+            color: var(--primary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .premium-feature {
+            opacity: 0.6;
+            position: relative;
+        }
+
+        .premium-feature::after {
+            content: '🔒';
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            font-size: 0.875rem;
         }
 
         /* Progress */
@@ -307,42 +468,6 @@
             align-items: center;
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: var(--space-sm);
-            margin: var(--space-xl) 0;
-        }
-
-        .pagination-item {
-            padding: var(--space-sm) var(--space-md);
-            border: var(--border);
-            background: var(--secondary);
-            color: var(--primary);
-            text-decoration: none;
-            transition: all var(--transition);
-            min-width: 40px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: var(--radius);
-        }
-
-        .pagination-item:hover {
-            background: var(--neutral-100);
-        }
-
-        .pagination-item.active {
-            background: var(--primary);
-            color: var(--secondary);
-        }
-
-        .pagination-item:disabled {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        /* Analytics */
         .analytics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -364,7 +489,6 @@
             color: var(--accent);
         }
 
-        /* Stake Badges */
         .stake-badge {
             display: inline-block;
             padding: var(--space-xs) var(--space-sm);
@@ -398,13 +522,31 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <a href="#" class="navbar-brand" onclick="goHome()">GrantApp</a>
+        <a href="#" class="navbar-brand" onclick="GrantApp.goHome()">GrantApp</a>
         <div class="flex items-center gap-md">
-            <button class="btn btn-ghost" onclick="showComingSoon('Analytics')">Analytics</button>
-            <button class="btn btn-ghost" onclick="showComingSoon('Rankings')">Rankings</button>
-            <button class="btn btn-ghost" onclick="showComingSoon('Profile')">Profile</button>
+            <div class="tooltip-container">
+                <button class="btn btn-ghost premium-feature" onclick="GrantApp.redirectToPremium()">
+                    Analytics
+                </button>
+                <div class="tooltip">Upgrade to Premium for detailed analytics</div>
+            </div>
+            <div class="tooltip-container">
+                <button class="btn btn-ghost premium-feature" onclick="GrantApp.redirectToPremium()">
+                    Rankings
+                </button>
+                <div class="tooltip">Upgrade to Premium for leaderboards</div>
+            </div>
+            <button class="btn btn-ghost" onclick="GrantApp.showComingSoon('Profile')">Profile</button>
+            <button class="btn btn-accent" onclick="GrantApp.redirectToPremium()">Upgrade</button>
         </div>
     </nav>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="container" id="breadcrumb-container">
+        <nav class="breadcrumb" id="breadcrumb" style="display: none;">
+            <!-- Breadcrumb items will be populated by JavaScript -->
+        </nav>
+    </div>
 
     <div class="container">
         <!-- Home Screen -->
@@ -418,15 +560,15 @@
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">JAMB/UTME</h3>
                             <p class="text-muted mb-lg">Mathematics, English, Physics, Chemistry</p>
-                            <button class="btn btn-primary w-full" onclick="selectExam('jamb')">Start Practice</button>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.selectExam('jamb')">Start Practice</button>
                         </div>
                     </div>
                     
                     <div class="card">
                         <div class="card-body text-center">
-                            <h3 class="text-2xl font-semibold mb-sm">AP Exams</h3>
-                            <p class="text-muted mb-lg">Chemistry, Physics 1, Physics C</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('AP Exams')">Coming Soon</button>
+                            <h3 class="text-2xl font-semibold mb-sm">SAT</h3>
+                            <p class="text-muted mb-lg">Math, English, Reading & Writing</p>
+                            <button class="btn btn-ghost w-full" onclick="GrantApp.showComingSoon('SAT Exams')">Coming Soon</button>
                         </div>
                     </div>
                     
@@ -434,7 +576,7 @@
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">AWS Certs</h3>
                             <p class="text-muted mb-lg">Cloud Practitioner, Solutions Architect</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('AWS Certifications')">Coming Soon</button>
+                            <button class="btn btn-ghost w-full" onclick="GrantApp.showComingSoon('AWS Certifications')">Coming Soon</button>
                         </div>
                     </div>
                 </div>
@@ -445,7 +587,7 @@
                     </div>
                     <div class="card-body">
                         <p class="text-muted mb-lg">Experience our adaptive quiz system with sample questions</p>
-                        <button class="btn btn-accent btn-lg w-full" onclick="startDemo()">Try Demo Quiz</button>
+                        <button class="btn btn-accent btn-lg w-full" onclick="GrantApp.startDemo()">Try Demo Quiz</button>
                     </div>
                 </div>
             </section>
@@ -455,7 +597,7 @@
         <div id="subject-selection" class="screen hidden">
             <section class="py-xl">
                 <div class="mb-xl">
-                    <button class="btn btn-ghost" onclick="goBack()">&larr; Back</button>
+                    <button class="btn btn-ghost" onclick="GrantApp.goBack()">&larr; Back</button>
                     <h2 class="text-3xl font-semibold text-center mb-lg">Select Subject</h2>
                     <p class="text-center text-muted">Choose your subject to begin practice</p>
                 </div>
@@ -464,32 +606,32 @@
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Mathematics</h3>
-                            <p class="text-muted mb-lg">300+ Questions | Adaptive Framework</p>
-                            <button class="btn btn-primary w-full" onclick="selectSubject('mathematics')">Start Practice</button>
+                            <p class="text-muted mb-lg">500+ Questions | Full Taxonomy</p>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('mathematics')">Start Practice</button>
                         </div>
                     </div>
                     
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">English</h3>
-                            <p class="text-muted mb-lg">Coming Soon</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('English')">Coming Soon</button>
+                            <p class="text-muted mb-lg">400+ Questions | Full Taxonomy</p>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('english')">Start Practice</button>
                         </div>
                     </div>
                     
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Physics</h3>
-                            <p class="text-muted mb-lg">50+ Questions | Adaptive Framework</p>
-                            <button class="btn btn-primary w-full" onclick="selectSubject('physics')">Start Practice</button>
+                            <p class="text-muted mb-lg">300+ Questions | Full Taxonomy</p>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('physics')">Start Practice</button>
                         </div>
                     </div>
                     
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Chemistry</h3>
-                            <p class="text-muted mb-lg">Coming Soon</p>
-                            <button class="btn btn-ghost w-full" onclick="showComingSoon('Chemistry')">Coming Soon</button>
+                            <p class="text-muted mb-lg">350+ Questions | Full Taxonomy</p>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.selectSubject('chemistry')">Start Practice</button>
                         </div>
                     </div>
                 </div>
@@ -500,7 +642,7 @@
         <div id="quiz-mode-selection" class="screen hidden">
             <section class="py-xl">
                 <div class="mb-xl">
-                    <button class="btn btn-ghost" onclick="goBack()">&larr; Back</button>
+                    <button class="btn btn-ghost" onclick="GrantApp.goBack()">&larr; Back</button>
                     <h2 class="text-3xl font-semibold text-center mb-lg">Select Quiz Mode</h2>
                     <p class="text-center text-muted">Choose your preferred quiz experience</p>
                 </div>
@@ -510,7 +652,7 @@
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Practice Mode</h3>
                             <p class="text-muted mb-lg">Low-stakes practice with adaptive difficulty</p>
-                            <button class="btn btn-primary w-full" onclick="startQuiz('practice')">Start Practice</button>
+                            <button class="btn btn-primary w-full" onclick="GrantApp.startQuiz('practice')">Start Practice</button>
                         </div>
                     </div>
                     
@@ -518,7 +660,7 @@
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">Mock Exam</h3>
                             <p class="text-muted mb-lg">Timed exam simulation with performance tracking</p>
-                            <button class="btn btn-accent w-full" onclick="startQuiz('mock')">Start Mock</button>
+                            <button class="btn btn-accent w-full" onclick="GrantApp.startQuiz('mock')">Start Mock</button>
                         </div>
                     </div>
                     
@@ -526,7 +668,7 @@
                         <div class="card-body text-center">
                             <h3 class="text-xl font-semibold mb-sm">High Stakes</h3>
                             <p class="text-muted mb-lg">Advanced questions with detailed analytics</p>
-                            <button class="btn btn-error w-full" onclick="startQuiz('high')">Start Challenge</button>
+                            <button class="btn btn-error w-full" onclick="GrantApp.startQuiz('high')">Start Challenge</button>
                         </div>
                     </div>
                 </div>
@@ -543,7 +685,7 @@
                             <h2 class="text-xl font-semibold" id="quiz-title">Adaptive Quiz</h2>
                             <div class="flex items-center gap-md">
                                 <span class="stake-badge" id="stake-badge">Practice</span>
-                                <button class="btn btn-ghost btn-sm" onclick="exitQuiz()">Exit Quiz</button>
+                                <button class="btn btn-ghost btn-sm" onclick="GrantApp.exitQuiz()">Exit Quiz</button>
                             </div>
                         </div>
                         <div class="progress-bar mb-md">
@@ -559,7 +701,10 @@
                 <!-- Question Card -->
                 <div class="question-card">
                     <div class="question-header">
-                        <span class="question-number" id="question-number">Question 1</span>
+                        <div>
+                            <span class="question-number" id="question-number">Question 1</span>
+                            <span class="premium-badge" id="question-taxonomy" style="margin-left: 10px;">Pragmatic</span>
+                        </div>
                         <span class="question-timer" id="question-timer">00:30</span>
                     </div>
                     
@@ -572,10 +717,10 @@
                     </ul>
                     
                     <div class="quiz-controls">
-                        <button class="btn btn-ghost" id="prev-btn" onclick="previousQuestion()" disabled>Previous</button>
+                        <button class="btn btn-ghost" id="prev-btn" onclick="GrantApp.previousQuestion()" disabled>Previous</button>
                         <div class="flex gap-md">
-                            <button class="btn btn-ghost" onclick="showComingSoon('Save & Continue Later')">Save & Continue</button>
-                            <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next Question</button>
+                            <button class="btn btn-ghost" onclick="GrantApp.saveProgress()">Save Progress</button>
+                            <button class="btn btn-primary" id="next-btn" onclick="GrantApp.nextQuestion()">Next Question</button>
                         </div>
                     </div>
                 </div>
@@ -583,7 +728,7 @@
                 <!-- Adaptive Metrics -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="font-semibold">Adaptive Metrics</h4>
+                        <h4 class="font-semibold">Adaptive Metrics & Taxonomy Analysis</h4>
                     </div>
                     <div class="card-body">
                         <div class="analytics-grid">
@@ -596,12 +741,12 @@
                                 <div>Difficulty Level</div>
                             </div>
                             <div class="metric-card">
-                                <div class="metric-value" id="confidence-score">--</div>
-                                <div>AI Confidence</div>
+                                <div class="metric-value" id="pattern-type">Pragmatic</div>
+                                <div>Question Pattern</div>
                             </div>
                             <div class="metric-card">
-                                <div class="metric-value" id="pattern-mastery">--</div>
-                                <div>Pattern Mastery</div>
+                                <div class="metric-value" id="info-classification">Essential</div>
+                                <div>Information Type</div>
                             </div>
                         </div>
                     </div>
@@ -635,20 +780,27 @@
 
                 <div class="card mb-xl" style="max-width: 800px; margin: 0 auto;">
                     <div class="card-header">
-                        <h3 class="text-xl font-semibold">Performance Analysis</h3>
+                        <h3 class="text-xl font-semibold">Taxonomy Analysis & Performance Matrix</h3>
                     </div>
                     <div class="card-body">
                         <div class="mb-lg">
-                            <h4 class="font-semibold mb-sm">Cognitive Pattern Analysis</h4>
+                            <h4 class="font-semibold mb-sm">Question Pattern Performance</h4>
                             <div id="pattern-breakdown">
                                 <!-- Will be populated by JavaScript -->
                             </div>
                         </div>
                         
+                        <div class="mb-lg">
+                            <h4 class="font-semibold mb-sm">Information Classification Mastery</h4>
+                            <div id="information-breakdown">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
                         <div class="flex gap-md justify-center">
-                            <button class="btn btn-primary" onclick="reviewAnswers()">Review Answers</button>
-                            <button class="btn btn-ghost" onclick="retakeQuiz()">Retake Quiz</button>
-                            <button class="btn btn-ghost" onclick="showComingSoon('Detailed Analytics')">View Analytics</button>
+                            <button class="btn btn-primary" onclick="GrantApp.reviewAnswers()">Review Answers</button>
+                            <button class="btn btn-ghost" onclick="GrantApp.retakeQuiz()">Retake Quiz</button>
+                            <button class="btn btn-ghost premium-feature" onclick="GrantApp.redirectToPremium()">Detailed Analytics</button>
                         </div>
                     </div>
                 </div>
@@ -656,35 +808,109 @@
         </div>
     </div>
 
-    <!-- Coming Soon Modal -->
+    <!-- Modals -->
     <div id="coming-soon-modal" class="modal-overlay hidden">
         <div class="modal modal-sm">
-            <div class="card-header">
-                <h3 class="text-xl font-semibold">Coming Soon</h3>
-                <button class="btn btn-ghost btn-sm" onclick="closeModal('coming-soon-modal')">&times;</button>
-            </div>
-            <div class="card-body">
-                <p class="text-muted mb-lg" id="coming-soon-message">This feature is coming soon!</p>
-                <p class="text-sm text-muted">We're working hard to bring you the best quiz experience. Stay tuned for updates!</p>
-            </div>
-            <div class="card-footer">
-                <button class="btn btn-primary w-full" onclick="closeModal('coming-soon-modal')">Got it</button>
+            <div class="card">
+                <div class="card-header">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-semibold">Coming Soon</h3>
+                        <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeModal('coming-soon-modal')">&times;</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-lg" id="coming-soon-message">This feature is coming soon!</p>
+                    <p class="text-sm text-muted">We're working hard to bring you the best quiz experience. Stay tuned for updates!</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary w-full" onclick="GrantApp.closeModal('coming-soon-modal')">Got it</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Error Modal -->
     <div id="error-modal" class="modal-overlay hidden">
-        <div class="modal modal-sm">
-            <div class="card-header">
-                <h3 class="text-xl font-semibold text-error">Error</h3>
-                <button class="btn btn-ghost btn-sm" onclick="closeModal('error-modal')">&times;</button>
+        <div class="modal modal-md">
+            <div class="card">
+                <div class="card-header">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-semibold text-error">Error Occurred</h3>
+                        <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeModal('error-modal')">&times;</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="error-container">
+                        <div class="flex items-start gap-sm">
+                            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+                            </svg>
+                            <div>
+                                <div class="font-semibold mb-sm" id="error-title">Something went wrong</div>
+                                <p id="error-message">An unexpected error occurred.</p>
+                                <div class="text-sm text-muted mt-sm" id="error-details" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-lg">
+                        <h4 class="font-semibold mb-sm">What you can try:</h4>
+                        <ul class="text-sm text-muted" style="list-style-position: inside;">
+                            <li>Check your internet connection</li>
+                            <li>Refresh the page and try again</li>
+                            <li>Clear your browser cache</li>
+                            <li>Try a different subject or quiz mode</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="flex gap-sm">
+                        <button class="btn btn-primary" onclick="GrantApp.retryLastAction()">Retry</button>
+                        <button class="btn btn-ghost" onclick="GrantApp.closeModal('error-modal')">Close</button>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <p class="text-muted mb-lg" id="error-message">An error occurred.</p>
-            </div>
-            <div class="card-footer">
-                <button class="btn btn-primary w-full" onclick="closeModal('error-modal')">OK</button>
+        </div>
+    </div>
+
+    <div id="premium-modal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+            <div class="card">
+                <div class="card-header">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
+                        <button class="btn btn-ghost btn-sm" onclick="GrantApp.closeModal('premium-modal')">&times;</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-lg">
+                        <div class="premium-badge" style="display: inline-block; font-size: 1rem; padding: var(--space-sm) var(--space-md);">
+                            Premium Features
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2 gap-lg mb-lg">
+                        <div>
+                            <h4 class="font-semibold mb-sm">📊 Advanced Analytics</h4>
+                            <p class="text-sm text-muted">Detailed performance tracking, learning patterns, and improvement recommendations.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-sm">🏆 Global Rankings</h4>
+                            <p class="text-sm text-muted">Compare your progress with thousands of other students worldwide.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-sm">📚 Unlimited Questions</h4>
+                            <p class="text-sm text-muted">Access to our complete question database with expert explanations.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-sm">🎯 Custom Study Plans</h4>
+                            <p class="text-sm text-muted">Personalized study schedules based on your strengths and weaknesses.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-muted mb-lg">Start your premium experience today!</p>
+                        <button class="btn btn-accent btn-lg" onclick="GrantApp.redirectToSolpay()">Upgrade Now</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -692,79 +918,174 @@
     <!-- Loading Overlay -->
     <div class="loading-overlay hidden" id="loading">
         <div class="loading-spinner"></div>
+        <div class="text-lg font-semibold" id="loading-text">Loading questions...</div>
+        <div class="text-sm text-muted" id="loading-detail">Please wait while we prepare your quiz</div>
     </div>
 
     <script>
-        // API Configuration
+        // Enhanced API Configuration with robust error handling
         const API_CONFIG = {
-            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/Grantapp/main/',
+            BASE_URL: window.location.origin + '/',
+            FALLBACK_URL: 'https://raw.githubusercontent.com/yourusername/GrantApp/main/',
             ENDPOINTS: {
-                physics: 'physics-questions-json.json'
+                physics: 'physics-questions.json',
+                mathematics: 'mathematics-questions.json', 
+                english: 'english-questions.json',
+                chemistry: 'chemistry-questions.json'
             },
-            CACHE_DURATION: 5 * 60 * 1000 // 5 minutes
+            CACHE_DURATION: 5 * 60 * 1000, // 5 minutes
+            RETRY_ATTEMPTS: 3,
+            RETRY_DELAY: 1000
         };
 
-        // Question Cache
-        let questionCache = {};
+        // Question taxonomy constants
+        const QUESTION_PATTERNS = {
+            PRAGMATIC: 'pragmatic_application',
+            LOGICAL: 'logical_reasoning', 
+            CANON: 'canon_administrative',
+            STATISTICAL: 'statistical_predictive',
+            MATHEMATICAL: 'pure_mathematical'
+        };
 
-        // Enhanced Adaptive Quiz Engine
+        const INFORMATION_TYPES = {
+            ESSENTIAL: 'essential',
+            CONTEXTUAL: 'contextual_historical', 
+            ABSTRACT: 'abstract_visual',
+            SUPPLY_CHAIN: 'supply_chain_product',
+            MATH_PROOFS: 'maths_proofs_formulas'
+        };
+
+        // Global state management
+        let questionCache = {};
+        let lastFailedAction = null;
+
+        // Enhanced Adaptive Quiz Engine with complete taxonomy implementation
         class AdaptiveQuizEngine {
             constructor() {
                 this.questions = [];
                 this.userProfile = this.initializeUserProfile();
                 this.currentQuiz = null;
                 this.confidenceThreshold = 0.7;
+                this.taxonomyMatrix = this.initializeTaxonomyMatrix();
             }
 
-            // Initialize user performance profile
+            // Initialize comprehensive user profile
             initializeUserProfile() {
+                const patternMastery = {};
+                const informationMastery = {};
+                
+                // Initialize all question patterns
+                Object.values(QUESTION_PATTERNS).forEach(pattern => {
+                    patternMastery[pattern] = { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 };
+                });
+
+                // Initialize all information types  
+                Object.values(INFORMATION_TYPES).forEach(type => {
+                    informationMastery[type] = { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 };
+                });
+
                 return {
-                    patternMastery: {
-                        'linear_solve': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
-                        'formula_apply': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
-                        'function_eval': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
-                        'inequality_solve': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
-                        'differentiation': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
-                        'stats_basic': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
-                        'trig_identity': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 },
-                        'polynomial_mult': { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 }
-                    },
+                    patternMastery,
+                    informationMastery,
                     currentDifficultyLevel: 0.5,
                     learningVelocity: 0.1,
                     streakCount: 0,
                     lastPerformance: [],
                     skillLevel: 'intermediate',
                     totalQuestions: 0,
-                    totalCorrect: 0
+                    totalCorrect: 0,
+                    taxonomyProgress: this.initializeTaxonomyProgress()
                 };
             }
 
-            // Load questions from JSON and enhance with cognitive patterns
+            // Initialize taxonomy progress matrix
+            initializeTaxonomyProgress() {
+                const matrix = {};
+                Object.values(QUESTION_PATTERNS).forEach(pattern => {
+                    matrix[pattern] = {};
+                    Object.values(INFORMATION_TYPES).forEach(type => {
+                        matrix[pattern][type] = { attempts: 0, correct: 0, mastery: 0 };
+                    });
+                });
+                return matrix;
+            }
+
+            // Initialize taxonomy matrix for classification
+            initializeTaxonomyMatrix() {
+                return {
+                    patterns: {
+                        pragmatic: { keywords: ['apply', 'use', 'practical', 'real-world', 'example'], complexity: 0.3 },
+                        logical: { keywords: ['analyze', 'reasoning', 'logic', 'deduce', 'infer'], complexity: 0.6 },
+                        canon: { keywords: ['definition', 'according to', 'rule', 'law', 'principle'], complexity: 0.4 },
+                        statistical: { keywords: ['probability', 'data', 'statistics', 'predict', 'trend'], complexity: 0.7 },
+                        mathematical: { keywords: ['solve', 'calculate', 'compute', 'derive', 'prove'], complexity: 0.8 }
+                    },
+                    information: {
+                        essential: { keywords: ['fundamental', 'basic', 'essential', 'key', 'important'], priority: 1 },
+                        contextual: { keywords: ['context', 'background', 'historical', 'setting'], priority: 0.7 },
+                        abstract: { keywords: ['concept', 'theory', 'abstract', 'idea', 'principle'], priority: 0.8 },
+                        supply_chain: { keywords: ['process', 'procedure', 'method', 'step', 'workflow'], priority: 0.6 },
+                        math_proofs: { keywords: ['proof', 'formula', 'equation', 'theorem', 'derivation'], priority: 0.9 }
+                    }
+                };
+            }
+
+            // Enhanced question loading with comprehensive error handling
             async loadQuestions(subject) {
                 const cacheKey = `${subject}_questions`;
                 const cacheTimestamp = `${subject}_timestamp`;
                 
                 // Check cache first
-                const cachedQuestions = questionCache[cacheKey];
-                const cacheTime = questionCache[cacheTimestamp];
-                const now = Date.now();
-                
-                if (cachedQuestions && cacheTime && (now - cacheTime < API_CONFIG.CACHE_DURATION)) {
+                if (this.checkCache(cacheKey, cacheTimestamp)) {
                     console.log(`Using cached questions for ${subject}`);
-                    this.questions = cachedQuestions;
+                    this.questions = questionCache[cacheKey];
                     return this.questions;
                 }
 
                 const endpoint = API_CONFIG.ENDPOINTS[subject];
                 if (!endpoint) {
-                    throw new Error(`No endpoint configured for subject: ${subject}`);
+                    throw new Error(`Subject "${subject}" not supported. Available: ${Object.keys(API_CONFIG.ENDPOINTS).join(', ')}`);
                 }
 
-                const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+                // Try multiple URLs with retry logic
+                const urls = [
+                    `${API_CONFIG.BASE_URL}${endpoint}`,
+                    `${API_CONFIG.FALLBACK_URL}${endpoint}`
+                ];
                 
+                for (const url of urls) {
+                    try {
+                        const questions = await this.fetchQuestionsWithRetry(url);
+                        this.questions = this.enhanceQuestions(questions, subject);
+                        
+                        // Cache successful results
+                        questionCache[cacheKey] = this.questions;
+                        questionCache[cacheTimestamp] = Date.now();
+                        
+                        console.log(`Successfully loaded ${this.questions.length} questions for ${subject}`);
+                        return this.questions;
+                        
+                    } catch (error) {
+                        console.error(`Failed to load from ${url}:`, error.message);
+                        continue;
+                    }
+                }
+                
+                throw new Error(`Failed to load ${subject} questions from all sources. Please check your connection and try again.`);
+            }
+
+            // Check cache validity
+            checkCache(cacheKey, cacheTimestamp) {
+                const cachedQuestions = questionCache[cacheKey];
+                const cacheTime = questionCache[cacheTimestamp];
+                const now = Date.now();
+                
+                return cachedQuestions && cacheTime && (now - cacheTime < API_CONFIG.CACHE_DURATION);
+            }
+
+            // Fetch questions with retry mechanism
+            async fetchQuestionsWithRetry(url, attempt = 1) {
                 try {
-                    console.log(`Fetching questions from: ${url}`);
-                    
                     const response = await fetch(url, {
                         method: 'GET',
                         headers: {
@@ -778,88 +1099,161 @@
                     }
 
                     const data = await response.json();
+                    return this.validateAndExtractQuestions(data, url);
                     
-                    // Extract questions array
-                    let questionsArray = [];
-                    if (data.questions && Array.isArray(data.questions)) {
-                        questionsArray = data.questions;
-                    } else if (Array.isArray(data)) {
-                        questionsArray = data;
-                    } else {
-                        throw new Error('Invalid question data structure');
-                    }
-
-                    if (questionsArray.length === 0) {
-                        throw new Error('No questions found in response');
-                    }
-
-                    // Convert and enhance questions
-                    this.questions = this.enhanceQuestions(questionsArray);
-
-                    // Cache the results
-                    questionCache[cacheKey] = this.questions;
-                    questionCache[cacheTimestamp] = now;
-                    
-                    console.log(`Successfully loaded ${this.questions.length} questions for ${subject}`);
-                    return this.questions;
-
                 } catch (error) {
-                    console.error(`Error fetching questions for ${subject}:`, error);
+                    if (attempt < API_CONFIG.RETRY_ATTEMPTS) {
+                        console.log(`Retry attempt ${attempt + 1} for ${url}`);
+                        await this.delay(API_CONFIG.RETRY_DELAY);
+                        return this.fetchQuestionsWithRetry(url, attempt + 1);
+                    }
                     throw error;
                 }
             }
 
-            // Enhance questions with cognitive patterns and shuffle options
-            enhanceQuestions(questions) {
-                const cognitivePatterns = [
-                    { pattern: 'linear_solve', complexity: 0.3, abstraction: 0.2 },
-                    { pattern: 'formula_apply', complexity: 0.4, abstraction: 0.3 },
-                    { pattern: 'function_eval', complexity: 0.5, abstraction: 0.6 },
-                    { pattern: 'inequality_solve', complexity: 0.6, abstraction: 0.4 },
-                    { pattern: 'differentiation', complexity: 0.8, abstraction: 0.8 },
-                    { pattern: 'stats_basic', complexity: 0.3, abstraction: 0.1 },
-                    { pattern: 'trig_identity', complexity: 0.7, abstraction: 0.7 },
-                    { pattern: 'polynomial_mult', complexity: 0.4, abstraction: 0.3 }
-                ];
+            // Validate and extract questions from various JSON formats
+            validateAndExtractQuestions(data, url) {
+                let questionsArray = [];
+                
+                // Handle different JSON structures
+                if (data.questions && Array.isArray(data.questions)) {
+                    questionsArray = data.questions;
+                } else if (Array.isArray(data)) {
+                    questionsArray = data;
+                } else if (data.quiz && Array.isArray(data.quiz)) {
+                    questionsArray = data.quiz;
+                } else {
+                    throw new Error(`Invalid JSON structure from ${url}`);
+                }
 
+                if (questionsArray.length === 0) {
+                    throw new Error(`No questions found in ${url}`);
+                }
+
+                // Validate question structure
+                const validQuestions = questionsArray.filter(this.validateQuestion);
+                
+                if (validQuestions.length === 0) {
+                    throw new Error(`No valid questions in ${url}`);
+                }
+
+                return validQuestions;
+            }
+
+            // Validate individual question structure
+            validateQuestion(question) {
+                const hasText = question.question || question.text || question.prompt;
+                const hasOptions = question.options || question.choices || question.answers;
+                const validOptions = Array.isArray(hasOptions) && hasOptions.length >= 2;
+                
+                return hasText && validOptions;
+            }
+
+            // Enhanced question enhancement with full taxonomy implementation
+            enhanceQuestions(questions, subject) {
                 return questions.map((question, index) => {
-                    // Assign cognitive pattern (cycling through available patterns)
-                    const patternIndex = index % cognitivePatterns.length;
-                    const pattern = cognitivePatterns[patternIndex];
-                    
-                    // Shuffle options and update correct answer index
-                    const options = [...question.options];
-                    const originalCorrect = question.correctAnswer;
-                    
-                    // Find the index of the correct answer
-                    let correctIndex = options.findIndex(opt => opt === originalCorrect);
-                    
-                    // If we can't find the correct answer, default to first option
-                    if (correctIndex === -1) correctIndex = 0;
+                    const normalizedQ = this.normalizeQuestionStructure(question);
+                    const cognitivePattern = this.classifyQuestionPattern(normalizedQ);
+                    const informationType = this.classifyInformationType(normalizedQ);
+                    const { shuffledOptions, correctIndex } = this.processOptions(normalizedQ);
                     
                     return {
-                        id: question.id,
-                        text: question.question,
-                        options: this.shuffleArray(options),
+                        id: normalizedQ.id || `${subject}_q_${index + 1}`,
+                        text: normalizedQ.text,
+                        options: shuffledOptions,
                         correct: correctIndex,
-                        explanation: question.explanation,
-                        topic: question.topic,
-                        difficulty: question.difficulty,
-                        _cognitive: pattern,
-                        _performance: { 
-                            avg_time: 60 + Math.random() * 60, 
-                            success_rate: 0.5 + Math.random() * 0.4,
-                            skill_level: question.difficulty || 'medium'
+                        explanation: normalizedQ.explanation || 'Explanation not provided.',
+                        topic: normalizedQ.topic || 'General',
+                        difficulty: this.normalizeDifficulty(normalizedQ.difficulty),
+                        subject: subject,
+                        
+                        // Taxonomy classifications
+                        _cognitive: {
+                            pattern: cognitivePattern,
+                            complexity: this.taxonomyMatrix.patterns[cognitivePattern.split('_')[0]]?.complexity || 0.5
                         },
-                        _meta: { 
-                            prerequisites: ['general_knowledge'], 
-                            teaches: [question.topic?.toLowerCase().replace(' ', '_') || 'general'] 
+                        _information: {
+                            type: informationType,
+                            priority: this.taxonomyMatrix.information[informationType.split('_')[0]]?.priority || 0.5
+                        },
+                        _performance: {
+                            avg_time: 45 + Math.random() * 30,
+                            success_rate: 0.4 + Math.random() * 0.5,
+                            skill_level: this.mapDifficultyToSkill(normalizedQ.difficulty)
+                        },
+                        _meta: {
+                            prerequisites: this.extractPrerequisites(normalizedQ, subject),
+                            teaches: this.extractLearningObjectives(normalizedQ, subject)
                         }
                     };
                 });
             }
 
-            // Fisher-Yates shuffle algorithm
+            // Classify question into cognitive pattern
+            classifyQuestionPattern(question) {
+                const text = question.text.toLowerCase();
+                
+                for (const [pattern, data] of Object.entries(this.taxonomyMatrix.patterns)) {
+                    if (data.keywords.some(keyword => text.includes(keyword))) {
+                        return QUESTION_PATTERNS[pattern.toUpperCase()] || QUESTION_PATTERNS.PRAGMATIC;
+                    }
+                }
+                
+                return QUESTION_PATTERNS.PRAGMATIC; // Default
+            }
+
+            // Classify information type
+            classifyInformationType(question) {
+                const text = question.text.toLowerCase();
+                const topic = (question.topic || '').toLowerCase();
+                
+                for (const [type, data] of Object.entries(this.taxonomyMatrix.information)) {
+                    if (data.keywords.some(keyword => text.includes(keyword) || topic.includes(keyword))) {
+                        return INFORMATION_TYPES[type.toUpperCase()] || INFORMATION_TYPES.ESSENTIAL;
+                    }
+                }
+                
+                return INFORMATION_TYPES.ESSENTIAL; // Default
+            }
+
+            // Normalize question structure from different JSON formats
+            normalizeQuestionStructure(question) {
+                return {
+                    id: question.id || question.questionId || question.qid,
+                    text: question.question || question.text || question.prompt || question.stem,
+                    options: question.options || question.choices || question.answers || [],
+                    correctAnswer: question.correctAnswer || question.correct || question.answer,
+                    explanation: question.explanation || question.rationale || question.solution_explanation,
+                    topic: question.topic || question.subject || question.category,
+                    difficulty: question.difficulty || question.level || 'medium'
+                };
+            }
+
+            // Process and shuffle options
+            processOptions(question) {
+                let options = [...question.options];
+                let correctIndex = 0;
+                
+                if (typeof question.correctAnswer === 'number') {
+                    correctIndex = Math.max(0, Math.min(question.correctAnswer, options.length - 1));
+                } else if (typeof question.correctAnswer === 'string') {
+                    correctIndex = options.findIndex(opt => 
+                        opt.toString().toLowerCase().trim() === question.correctAnswer.toLowerCase().trim()
+                    );
+                    if (correctIndex === -1) correctIndex = 0;
+                }
+                
+                const correctAnswer = options[correctIndex];
+                const shuffledOptions = this.shuffleArray(options);
+                const newCorrectIndex = shuffledOptions.findIndex(opt => opt === correctAnswer);
+                
+                return {
+                    shuffledOptions,
+                    correctIndex: newCorrectIndex >= 0 ? newCorrectIndex : 0
+                };
+            }
+
+            // Fisher-Yates shuffle
             shuffleArray(array) {
                 const shuffled = [...array];
                 for (let i = shuffled.length - 1; i > 0; i--) {
@@ -869,649 +1263,757 @@
                 return shuffled;
             }
 
-            // Core adaptive selection algorithm
+            // Enhanced adaptive question selection
             selectNextQuestion(previousAnswer = null, responseTime = null) {
-                // Update profile based on previous answer
                 if (previousAnswer !== null) {
                     this.updateUserProfile(previousAnswer, responseTime);
                 }
 
-                // Calculate current performance metrics
-                const recentPerformance = this.calculateRecentPerformance();
-                const weakAreas = this.identifyWeakAreas();
-                const targetDifficulty = this.calculateTargetDifficulty();
+                const candidateQuestions = this.filterAvailableQuestions();
+                if (candidateQuestions.length === 0) {
+                    return null; // No more questions
+                }
 
-                // Filter and score questions
-                const candidateQuestions = this.filterQuestions(targetDifficulty, weakAreas);
-                const scoredQuestions = this.scoreQuestions(candidateQuestions, weakAreas);
-
-                // Select best question using weighted random selection
+                const scoredQuestions = this.scoreQuestions(candidateQuestions);
                 return this.weightedSelection(scoredQuestions);
             }
 
-            // Update user profile based on performance
-            updateUserProfile(wasCorrect, responseTime) {
-                const currentQuestion = this.currentQuiz.currentQuestion;
-                const pattern = currentQuestion._cognitive.pattern;
-                
-                // Update pattern mastery
-                const mastery = this.userProfile.patternMastery[pattern];
-                mastery.attempts++;
-                if (wasCorrect) {
-                    mastery.correct++;
-                    this.userProfile.streakCount++;
-                } else {
-                    this.userProfile.streakCount = 0;
-                }
-
-                // Update average response time
-                mastery.avg_time = (mastery.avg_time * (mastery.attempts - 1) + responseTime) / mastery.attempts;
-                
-                // Calculate confidence based on recent performance
-                mastery.confidence = mastery.correct / mastery.attempts;
-
-                // Update overall metrics
-                this.userProfile.totalQuestions++;
-                if (wasCorrect) {
-                    this.userProfile.totalCorrect++;
-                }
-
-                // Store recent performance for trend analysis
-                this.userProfile.lastPerformance.push({
-                    correct: wasCorrect,
-                    complexity: currentQuestion._cognitive.complexity,
-                    pattern: pattern,
-                    time: responseTime
-                });
-
-                // Keep only last 10 responses
-                if (this.userProfile.lastPerformance.length > 10) {
-                    this.userProfile.lastPerformance.shift();
-                }
-
-                // Adaptive difficulty adjustment
-                this.adjustDifficulty(wasCorrect, responseTime, currentQuestion._cognitive.complexity);
-            }
-
-            // Adaptive difficulty adjustment
-            adjustDifficulty(wasCorrect, responseTime, questionComplexity) {
-                const targetTime = 60; // Target 60 seconds per question
-                const velocity = this.userProfile.learningVelocity;
-
-                if (wasCorrect) {
-                    if (responseTime < targetTime * 0.7) {
-                        // Answered quickly and correctly - increase difficulty
-                        this.userProfile.currentDifficultyLevel = Math.min(1.0, 
-                            this.userProfile.currentDifficultyLevel + velocity * 1.5);
-                    } else {
-                        // Correct but slow - slight increase
-                        this.userProfile.currentDifficultyLevel = Math.min(1.0,
-                            this.userProfile.currentDifficultyLevel + velocity * 0.5);
-                    }
-                } else {
-                    // Incorrect answer - decrease difficulty
-                    this.userProfile.currentDifficultyLevel = Math.max(0.1,
-                        this.userProfile.currentDifficultyLevel - velocity * 2);
-                }
-
-                // Update learning velocity based on performance stability
-                if (this.userProfile.streakCount > 3) {
-                    this.userProfile.learningVelocity = Math.min(0.15, this.userProfile.learningVelocity * 1.1);
-                } else if (this.userProfile.streakCount === 0) {
-                    this.userProfile.learningVelocity = Math.max(0.05, this.userProfile.learningVelocity * 0.9);
-                }
-            }
-
-            // Calculate recent performance trend
-            calculateRecentPerformance() {
-                if (this.userProfile.lastPerformance.length === 0) return 0.5;
-                
-                const recent = this.userProfile.lastPerformance.slice(-5);
-                const correctCount = recent.filter(p => p.correct).length;
-                return correctCount / recent.length;
-            }
-
-            // Identify weak cognitive patterns
-            identifyWeakAreas() {
-                const weakAreas = [];
-                const threshold = 0.6;
-
-                for (const [pattern, mastery] of Object.entries(this.userProfile.patternMastery)) {
-                    if (mastery.attempts > 0 && mastery.confidence < threshold) {
-                        weakAreas.push(pattern);
-                    }
-                }
-
-                return weakAreas;
-            }
-
-            // Calculate target difficulty for next question
-            calculateTargetDifficulty() {
-                const baseLevel = this.userProfile.currentDifficultyLevel;
-                const recentPerf = this.calculateRecentPerformance();
-                const streakBonus = Math.min(0.1, this.userProfile.streakCount * 0.02);
-
-                // Adjust based on recent performance
-                let adjustment = 0;
-                if (recentPerf > 0.8) {
-                    adjustment = 0.1; // Recent success - increase difficulty
-                } else if (recentPerf < 0.4) {
-                    adjustment = -0.15; // Recent struggles - decrease difficulty
-                }
-
-                return Math.max(0.1, Math.min(0.9, baseLevel + adjustment + streakBonus));
-            }
-
-            // Filter questions by difficulty and availability
-            filterQuestions(targetDifficulty, weakAreas) {
-                const tolerance = 0.2;
+            // Filter available questions
+            filterAvailableQuestions() {
                 const answeredIds = this.currentQuiz ? 
                     this.currentQuiz.answeredQuestions.map(q => q.question.id) : [];
-
-                return this.questions.filter(q => {
-                    // Skip already answered questions
-                    if (answeredIds.includes(q.id)) return false;
-
-                    // Check difficulty range
-                    const complexityMatch = Math.abs(q._cognitive.complexity - targetDifficulty) <= tolerance;
-                    
-                    // Prioritize weak areas
-                    const addressesWeakness = weakAreas.length === 0 || 
-                        weakAreas.includes(q._cognitive.pattern);
-
-                    return complexityMatch || addressesWeakness;
-                });
+                
+                return this.questions.filter(q => !answeredIds.includes(q.id));
             }
 
-            // Score questions for selection priority
-            scoreQuestions(questions, weakAreas) {
+            // Score questions for adaptive selection
+            scoreQuestions(questions) {
+                const weakPatterns = this.identifyWeakPatterns();
+                const weakInformation = this.identifyWeakInformationTypes();
+                
                 return questions.map(q => {
                     let score = 1.0;
-
-                    // Higher score for addressing weak areas
-                    if (weakAreas.includes(q._cognitive.pattern)) {
-                        score += 2.0;
-                    }
-
-                    // Score based on user's pattern confidence
-                    const mastery = this.userProfile.patternMastery[q._cognitive.pattern];
-                    if (mastery.attempts > 0) {
-                        // Lower confidence = higher score (more practice needed)
-                        score += (1 - mastery.confidence) * 1.5;
-                    }
-
-                    // Adjust for variety (avoid repeating same pattern)
+                    
+                    // Prioritize weak areas
+                    if (weakPatterns.includes(q._cognitive.pattern)) score += 2.0;
+                    if (weakInformation.includes(q._information.type)) score += 1.5;
+                    
+                    // Difficulty matching
+                    const complexityDiff = Math.abs(q._cognitive.complexity - this.userProfile.currentDifficultyLevel);
+                    score += (1 - complexityDiff) * 1.5;
+                    
+                    // Variety bonus
                     const recentPatterns = this.userProfile.lastPerformance.slice(-3).map(p => p.pattern);
-                    if (recentPatterns.includes(q._cognitive.pattern)) {
-                        score *= 0.7;
-                    }
-
-                    // Success rate consideration
-                    const expectedSuccess = this.predictSuccessProbability(q);
-                    if (expectedSuccess < 0.3 || expectedSuccess > 0.9) {
-                        score *= 0.8; // Prefer moderate challenge
-                    }
-
+                    if (!recentPatterns.includes(q._cognitive.pattern)) score += 0.5;
+                    
                     return { question: q, score };
                 });
             }
 
-            // Predict success probability for a question
-            predictSuccessProbability(question) {
-                const pattern = question._cognitive.pattern;
-                const mastery = this.userProfile.patternMastery[pattern];
-                
-                if (mastery.attempts === 0) {
-                    // No data - estimate based on question complexity vs user level
-                    return Math.max(0.2, 1 - Math.abs(question._cognitive.complexity - this.userProfile.currentDifficultyLevel));
-                }
-
-                // Base probability on pattern mastery
-                let probability = mastery.confidence;
-
-                // Adjust based on complexity difference
-                const complexityDiff = question._cognitive.complexity - this.userProfile.currentDifficultyLevel;
-                probability -= complexityDiff * 0.5;
-
-                // Factor in recent performance trend
-                const recentTrend = this.calculateRecentPerformance();
-                probability = (probability + recentTrend) / 2;
-
-                return Math.max(0.1, Math.min(0.95, probability));
-            }
-
-            // Weighted random selection from scored questions
+            // Weighted random selection
             weightedSelection(scoredQuestions) {
-                if (scoredQuestions.length === 0) {
-                    return this.questions[Math.floor(Math.random() * this.questions.length)];
-                }
-
+                if (scoredQuestions.length === 0) return null;
+                
                 const totalScore = scoredQuestions.reduce((sum, item) => sum + item.score, 0);
-                const random = Math.random() * totalScore;
-                let currentSum = 0;
-
+                let random = Math.random() * totalScore;
+                
                 for (const item of scoredQuestions) {
-                    currentSum += item.score;
-                    if (random <= currentSum) {
-                        return item.question;
-                    }
+                    random -= item.score;
+                    if (random <= 0) return item.question;
                 }
-
+                
                 return scoredQuestions[0].question;
             }
 
-            // Start quiz with specific stake level
+            // Update user profile with taxonomy tracking
+            updateUserProfile(wasCorrect, responseTime) {
+                const question = this.currentQuiz.currentQuestion;
+                const pattern = question._cognitive.pattern;
+                const infoType = question._information.type;
+                
+                // Update pattern mastery
+                this.updateMastery(this.userProfile.patternMastery[pattern], wasCorrect, responseTime);
+                
+                // Update information type mastery
+                this.updateMastery(this.userProfile.informationMastery[infoType], wasCorrect, responseTime);
+                
+                // Update taxonomy matrix
+                const matrixCell = this.userProfile.taxonomyProgress[pattern][infoType];
+                matrixCell.attempts++;
+                if (wasCorrect) matrixCell.correct++;
+                matrixCell.mastery = matrixCell.correct / matrixCell.attempts;
+                
+                // Update overall stats
+                this.userProfile.totalQuestions++;
+                if (wasCorrect) {
+                    this.userProfile.totalCorrect++;
+                    this.userProfile.streakCount++;
+                } else {
+                    this.userProfile.streakCount = 0;
+                }
+                
+                // Store performance history
+                this.userProfile.lastPerformance.push({
+                    correct: wasCorrect,
+                    pattern: pattern,
+                    infoType: infoType,
+                    time: responseTime,
+                    complexity: question._cognitive.complexity
+                });
+                
+                if (this.userProfile.lastPerformance.length > 10) {
+                    this.userProfile.lastPerformance.shift();
+                }
+                
+                // Adjust difficulty
+                this.adjustDifficulty(wasCorrect, responseTime, question._cognitive.complexity);
+            }
+
+            // Update individual mastery tracking
+            updateMastery(masteryObj, wasCorrect, responseTime) {
+                masteryObj.attempts++;
+                if (wasCorrect) masteryObj.correct++;
+                masteryObj.avg_time = (masteryObj.avg_time * (masteryObj.attempts - 1) + responseTime) / masteryObj.attempts;
+                masteryObj.confidence = masteryObj.correct / masteryObj.attempts;
+            }
+
+            // Identify weak patterns
+            identifyWeakPatterns() {
+                return Object.entries(this.userProfile.patternMastery)
+                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < 0.6)
+                    .map(([pattern, _]) => pattern);
+            }
+
+            // Identify weak information types
+            identifyWeakInformationTypes() {
+                return Object.entries(this.userProfile.informationMastery)
+                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < 0.6)
+                    .map(([type, _]) => type);
+            }
+
+            // Adaptive difficulty adjustment
+            adjustDifficulty(wasCorrect, responseTime, questionComplexity) {
+                const targetTime = 60;
+                const velocity = this.userProfile.learningVelocity;
+                
+                if (wasCorrect) {
+                    if (responseTime < targetTime * 0.7) {
+                        this.userProfile.currentDifficultyLevel = Math.min(1.0, 
+                            this.userProfile.currentDifficultyLevel + velocity * 1.5);
+                    } else {
+                        this.userProfile.currentDifficultyLevel = Math.min(1.0,
+                            this.userProfile.currentDifficultyLevel + velocity * 0.5);
+                    }
+                } else {
+                    this.userProfile.currentDifficultyLevel = Math.max(0.1,
+                        this.userProfile.currentDifficultyLevel - velocity * 2);
+                }
+            }
+
+            // Start quiz with proper initialization
             startQuiz(stakeLevel, questionCount = 20) {
                 this.currentQuiz = {
-                    stakeLevel: stakeLevel,
+                    stakeLevel,
                     type: 'adaptive',
                     questions: [],
                     answeredQuestions: [],
                     currentQuestion: null,
                     startTime: Date.now(),
                     questionStartTime: Date.now(),
-                    questionCount: questionCount
+                    questionCount,
+                    currentQuestionIndex: 0
                 };
-
-                // Adjust parameters based on stake level
+                
+                // Adjust learning parameters by stake level
                 switch(stakeLevel) {
                     case 'practice':
-                        this.userProfile.learningVelocity = 0.15; // Faster adaptation
+                        this.userProfile.learningVelocity = 0.15;
                         break;
                     case 'mock':
-                        this.userProfile.learningVelocity = 0.1; // Moderate adaptation
+                        this.userProfile.learningVelocity = 0.1;
                         break;
                     case 'high':
-                        this.userProfile.learningVelocity = 0.05; // Slower, more deliberate adaptation
+                        this.userProfile.learningVelocity = 0.05;
                         break;
                 }
-
+                
                 return this.getNextQuestion();
             }
 
-            // Get next question in quiz
+            // Get next question
             getNextQuestion() {
                 if (!this.currentQuiz) return null;
                 
                 const question = this.selectNextQuestion();
+                if (!question) return null;
+                
                 this.currentQuiz.currentQuestion = question;
                 this.currentQuiz.questionStartTime = Date.now();
+                this.currentQuiz.currentQuestionIndex++;
                 
                 return question;
             }
 
             // Answer current question
             answerQuestion(selectedOption) {
-                if (!this.currentQuiz || !this.currentQuiz.currentQuestion) return null;
-
+                if (!this.currentQuiz?.currentQuestion) return null;
+                
                 const question = this.currentQuiz.currentQuestion;
                 const isCorrect = selectedOption === question.correct;
-                const responseTime = Date.now() - this.currentQuiz.questionStartTime;
-
-                // Store answer
+                const responseTime = (Date.now() - this.currentQuiz.questionStartTime) / 1000;
+                
                 const answerData = {
-                    question: question,
-                    selectedOption: selectedOption,
-                    isCorrect: isCorrect,
-                    responseTime: responseTime,
+                    question,
+                    selectedOption,
+                    isCorrect,
+                    responseTime,
                     timestamp: Date.now()
                 };
-
+                
                 this.currentQuiz.answeredQuestions.push(answerData);
-                this.currentQuiz.questions.push(question);
-
-                // Update profile
-                this.updateUserProfile(isCorrect, responseTime / 1000);
-
+                this.updateUserProfile(isCorrect, responseTime);
+                
                 return answerData;
             }
 
-            // Get performance analytics
-            getAnalytics() {
-                const totalQuestions = this.userProfile.totalQuestions;
-                const totalCorrect = this.userProfile.totalCorrect;
-                const overallAccuracy = totalQuestions > 0 ? totalCorrect / totalQuestions : 0;
-
-                const patternAnalysis = {};
-                for (const [pattern, mastery] of Object.entries(this.userProfile.patternMastery)) {
-                    if (mastery.attempts > 0) {
-                        patternAnalysis[pattern] = {
-                            accuracy: mastery.confidence,
-                            avgTime: mastery.avg_time,
-                            attempts: mastery.attempts,
-                            level: mastery.confidence > 0.8 ? 'Strong' : mastery.confidence > 0.6 ? 'Moderate' : 'Weak'
-                        };
-                    }
-                }
-
+            // Get quiz results
+            getResults() {
+                if (!this.currentQuiz) return null;
+                
+                const answered = this.currentQuiz.answeredQuestions;
+                const correctCount = answered.filter(a => a.isCorrect).length;
+                const totalTime = (Date.now() - this.currentQuiz.startTime) / 1000;
+                
                 return {
-                    overall: {
-                        accuracy: overallAccuracy,
-                        totalQuestions: totalQuestions,
-                        currentLevel: this.userProfile.skillLevel,
-                        difficultyLevel: this.userProfile.currentDifficultyLevel,
-                        streak: this.userProfile.streakCount
-                    },
-                    patterns: patternAnalysis,
-                    recommendations: this.generateRecommendations()
+                    totalQuestions: answered.length,
+                    correctCount,
+                    score: (correctCount / answered.length) * 100,
+                    totalTime,
+                    averageTime: totalTime / answered.length,
+                    streak: this.userProfile.streakCount,
+                    performanceByPattern: this.calculatePatternPerformance(),
+                    performanceByInformation: this.calculateInformationPerformance(),
+                    userProfile: { ...this.userProfile },
+                    quizDetails: {
+                        stakeLevel: this.currentQuiz.stakeLevel,
+                        type: this.currentQuiz.type,
+                        startTime: this.currentQuiz.startTime
+                    }
                 };
             }
 
-            // Generate personalized recommendations
-            generateRecommendations() {
-                const recommendations = [];
-                const weakAreas = this.identifyWeakAreas();
+            // Calculate pattern performance breakdown
+            calculatePatternPerformance() {
+                const performance = {};
+                Object.values(QUESTION_PATTERNS).forEach(pattern => {
+                    const patternAnswers = this.currentQuiz.answeredQuestions
+                        .filter(a => a.question._cognitive.pattern === pattern);
+                    
+                    if (patternAnswers.length > 0) {
+                        const correct = patternAnswers.filter(a => a.isCorrect).length;
+                        performance[pattern] = {
+                            total: patternAnswers.length,
+                            correct,
+                            percentage: (correct / patternAnswers.length) * 100,
+                            averageTime: patternAnswers.reduce((sum, a) => sum + a.responseTime, 0) / patternAnswers.length
+                        };
+                    }
+                });
+                return performance;
+            }
 
-                if (weakAreas.length > 0) {
-                    recommendations.push({
-                        type: 'improvement',
-                        title: 'Focus Areas',
-                        message: `Practice more questions involving: ${weakAreas.map(area => area.replace('_', ' ')).join(', ')}`
-                    });
+            // Calculate information type performance
+            calculateInformationPerformance() {
+                const performance = {};
+                Object.values(INFORMATION_TYPES).forEach(type => {
+                    const typeAnswers = this.currentQuiz.answeredQuestions
+                        .filter(a => a.question._information.type === type);
+                    
+                    if (typeAnswers.length > 0) {
+                        const correct = typeAnswers.filter(a => a.isCorrect).length;
+                        performance[type] = {
+                            total: typeAnswers.length,
+                            correct,
+                            percentage: (correct / typeAnswers.length) * 100,
+                            averageTime: typeAnswers.reduce((sum, a) => sum + a.responseTime, 0) / typeAnswers.length
+                        };
+                    }
+                });
+                return performance;
+            }
+
+            // Utility methods
+            normalizeDifficulty(difficulty) {
+                if (typeof difficulty === 'number') return Math.max(0, Math.min(1, difficulty));
+                
+                const levels = {
+                    'easy': 0.3, 'beginner': 0.3, 'low': 0.3,
+                    'medium': 0.5, 'intermediate': 0.5, 'moderate': 0.5,
+                    'hard': 0.7, 'advanced': 0.7, 'high': 0.7,
+                    'expert': 0.9, 'challenging': 0.9
+                };
+                
+                return levels[difficulty?.toLowerCase()] || 0.5;
+            }
+
+            mapDifficultyToSkill(difficulty) {
+                const level = this.normalizeDifficulty(difficulty);
+                if (level < 0.4) return 'beginner';
+                if (level < 0.6) return 'intermediate';
+                if (level < 0.8) return 'advanced';
+                return 'expert';
+            }
+
+            extractPrerequisites(question, subject) {
+                // Simple keyword-based prerequisite extraction
+                const text = question.text.toLowerCase();
+                const prerequisites = [];
+                
+                if (text.includes('calculate') || text.includes('solve')) {
+                    prerequisites.push('basic_arithmetic');
                 }
-
-                if (this.userProfile.streakCount > 5) {
-                    recommendations.push({
-                        type: 'achievement',
-                        title: 'Great Streak!',
-                        message: `You're on a ${this.userProfile.streakCount} question streak. Keep it up!`
-                    });
+                if (text.includes('equation') || text.includes('formula')) {
+                    prerequisites.push('algebra_fundamentals');
                 }
-
-                const recentPerf = this.calculateRecentPerformance();
-                if (recentPerf > 0.8) {
-                    recommendations.push({
-                        type: 'challenge',
-                        title: 'Ready for More',
-                        message: 'Your recent performance suggests you can handle more challenging questions.'
-                    });
-                } else if (recentPerf < 0.4) {
-                    recommendations.push({
-                        type: 'support',
-                        title: 'Take Your Time',
-                        message: 'Focus on understanding concepts rather than speed. Review explanations carefully.'
-                    });
+                if (text.includes('graph') || text.includes('plot')) {
+                    prerequisites.push('graph_interpretation');
                 }
+                
+                return prerequisites.length > 0 ? prerequisites : ['general_knowledge'];
+            }
 
-                return recommendations;
+            extractLearningObjectives(question, subject) {
+                // Extract potential learning objectives
+                const objectives = [];
+                const text = question.text.toLowerCase();
+                
+                if (text.includes('apply') || text.includes('use')) {
+                    objectives.push('practical_application');
+                }
+                if (text.includes('analyze') || text.includes('interpret')) {
+                    objectives.push('analytical_thinking');
+                }
+                if (text.includes('explain') || text.includes('describe')) {
+                    objectives.push('conceptual_understanding');
+                }
+                
+                return objectives.length > 0 ? objectives : ['knowledge_recall'];
+            }
+
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
             }
         }
 
-        // UI Controller
+        // Main Application Controller
         const GrantApp = {
             quizEngine: new AdaptiveQuizEngine(),
-            currentQuizState: null,
-            timerInterval: null,
+            currentScreen: 'home-screen',
+            navigationStack: [],
             currentSubject: null,
+            currentStakeLevel: null,
+            quizTimer: null,
+            questionTimer: null,
+            timeRemaining: 1800, // 30 minutes in seconds
 
-            // Screen Management
+            // Navigation and Screen Management
             showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.add('hidden');
                 });
                 document.getElementById(screenId).classList.remove('hidden');
+                this.currentScreen = screenId;
+                this.updateBreadcrumb();
             },
 
-            // Navigation functions
-            selectExam(exam) {
-                if (exam === 'jamb') {
-                    this.showScreen('subject-selection');
+            goHome() {
+                this.navigationStack = [];
+                this.showScreen('home-screen');
+                this.clearTimers();
+            },
+
+            goBack() {
+                if (this.navigationStack.length > 0) {
+                    const previousScreen = this.navigationStack.pop();
+                    this.showScreen(previousScreen);
                 } else {
-                    this.showComingSoon(`${exam.toUpperCase()} Exams`);
+                    this.goHome();
+                }
+            },
+
+            navigateTo(screenId) {
+                this.navigationStack.push(this.currentScreen);
+                this.showScreen(screenId);
+            },
+
+            updateBreadcrumb() {
+                const breadcrumb = document.getElementById('breadcrumb');
+                const container = document.getElementById('breadcrumb-container');
+                
+                if (this.currentScreen === 'home-screen') {
+                    breadcrumb.style.display = 'none';
+                    return;
+                }
+                
+                breadcrumb.style.display = 'flex';
+                breadcrumb.innerHTML = '';
+                
+                // Home breadcrumb
+                this.addBreadcrumbItem(breadcrumb, 'Home', this.goHome.bind(this));
+                
+                // Subject selection
+                if (this.currentScreen === 'subject-selection') {
+                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null, true);
+                }
+                
+                // Quiz mode selection
+                if (this.currentScreen === 'quiz-mode-selection') {
+                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null);
+                    this.addBreadcrumbItem(breadcrumb, this.currentSubject, null, true);
+                }
+                
+                // Quiz screen
+                if (this.currentScreen === 'quiz-screen') {
+                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null);
+                    this.addBreadcrumbItem(breadcrumb, this.currentSubject, null);
+                    this.addBreadcrumbItem(breadcrumb, this.currentStakeLevel, null, true);
+                }
+                
+                // Results screen
+                if (this.currentScreen === 'results-screen') {
+                    this.addBreadcrumbItem(breadcrumb, 'JAMB/UTME', null);
+                    this.addBreadcrumbItem(breadcrumb, this.currentSubject, null);
+                    this.addBreadcrumbItem(breadcrumb, this.currentStakeLevel, null);
+                    this.addBreadcrumbItem(breadcrumb, 'Results', null, true);
+                }
+            },
+
+            addBreadcrumbItem(container, text, onClick, isActive = false) {
+                const item = document.createElement('div');
+                item.className = 'breadcrumb-item';
+                
+                if (isActive) {
+                    item.innerHTML = `<span class="text-muted">${text}</span>`;
+                } else {
+                    item.innerHTML = `<a class="breadcrumb-link" onclick="${onClick ? onClick.toString().replace('function', '').trim() : 'GrantApp.goHome()'}">${text}</a>`;
+                }
+                
+                container.appendChild(item);
+            },
+
+            // Exam and Subject Selection
+            selectExam(examType) {
+                if (examType === 'jamb') {
+                    this.currentSubject = null;
+                    this.navigateTo('subject-selection');
+                } else {
+                    this.showComingSoon(`${examType.toUpperCase()} Exams`);
                 }
             },
 
             selectSubject(subject) {
                 this.currentSubject = subject;
-                this.showScreen('quiz-mode-selection');
+                this.navigateTo('quiz-mode-selection');
             },
 
-            // Start quiz with specific stake level
+            // Quiz Management
             async startQuiz(stakeLevel) {
+                this.currentStakeLevel = stakeLevel;
+                this.showLoading('Loading questions...', 'Preparing your adaptive quiz experience');
+                
                 try {
-                    this.showLoading();
-                    
-                    // Load questions
                     await this.quizEngine.loadQuestions(this.currentSubject);
+                    const firstQuestion = this.quizEngine.startQuiz(stakeLevel);
                     
-                    // Start quiz
-                    const question = this.quizEngine.startQuiz(stakeLevel, 20);
-                    this.currentQuizState = {
-                        stakeLevel: stakeLevel,
-                        questionsAnswered: 0,
-                        totalQuestions: 20,
-                        currentQuestion: question,
-                        startTime: Date.now(),
-                        timer: 30 * 60, // 30 minutes
-                        selectedAnswer: null
-                    };
+                    if (!firstQuestion) {
+                        throw new Error('No questions available for this subject');
+                    }
                     
-                    this.hideLoading();
-                    this.showScreen('quiz-screen');
-                    this.displayQuestion(question);
-                    this.updateQuizMetrics();
-                    this.startTimer();
-                    
-                    // Update UI based on stake level
-                    this.updateStakeUI(stakeLevel);
+                    this.navigateTo('quiz-screen');
+                    this.initializeQuizInterface();
+                    this.displayQuestion(firstQuestion);
+                    this.startTimers();
                     
                 } catch (error) {
+                    this.showError('Failed to start quiz', error.message, error);
+                } finally {
                     this.hideLoading();
-                    this.showError(`Failed to start quiz: ${error.message}`);
                 }
             },
 
-            // Update UI based on stake level
-            updateStakeUI(stakeLevel) {
-                const title = document.getElementById('quiz-title');
-                const badge = document.getElementById('stake-badge');
+            startDemo() {
+                this.currentSubject = 'mathematics';
+                this.currentStakeLevel = 'practice';
+                this.startQuiz('practice');
+            },
+
+            initializeQuizInterface() {
+                // Set quiz title and stake badge
+                document.getElementById('quiz-title').textContent = `${this.currentSubject} Quiz`;
+                document.getElementById('stake-badge').textContent = this.currentStakeLevel;
+                document.getElementById('stake-badge').className = `stake-badge stake-${this.currentStakeLevel}`;
                 
-                switch(stakeLevel) {
-                    case 'practice':
-                        title.textContent = 'Practice Mode';
-                        badge.textContent = 'Practice';
-                        badge.className = 'stake-badge stake-practice';
-                        break;
-                    case 'mock':
-                        title.textContent = 'Mock Exam';
-                        badge.textContent = 'Mock';
-                        badge.className = 'stake-badge stake-mock';
-                        break;
-                    case 'high':
-                        title.textContent = 'High Stakes Challenge';
-                        badge.textContent = 'High Stakes';
-                        badge.className = 'stake-badge stake-high';
-                        break;
-                }
+                // Reset progress
+                document.getElementById('quiz-progress').style.width = '0%';
+                document.getElementById('progress-text').textContent = 'Question 1 of 20';
+                this.timeRemaining = 1800; // Reset timer
+                this.updateTimerDisplay();
             },
 
-            // Display question
             displayQuestion(question) {
-                const display = document.getElementById('question-text');
-                const optionsList = document.getElementById('options-list');
+                if (!question) return;
                 
-                display.textContent = question.text;
+                document.getElementById('question-text').textContent = question.text;
+                document.getElementById('question-number').textContent = `Question ${this.quizEngine.currentQuiz.currentQuestionIndex}`;
+                document.getElementById('question-taxonomy').textContent = 
+                    question._cognitive.pattern.split('_')[0].charAt(0).toUpperCase() + 
+                    question._cognitive.pattern.split('_')[0].slice(1);
+                
+                // Update progress
+                const progress = (this.quizEngine.currentQuiz.currentQuestionIndex / this.quizEngine.currentQuiz.questionCount) * 100;
+                document.getElementById('quiz-progress').style.width = `${progress}%`;
+                document.getElementById('progress-text').textContent = 
+                    `Question ${this.quizEngine.currentQuiz.currentQuestionIndex} of ${this.quizEngine.currentQuiz.questionCount}`;
+                
+                // Display options
+                const optionsList = document.getElementById('options-list');
                 optionsList.innerHTML = '';
-
+                
                 question.options.forEach((option, index) => {
                     const li = document.createElement('li');
                     li.className = 'option-item';
                     
-                    const label = document.createElement('label');
-                    label.className = 'option-label';
-                    if (this.currentQuizState.selectedAnswer === index) {
-                        label.classList.add('selected');
-                    }
-                    label.innerHTML = `
-                        <div class="option-radio"></div>
-                        <div>${option}</div>
+                    li.innerHTML = `
+                        <label class="option-label" onclick="GrantApp.selectOption(${index})">
+                            <span class="option-radio"></span>
+                            <span class="option-text">${option}</span>
+                        </label>
                     `;
                     
-                    label.addEventListener('click', () => this.selectOption(index));
-                    li.appendChild(label);
                     optionsList.appendChild(li);
                 });
-
-                // Update progress
-                const progress = ((this.currentQuizState.questionsAnswered + 1) / this.currentQuizState.totalQuestions) * 100;
-                document.getElementById('quiz-progress').style.width = `${progress}%`;
-                document.getElementById('progress-text').textContent = 
-                    `Question ${this.currentQuizState.questionsAnswered + 1} of ${this.currentQuizState.totalQuestions}`;
-                document.getElementById('question-number').textContent = 
-                    `Question ${this.currentQuizState.questionsAnswered + 1}`;
-
+                
                 // Update navigation buttons
-                document.getElementById('prev-btn').disabled = this.currentQuizState.questionsAnswered === 0;
-                const nextBtn = document.getElementById('next-btn');
-                nextBtn.textContent = this.currentQuizState.questionsAnswered === this.currentQuizState.totalQuestions - 1 ? 
+                document.getElementById('prev-btn').disabled = this.quizEngine.currentQuiz.currentQuestionIndex === 1;
+                document.getElementById('next-btn').textContent = 
+                    this.quizEngine.currentQuiz.currentQuestionIndex === this.quizEngine.currentQuiz.questionCount ? 
                     'Finish Quiz' : 'Next Question';
+                
+                // Update adaptive metrics
+                this.updateAdaptiveMetrics();
             },
 
-            // Select answer option
-            selectOption(index) {
-                this.currentQuizState.selectedAnswer = index;
-                
-                // Update visual selection
-                document.querySelectorAll('.option-label').forEach((label, i) => {
-                    if (i === index) {
-                        label.classList.add('selected');
-                    } else {
-                        label.classList.remove('selected');
-                    }
+            selectOption(optionIndex) {
+                // Remove previous selection
+                document.querySelectorAll('.option-label').forEach(label => {
+                    label.classList.remove('selected');
                 });
+                
+                // Add selection to current option
+                const labels = document.querySelectorAll('.option-label');
+                if (labels[optionIndex]) {
+                    labels[optionIndex].classList.add('selected');
+                }
+                
+                // Enable next button
+                document.getElementById('next-btn').disabled = false;
             },
 
-            // Submit answer and proceed
-            submitAnswer() {
-                if (this.currentQuizState.selectedAnswer === null) return;
+            nextQuestion() {
+                const selectedLabel = document.querySelector('.option-label.selected');
+                if (!selectedLabel && this.quizEngine.currentQuiz.currentQuestionIndex < this.quizEngine.currentQuiz.questionCount) {
+                    this.showError('Selection Required', 'Please select an answer before proceeding.');
+                    return;
+                }
                 
-                const answerData = this.quizEngine.answerQuestion(this.currentQuizState.selectedAnswer);
-                this.currentQuizState.questionsAnswered++;
+                // Process current answer if available
+                if (selectedLabel) {
+                    const optionIndex = Array.from(document.querySelectorAll('.option-label')).indexOf(selectedLabel);
+                    this.quizEngine.answerQuestion(optionIndex);
+                }
                 
-                // Check if quiz should continue
-                if (this.currentQuizState.questionsAnswered < this.currentQuizState.totalQuestions) {
-                    const nextQuestion = this.quizEngine.getNextQuestion();
-                    this.currentQuizState.currentQuestion = nextQuestion;
-                    this.currentQuizState.selectedAnswer = null;
-                    this.displayQuestion(nextQuestion);
-                    this.updateQuizMetrics();
+                // Get next question or finish quiz
+                if (this.quizEngine.currentQuiz.currentQuestionIndex >= this.quizEngine.currentQuiz.questionCount) {
+                    this.finishQuiz();
                 } else {
-                    this.endQuiz();
+                    const nextQuestion = this.quizEngine.getNextQuestion();
+                    if (nextQuestion) {
+                        this.displayQuestion(nextQuestion);
+                        this.resetQuestionTimer();
+                    } else {
+                        this.finishQuiz();
+                    }
                 }
             },
 
-            // Update quiz metrics display
-            updateQuizMetrics() {
-                const analytics = this.quizEngine.getAnalytics();
-                
-                document.getElementById('current-score').textContent = 
-                    `${(analytics.overall.accuracy * 100).toFixed(0)}%`;
-                
-                const difficulty = analytics.overall.difficultyLevel;
-                let difficultyText = 'Easy';
-                if (difficulty > 0.7) difficultyText = 'Hard';
-                else if (difficulty > 0.4) difficultyText = 'Medium';
-                
-                document.getElementById('difficulty-level').textContent = difficultyText;
-                
-                // Calculate AI confidence
-                const confidence = this.quizEngine.predictSuccessProbability(this.currentQuizState.currentQuestion);
-                document.getElementById('confidence-score').textContent = 
-                    `${(confidence * 100).toFixed(0)}%`;
-                
-                // Pattern mastery
-                const pattern = this.currentQuizState.currentQuestion._cognitive.pattern;
-                const mastery = this.quizEngine.userProfile.patternMastery[pattern];
-                const masteryPercent = mastery.attempts > 0 ? (mastery.confidence * 100) : 50;
-                document.getElementById('pattern-mastery').textContent = `${masteryPercent.toFixed(0)}%`;
+            previousQuestion() {
+                // Navigate to previous question (simplified implementation)
+                if (this.quizEngine.currentQuiz.currentQuestionIndex > 1) {
+                    this.quizEngine.currentQuiz.currentQuestionIndex--;
+                    // In a real implementation, you'd need to track question history
+                    this.showError('Navigation Limited', 'Previous question navigation is limited in this demo.');
+                }
             },
 
-            // Start quiz timer
-            startTimer() {
-                if (this.timerInterval) clearInterval(this.timerInterval);
+            finishQuiz() {
+                this.clearTimers();
+                const results = this.quizEngine.getResults();
+                this.displayResults(results);
+                this.navigateTo('results-screen');
+            },
+
+            displayResults(results) {
+                document.getElementById('score-display').textContent = `${results.score.toFixed(1)}%`;
+                document.getElementById('correct-display').textContent = results.correctCount;
+                document.getElementById('incorrect-display').textContent = results.totalQuestions - results.correctCount;
+                document.getElementById('time-display').textContent = this.formatTime(results.totalTime);
                 
-                this.timerInterval = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - this.currentQuizState.startTime) / 1000);
-                    const remaining = Math.max(0, this.currentQuizState.timer - elapsed);
+                // Display pattern breakdown
+                const patternBreakdown = document.getElementById('pattern-breakdown');
+                patternBreakdown.innerHTML = Object.entries(results.performanceByPattern)
+                    .map(([pattern, data]) => `
+                        <div class="flex justify-between mb-xs">
+                            <span>${pattern.split('_')[0]}:</span>
+                            <span>${data.percentage.toFixed(1)}% (${data.correct}/${data.total})</span>
+                        </div>
+                    `).join('');
+                
+                // Display information breakdown
+                const informationBreakdown = document.getElementById('information-breakdown');
+                informationBreakdown.innerHTML = Object.entries(results.performanceByInformation)
+                    .map(([type, data]) => `
+                        <div class="flex justify-between mb-xs">
+                            <span>${type.split('_')[0]}:</span>
+                            <span>${data.percentage.toFixed(1)}% (${data.correct}/${data.total})</span>
+                        </div>
+                    `).join('');
+            },
+
+            updateAdaptiveMetrics() {
+                const profile = this.quizEngine.userProfile;
+                document.getElementById('current-score').textContent = 
+                    profile.totalQuestions > 0 ? `${((profile.totalCorrect / profile.totalQuestions) * 100).toFixed(1)}%` : '0%';
+                
+                document.getElementById('difficulty-level').textContent = 
+                    profile.currentDifficultyLevel < 0.4 ? 'Easy' : 
+                    profile.currentDifficultyLevel < 0.7 ? 'Medium' : 'Hard';
+                
+                const currentPattern = this.quizEngine.currentQuiz?.currentQuestion?._cognitive.pattern;
+                if (currentPattern) {
+                    document.getElementById('pattern-type').textContent = 
+                        currentPattern.split('_')[0].charAt(0).toUpperCase() + currentPattern.split('_')[0].slice(1);
+                }
+                
+                const currentInfo = this.quizEngine.currentQuiz?.currentQuestion?._information.type;
+                if (currentInfo) {
+                    document.getElementById('info-classification').textContent = 
+                        currentInfo.split('_')[0].charAt(0).toUpperCase() + currentInfo.split('_')[0].slice(1);
+                }
+            },
+
+            // Timer Management
+            startTimers() {
+                this.clearTimers();
+                
+                // Main quiz timer
+                this.quizTimer = setInterval(() => {
+                    this.timeRemaining--;
+                    this.updateTimerDisplay();
                     
-                    const minutes = Math.floor(remaining / 60);
-                    const seconds = remaining % 60;
+                    if (this.timeRemaining <= 0) {
+                        this.finishQuiz();
+                    }
+                }, 1000);
+                
+                // Question timer (reset for each question)
+                this.resetQuestionTimer();
+            },
+
+            resetQuestionTimer() {
+                if (this.questionTimer) clearInterval(this.questionTimer);
+                
+                let questionTime = 60; // 60 seconds per question
+                const questionTimerEl = document.getElementById('question-timer');
+                
+                this.questionTimer = setInterval(() => {
+                    questionTime--;
+                    questionTimerEl.textContent = `00:${questionTime.toString().padStart(2, '0')}`;
                     
-                    document.getElementById('timer-display').textContent = 
-                        `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (remaining <= 0) {
-                        this.endQuiz();
+                    if (questionTime <= 0) {
+                        clearInterval(this.questionTimer);
+                        this.nextQuestion(); // Auto-advance when time expires
                     }
                 }, 1000);
             },
 
-            // End quiz and show results
-            endQuiz() {
-                if (this.timerInterval) {
-                    clearInterval(this.timerInterval);
-                    this.timerInterval = null;
-                }
-                
-                this.showScreen('results-screen');
-                this.calculateResults();
+            updateTimerDisplay() {
+                const minutes = Math.floor(this.timeRemaining / 60);
+                const seconds = this.timeRemaining % 60;
+                document.getElementById('timer-display').textContent = 
+                    `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             },
 
-            // Calculate and display results
-            calculateResults() {
-                const analytics = this.quizEngine.getAnalytics();
-                const totalTime = Date.now() - this.currentQuizState.startTime;
-                const minutes = Math.floor(totalTime / 60000);
-                const seconds = Math.floor((totalTime % 60000) / 1000);
-                
-                document.getElementById('score-display').textContent = 
-                    `${(analytics.overall.accuracy * 100).toFixed(0)}%`;
-                document.getElementById('correct-display').textContent = 
-                    this.quizEngine.userProfile.totalCorrect;
-                document.getElementById('incorrect-display').textContent = 
-                    this.quizEngine.userProfile.totalQuestions - this.quizEngine.userProfile.totalCorrect;
-                document.getElementById('time-display').textContent = 
-                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Pattern breakdown
-                const breakdown = document.getElementById('pattern-breakdown');
-                breakdown.innerHTML = '';
-                
-                Object.entries(analytics.patterns).forEach(([pattern, data]) => {
-                    if (data.attempts > 0) {
-                        const div = document.createElement('div');
-                        div.className = 'mb-sm';
-                        div.innerHTML = `
-                            <div class="flex justify-between items-center mb-xs">
-                                <span class="text-sm font-medium">${pattern.replace('_', ' ').toUpperCase()}</span>
-                                <span class="text-sm">${data.attempts} attempts, ${(data.accuracy * 100).toFixed(0)}% accuracy</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${data.accuracy * 100}%"></div>
-                            </div>
-                        `;
-                        breakdown.appendChild(div);
-                    }
-                });
+            clearTimers() {
+                if (this.quizTimer) clearInterval(this.quizTimer);
+                if (this.questionTimer) clearInterval(this.questionTimer);
             },
 
-            // Navigation functions
-            previousQuestion() {
-                // Note: In a full implementation, we would track question history
-                // For now, this is a placeholder
-                this.showComingSoon('Question History Navigation');
+            formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
             },
 
-            nextQuestion() {
-                if (this.currentQuizState.questionsAnswered < this.currentQuizState.totalQuestions - 1) {
-                    this.submitAnswer();
-                } else {
-                    this.endQuiz();
+            // Utility Methods
+            exitQuiz() {
+                if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
+                    this.clearTimers();
+                    this.goHome();
                 }
             },
 
-            // Utility functions
-            showLoading() {
+            saveProgress() {
+                this.showComingSoon('Progress Saving');
+            },
+
+            reviewAnswers() {
+                this.showComingSoon('Answer Review');
+            },
+
+            retakeQuiz() {
+                this.startQuiz(this.currentStakeLevel);
+            },
+
+            // Modal Management
+            showComingSoon(featureName) {
+                document.getElementById('coming-soon-message').textContent = 
+                    `${featureName} is coming soon!`;
+                this.showModal('coming-soon-modal');
+            },
+
+            showError(title, message, error = null) {
+                document.getElementById('error-title').textContent = title;
+                document.getElementById('error-message').textContent = message;
+                
+                if (error) {
+                    document.getElementById('error-details').textContent = error.stack || error.toString();
+                    document.getElementById('error-details').style.display = 'block';
+                }
+                
+                this.showModal('error-modal');
+            },
+
+            showModal(modalId) {
+                document.getElementById(modalId).classList.remove('hidden');
+            },
+
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.add('hidden');
+            },
+
+            showLoading(text = 'Loading...', detail = '') {
+                document.getElementById('loading-text').textContent = text;
+                document.getElementById('loading-detail').textContent = detail;
                 document.getElementById('loading').classList.remove('hidden');
             },
 
@@ -1519,127 +2021,60 @@
                 document.getElementById('loading').classList.add('hidden');
             },
 
-            showError(message) {
-                document.getElementById('error-message').textContent = message;
-                this.openModal('error-modal');
+            retryLastAction() {
+                this.closeModal('error-modal');
+                if (lastFailedAction) {
+                    lastFailedAction();
+                }
             },
 
-            showComingSoon(feature) {
-                document.getElementById('coming-soon-message').textContent = 
-                    `${feature} is coming soon!`;
-                this.openModal('coming-soon-modal');
+            // Premium Features
+            redirectToPremium() {
+                this.showModal('premium-modal');
             },
 
-            openModal(modalId) {
-                document.getElementById(modalId).classList.remove('hidden');
-            },
-
-            closeModal(modalId) {
-                document.getElementById(modalId).classList.add('hidden');
+            redirectToSolpay() {
+                window.open('https://solpay.com/premium/grantapp', '_blank');
             }
         };
 
-        // Global functions for UI interaction
-        function goHome() {
-            GrantApp.showScreen('home-screen');
-            if (GrantApp.timerInterval) {
-                clearInterval(GrantApp.timerInterval);
-                GrantApp.timerInterval = null;
-            }
-        }
-
-        function goBack() {
-            const currentScreen = document.querySelector('.screen:not(.hidden)').id;
-            
-            if (currentScreen === 'subject-selection') {
-                goHome();
-            } else if (currentScreen === 'quiz-mode-selection') {
-                GrantApp.showScreen('subject-selection');
-            } else if (currentScreen === 'quiz-screen') {
-                if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
-                    GrantApp.showScreen('quiz-mode-selection');
-                }
-            } else if (currentScreen === 'results-screen') {
-                GrantApp.showScreen('quiz-mode-selection');
-            }
-        }
-
-        function selectExam(exam) {
-            GrantApp.selectExam(exam);
-        }
-
-        function selectSubject(subject) {
-            GrantApp.selectSubject(subject);
-        }
-
-        function startQuiz(stakeLevel) {
-            GrantApp.startQuiz(stakeLevel);
-        }
-
-        function startDemo() {
-            GrantApp.currentSubject = 'physics';
-            GrantApp.startQuiz('practice');
-        }
-
-        function previousQuestion() {
-            GrantApp.previousQuestion();
-        }
-
-        function nextQuestion() {
-            GrantApp.nextQuestion();
-        }
-
-        function exitQuiz() {
-            if (confirm('Are you sure you want to exit? Your progress will be lost.')) {
-                GrantApp.showScreen('quiz-mode-selection');
-            }
-        }
-
-        function reviewAnswers() {
-            GrantApp.showComingSoon('Detailed Answer Review');
-        }
-
-        function retakeQuiz() {
-            if (confirm('Start a new quiz with different questions?')) {
-                GrantApp.startQuiz(GrantApp.currentQuizState.stakeLevel);
-            }
-        }
-
-        function showComingSoon(feature) {
-            GrantApp.showComingSoon(feature);
-        }
-
-        function closeModal(modalId) {
-            GrantApp.closeModal(modalId);
-        }
-
-        // Initialize application
+        // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            // Add keyboard navigation
-            document.addEventListener('keydown', function(e) {
-                if (GrantApp.currentQuizState && document.getElementById('quiz-screen').classList.contains('hidden') === false) {
-                    if (e.key === 'ArrowLeft') {
-                        e.preventDefault();
-                        previousQuestion();
-                    } else if (e.key === 'ArrowRight') {
-                        e.preventDefault();
-                        nextQuestion();
-                    } else if (e.key >= '1' && e.key <= '4') {
-                        e.preventDefault();
-                        GrantApp.selectOption(parseInt(e.key) - 1);
+            console.log('GrantApp Adaptive Quiz Engine initialized');
+            
+            // Set current year in footer if exists
+            const yearElement = document.getElementById('current-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+            
+            // Initialize tooltips
+            const tooltipContainers = document.querySelectorAll('.tooltip-container');
+            tooltipContainers.forEach(container => {
+                container.addEventListener('mouseenter', function() {
+                    const tooltip = this.querySelector('.tooltip');
+                    if (tooltip) {
+                        tooltip.style.opacity = '1';
                     }
-                }
-            });
-
-            // Modal click outside to close
-            document.querySelectorAll('.modal-overlay').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        GrantApp.closeModal(this.id);
+                });
+                
+                container.addEventListener('mouseleave', function() {
+                    const tooltip = this.querySelector('.tooltip');
+                    if (tooltip) {
+                        tooltip.style.opacity = '0';
                     }
                 });
             });
         });
+
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            GrantApp.showError('Unexpected Error', 'An unexpected error occurred. Please refresh the page and try again.', e.error);
+        });
+
+        // Export for global access
+        window.GrantApp = GrantApp;
     </script>
 </body>
 </html>
