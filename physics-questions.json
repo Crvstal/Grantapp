@@ -1,0 +1,1013 @@
+{
+  "metadata": {
+    "subject": "jamb-physics",
+    "version": "1.0",
+    "lastUpdated": "2024-12-28T00:00:00Z",
+    "totalQuestions": 50,
+    "creator": "Exam Prep Standard",
+    "examType": "JAMB/UTME",
+    "taxonomyVersion": "5x2-v1"
+  },
+  "questions": [
+    {
+      "id": "jamb_phy_001",
+      "subject": "jamb-physics",
+      "question": "A car accelerates from 10 m/s at 5 m/s² for 4 seconds. Find the final velocity.",
+      "options": [
+        "30 m/s",
+        "35 m/s", 
+        "14 m/s",
+        "20 m/s"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using v = u + at: v = 10 + 5 × 4 = 30 m/s",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["kinematics", "motion", "acceleration"],
+      "topic": "Motion in One Dimension",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_002",
+      "subject": "jamb-physics", 
+      "question": "A 12V battery supplies 2A to a circuit. Calculate the resistance of the circuit.",
+      "options": [
+        "6Ω",
+        "12Ω",
+        "14Ω", 
+        "24Ω"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using Ohm's law: R = V/I = 12/2 = 6Ω",
+      "taxonomyType": "pragmatic",
+      "informationType": "applied",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["electricity", "ohms-law", "resistance"],
+      "topic": "Current Electricity",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_003",
+      "subject": "jamb-physics",
+      "question": "A wave has frequency 100 Hz and wavelength 0.3 m. Calculate its velocity.",
+      "options": [
+        "30 m/s",
+        "100.3 m/s",
+        "333 m/s",
+        "0.003 m/s"
+      ],
+      "correctAnswer": "A", 
+      "explanation": "Using wave equation: v = fλ = 100 × 0.3 = 30 m/s",
+      "taxonomyType": "logical",
+      "informationType": "abstract",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["waves", "frequency", "wavelength"],
+      "topic": "Wave Motion",
+      "unit": "Waves"
+    },
+    {
+      "id": "jamb_phy_004",
+      "subject": "jamb-physics",
+      "question": "Convert 25°C to Kelvin.",
+      "options": [
+        "298 K",
+        "25 K",
+        "125 K",
+        "-248 K"
+      ],
+      "correctAnswer": "A",
+      "explanation": "K = °C + 273 = 25 + 273 = 298 K",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["temperature", "conversion", "kelvin"],
+      "topic": "Heat and Temperature", 
+      "unit": "Heat"
+    },
+    {
+      "id": "jamb_phy_005",
+      "subject": "jamb-physics",
+      "question": "Calculate the force needed to accelerate a 10 kg object at 5 m/s².",
+      "options": [
+        "50 N",
+        "15 N",
+        "2 N",
+        "-5 N"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using F = ma: F = 10 × 5 = 50 N",
+      "taxonomyType": "mathematical",
+      "informationType": "proofs",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["force", "newton-laws", "acceleration"],
+      "topic": "Force and Motion",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_006", 
+      "subject": "jamb-physics",
+      "question": "A 60 kg object is lifted to 20 m height. Calculate its potential energy. (g = 10 m/s²)",
+      "options": [
+        "12000 J",
+        "1200 J", 
+        "200 J",
+        "80 J"
+      ],
+      "correctAnswer": "A",
+      "explanation": "PE = mgh = 60 × 10 × 20 = 12000 J",
+      "taxonomyType": "pragmatic",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["energy", "potential-energy", "work"],
+      "topic": "Work, Energy and Power",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_007",
+      "subject": "jamb-physics",
+      "question": "Helium has 2 protons and 2 neutrons. What is its mass number?",
+      "options": [
+        "4",
+        "2", 
+        "0",
+        "8"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Mass number = protons + neutrons = 2 + 2 = 4",
+      "taxonomyType": "logical",
+      "informationType": "abstract",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["atomic-structure", "mass-number", "modern-physics"],
+      "topic": "Atomic Structure",
+      "unit": "Modern Physics"
+    },
+    {
+      "id": "jamb_phy_008",
+      "subject": "jamb-physics",
+      "question": "What is the relationship between current, voltage, and resistance?",
+      "options": [
+        "V = IR (Ohm's Law)",
+        "V = I + R",
+        "V = I - R", 
+        "V = I/R"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Ohm's Law states that voltage equals current times resistance: V = IR",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["ohms-law", "electricity", "fundamental-laws"],
+      "topic": "Current Electricity",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_009",
+      "subject": "jamb-physics",
+      "question": "A pendulum oscillates with period 2 seconds. What is its frequency?",
+      "options": [
+        "0.5 Hz",
+        "2 Hz",
+        "4 Hz",
+        "1 Hz"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Frequency = 1/Period = 1/2 = 0.5 Hz",
+      "taxonomyType": "mathematical",
+      "informationType": "contextual",
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["oscillation", "frequency", "period"],
+      "topic": "Simple Harmonic Motion",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_010",
+      "subject": "jamb-physics",
+      "question": "Light travels at 3 × 10⁸ m/s in vacuum. This is known as:",
+      "options": [
+        "Speed of light (c)",
+        "Wave velocity",
+        "Phase velocity",
+        "Group velocity"
+      ],
+      "correctAnswer": "A", 
+      "explanation": "The speed of light in vacuum is a fundamental constant denoted by 'c'",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["light", "speed-of-light", "constants"],
+      "topic": "Light Waves",
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_011",
+      "subject": "jamb-physics",
+      "question": "A projectile is fired at 30° to the horizontal with initial velocity 20 m/s. What is the horizontal component?",
+      "options": [
+        "17.3 m/s",
+        "20 m/s",
+        "10 m/s", 
+        "15 m/s"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Horizontal component = v cos θ = 20 cos 30° = 20 × 0.866 = 17.3 m/s",
+      "taxonomyType": "mathematical",
+      "informationType": "applied",
+      "difficulty": "hard",
+      "timeLimit": 120,
+      "tags": ["projectile", "vectors", "components"],
+      "topic": "Motion in Two Dimensions",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_012",
+      "subject": "jamb-physics",
+      "question": "The efficiency of a machine that does 800 J of useful work from 1000 J input is:",
+      "options": [
+        "80%",
+        "125%",
+        "200 J",
+        "1800%"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Efficiency = (Useful work output / Total energy input) × 100% = (800/1000) × 100% = 80%",
+      "taxonomyType": "pragmatic",
+      "informationType": "applied",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["efficiency", "energy", "machines"],
+      "topic": "Work, Energy and Power",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_013",
+      "subject": "jamb-physics", 
+      "question": "Two forces of 3N and 4N act perpendicularlly. Find the resultant force.",
+      "options": [
+        "5 N",
+        "7 N",
+        "1 N",
+        "12 N"
+      ],
+      "correctAnswer": "A",
+      "explanation": "For perpendicular forces: R = √(F₁² + F₂²) = √(3² + 4²) = √25 = 5 N",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["vectors", "force", "resultant"],
+      "topic": "Scalars and Vectors",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_014",
+      "subject": "jamb-physics",
+      "question": "What happens to the resistance of a conductor when its temperature increases?",
+      "options": [
+        "It increases",
+        "It decreases",
+        "It remains constant",
+        "It becomes zero"
+      ],
+      "correctAnswer": "A",
+      "explanation": "For most conductors, resistance increases with temperature due to increased atomic vibrations",
+      "taxonomyType": "logical",
+      "informationType": "contextual",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["resistance", "temperature", "conductors"],
+      "topic": "Current Electricity", 
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_015",
+      "subject": "jamb-physics",
+      "question": "A transformer has 100 turns in primary and 500 turns in secondary. If primary voltage is 240V, find secondary voltage.",
+      "options": [
+        "1200 V",
+        "48 V",
+        "240 V",
+        "600 V"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Vs/Vp = Ns/Np, so Vs = Vp × (Ns/Np) = 240 × (500/100) = 1200 V",
+      "taxonomyType": "mathematical",
+      "informationType": "applied",
+      "difficulty": "hard",
+      "timeLimit": 120,
+      "tags": ["transformer", "voltage", "electromagnetic-induction"],
+      "topic": "Electromagnetic Induction",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_016",
+      "subject": "jamb-physics",
+      "question": "The unit of magnetic flux is:",
+      "options": [
+        "Weber (Wb)",
+        "Tesla (T)",
+        "Henry (H)",
+        "Ampere (A)"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Magnetic flux is measured in Weber (Wb), named after Wilhelm Weber",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["magnetic-flux", "units", "weber"],
+      "topic": "Magnetism",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_017",
+      "subject": "jamb-physics",
+      "question": "Sound travels fastest in:",
+      "options": [
+        "Solids",
+        "Liquids", 
+        "Gases",
+        "Vacuum"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Sound travels fastest in solids because particles are closely packed, allowing faster transmission of vibrations",
+      "taxonomyType": "logical",
+      "informationType": "contextual",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["sound", "speed", "medium"],
+      "topic": "Sound Waves",
+      "unit": "Waves"
+    },
+    {
+      "id": "jamb_phy_018",
+      "subject": "jamb-physics",
+      "question": "A lens with focal length 20 cm has an object placed 30 cm away. Find the image distance.",
+      "options": [
+        "60 cm",
+        "10 cm",
+        "50 cm",
+        "12 cm"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using lens formula: 1/f = 1/u + 1/v, so 1/20 = 1/30 + 1/v, solving gives v = 60 cm",
+      "taxonomyType": "mathematical",
+      "informationType": "applied",
+      "difficulty": "hard",
+      "timeLimit": 150,
+      "tags": ["optics", "lens", "focal-length"],
+      "topic": "Optical Instruments",
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_019",
+      "subject": "jamb-physics",
+      "question": "The phenomenon where light bends when passing through different media is called:",
+      "options": [
+        "Refraction",
+        "Reflection",
+        "Diffraction",
+        "Interference"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Refraction is the bending of light when it passes from one medium to another with different optical density",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["refraction", "light", "optics"],
+      "topic": "Light Waves",
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_020",
+      "subject": "jamb-physics",
+      "question": "A gas occupies 2L at 300K. What volume will it occupy at 600K? (Pressure constant)",
+      "options": [
+        "4 L",
+        "1 L",
+        "6 L", 
+        "2 L"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using Charles' Law: V₁/T₁ = V₂/T₂, so V₂ = V₁ × T₂/T₁ = 2 × 600/300 = 4 L",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["gas-laws", "charles-law", "temperature"],
+      "topic": "Gas Laws",
+      "unit": "Heat"
+    },
+    {
+      "id": "jamb_phy_021",
+      "subject": "jamb-physics",
+      "question": "Einstein's mass-energy equivalence is expressed as:",
+      "options": [
+        "E = mc²",
+        "E = mv²",
+        "E = mgh",
+        "E = ½mv²"
+      ],
+      "correctAnswer": "A", 
+      "explanation": "Einstein's famous equation E = mc² shows the equivalence of mass and energy",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["relativity", "mass-energy", "einstein"],
+      "topic": "Modern Physics",
+      "unit": "Modern Physics"
+    },
+    {
+      "id": "jamb_phy_022",
+      "subject": "jamb-physics",
+      "question": "The half-life of a radioactive substance is 4 years. After 12 years, what fraction remains?",
+      "options": [
+        "1/8",
+        "1/4",
+        "1/2",
+        "1/3"
+      ],
+      "correctAnswer": "A",
+      "explanation": "After 3 half-lives (12/4 = 3), remaining fraction = (1/2)³ = 1/8",
+      "taxonomyType": "statistics",
+      "informationType": "abstract",
+      "difficulty": "hard", 
+      "timeLimit": 120,
+      "tags": ["radioactivity", "half-life", "nuclear"],
+      "topic": "Nuclear Physics",
+      "unit": "Modern Physics"
+    },
+    {
+      "id": "jamb_phy_023",
+      "subject": "jamb-physics",
+      "question": "A spring extends by 5 cm when a 2N force is applied. What is the spring constant?",
+      "options": [
+        "40 N/m",
+        "10 N/m", 
+        "0.4 N/m",
+        "2.5 N/m"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using Hooke's Law: k = F/x = 2 N / 0.05 m = 40 N/m",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["hookes-law", "spring", "force"],
+      "topic": "Mechanical Properties of Matter",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_024",
+      "subject": "jamb-physics",
+      "question": "What type of current is supplied by a battery?",
+      "options": [
+        "Direct Current (DC)",
+        "Alternating Current (AC)",
+        "Pulsating Current",
+        "No current"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Batteries supply Direct Current (DC) which flows in one direction only",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 30,
+      "tags": ["current", "battery", "dc"],
+      "topic": "Current Electricity",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_025",
+      "subject": "jamb-physics",
+      "question": "The acceleration due to gravity on Earth is approximately:",
+      "options": [
+        "9.8 m/s²",
+        "9.8 m/s",
+        "10 m/s",
+        "9.8 km/s²"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The standard acceleration due to gravity on Earth is 9.8 m/s² (often approximated as 10 m/s² in calculations)",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 30,
+      "tags": ["gravity", "acceleration", "earth"],
+      "topic": "Gravitational Field",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_026",
+      "subject": "jamb-physics",
+      "question": "A motor converts 1000J of electrical energy into 800J of mechanical work. What is the efficiency?",
+      "options": [
+        "80%",
+        "125%",
+        "200J",
+        "20%"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Efficiency = (Output energy / Input energy) × 100% = (800/1000) × 100% = 80%",
+      "taxonomyType": "pragmatic",
+      "informationType": "applied",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["efficiency", "motor", "energy-conversion"],
+      "topic": "Work, Energy and Power",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_027",
+      "subject": "jamb-physics",
+      "question": "In which part of the electromagnetic spectrum does visible light fall?",
+      "options": [
+        "Between infrared and ultraviolet",
+        "Beyond X-rays",
+        "Before radio waves",
+        "After gamma rays"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Visible light occupies a narrow band in the electromagnetic spectrum between infrared and ultraviolet radiation",
+      "taxonomyType": "logical",
+      "informationType": "contextual", 
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["electromagnetic-spectrum", "visible-light", "waves"],
+      "topic": "Light Waves",
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_028",
+      "subject": "jamb-physics",
+      "question": "The SI base unit for electric current is:",
+      "options": [
+        "Ampere (A)",
+        "Volt (V)",
+        "Ohm (Ω)", 
+        "Coulomb (C)"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The Ampere (A) is the SI base unit for electric current, named after André-Marie Ampère",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 30,
+      "tags": ["units", "current", "ampere"],
+      "topic": "Measurement and Units",
+      "unit": "Fundamentals"
+    },
+    {
+      "id": "jamb_phy_029",
+      "subject": "jamb-physics",
+      "question": "A satellite orbits Earth. What provides the centripetal force?",
+      "options": [
+        "Gravitational force",
+        "Magnetic force",
+        "Electric force", 
+        "Nuclear force"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The gravitational force between Earth and the satellite provides the centripetal force needed for circular motion",
+      "taxonomyType": "logical",
+      "informationType": "abstract",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["circular-motion", "gravity", "satellite"],
+      "topic": "Circular Motion",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_030",
+      "subject": "jamb-physics",
+      "question": "The refractive index of water is 1.33. What does this mean?",
+      "options": [
+        "Light travels 1.33 times slower in water than in air",
+        "Light travels 1.33 times faster in water",
+        "Water is 1.33 times denser than air",
+        "Water has 1.33 times more molecules"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Refractive index = c/v, where c is speed in vacuum and v is speed in the medium. Higher index means slower light speed",
+      "taxonomyType": "logical",
+      "informationType": "contextual",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["refraction", "refractive-index", "optics"],
+      "topic": "Light Waves", 
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_031",
+      "subject": "jamb-physics",
+      "question": "Two resistors of 4Ω and 6Ω are connected in series. Find the total resistance.",
+      "options": [
+        "10Ω",
+        "2.4Ω",
+        "24Ω",
+        "5Ω"
+      ],
+      "correctAnswer": "A",
+      "explanation": "In series connection: R_total = R₁ + R₂ = 4Ω + 6Ω = 10Ω",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["resistance", "series-circuit", "electricity"],
+      "topic": "Current Electricity",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_032",
+      "subject": "jamb-physics",
+      "question": "What is the momentum of a 5 kg object moving at 10 m/s?",
+      "options": [
+        "50 kg⋅m/s",
+        "15 kg⋅m/s",
+        "2 kg⋅m/s",
+        "500 kg⋅m/s"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Momentum = mass × velocity = 5 kg × 10 m/s = 50 kg⋅m/s",
+      "taxonomyType": "mathematical", 
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["momentum", "motion", "mechanics"],
+      "topic": "Momentum and Impulse",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_033",
+      "subject": "jamb-physics",
+      "question": "Which of the following is NOT a vector quantity?",
+      "options": [
+        "Speed",
+        "Velocity",
+        "Acceleration",
+        "Force"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Speed is a scalar quantity (magnitude only), while velocity, acceleration, and force are vectors (magnitude and direction)",
+      "taxonomyType": "logical",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["vectors", "scalars", "quantities"],
+      "topic": "Scalars and Vectors",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_034",
+      "subject": "jamb-physics",
+      "question": "The power dissipated in a 5Ω resistor carrying 2A current is:",
+      "options": [
+        "20 W",
+        "10 W", 
+        "2.5 W",
+        "7 W"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Power = I²R = (2A)² × 5Ω = 4 × 5 = 20 W",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["power", "resistance", "current"],
+      "topic": "Current Electricity",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_035",
+      "subject": "jamb-physics",
+      "question": "What happens to the kinetic energy of an object if its velocity doubles?",
+      "options": [
+        "It increases by a factor of 4",
+        "It doubles",
+        "It remains the same",
+        "It increases by a factor of 8"
+      ],
+      "correctAnswer": "A",
+      "explanation": "KE = ½mv². If velocity doubles, KE = ½m(2v)² = ½m(4v²) = 4(½mv²), so it increases by factor of 4",
+      "taxonomyType": "logical",
+      "informationType": "abstract",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["kinetic-energy", "velocity", "energy"],
+      "topic": "Work, Energy and Power",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_036",
+      "subject": "jamb-physics",
+      "question": "The critical angle for total internal reflection in glass (n=1.5) to air is approximately:",
+      "options": [
+        "42°",
+        "30°",
+        "60°",
+        "90°"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Critical angle θc = arcsin(1/n) = arcsin(1/1.5) = arcsin(0.667) ≈ 42°",
+      "taxonomyType": "mathematical",
+      "informationType": "applied",
+      "difficulty": "hard",
+      "timeLimit": 120,
+      "tags": ["total-internal-reflection", "critical-angle", "optics"],
+      "topic": "Light Waves",
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_037",
+      "subject": "jamb-physics",
+      "question": "The SI unit for frequency is:",
+      "options": [
+        "Hertz (Hz)",
+        "Joule (J)",
+        "Watt (W)",
+        "Newton (N)"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Frequency is measured in Hertz (Hz), which represents cycles per second",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 30,
+      "tags": ["frequency", "units", "hertz"],
+      "topic": "Measurement and Units", 
+      "unit": "Fundamentals"
+    },
+    {
+      "id": "jamb_phy_038",
+      "subject": "jamb-physics",
+      "question": "A body moving in a circle at constant speed has:",
+      "options": [
+        "Constant velocity and changing acceleration",
+        "Changing velocity and constant acceleration",
+        "Constant velocity and constant acceleration",
+        "Changing velocity and changing acceleration"
+      ],
+      "correctAnswer": "B",
+      "explanation": "In uniform circular motion, speed is constant but direction changes, so velocity changes. Acceleration is constant in magnitude but changes direction.",
+      "taxonomyType": "logical",
+      "informationType": "abstract",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["circular-motion", "velocity", "acceleration"],
+      "topic": "Circular Motion",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_039",
+      "subject": "jamb-physics",
+      "question": "The wavelength of a sound wave in air at 20°C with frequency 1000 Hz is approximately:",
+      "options": [
+        "0.34 m",
+        "3.4 m",
+        "34 m",
+        "0.034 m"
+      ],
+      "correctAnswer": "A",
+      "explanation": "λ = v/f. Speed of sound in air ≈ 340 m/s, so λ = 340/1000 = 0.34 m",
+      "taxonomyType": "mathematical",
+      "informationType": "contextual",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["sound", "wavelength", "frequency"],
+      "topic": "Sound Waves",
+      "unit": "Waves"
+    },
+    {
+      "id": "jamb_phy_040",
+      "subject": "jamb-physics",
+      "question": "Which statement about electromagnetic waves is correct?",
+      "options": [
+        "They can travel through vacuum",
+        "They require a medium to propagate",
+        "They only travel through solids",
+        "They cannot be reflected"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Electromagnetic waves are self-propagating and do not require a medium. They can travel through vacuum at the speed of light.",
+      "taxonomyType": "logical",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 60,
+      "tags": ["electromagnetic-waves", "vacuum", "propagation"],
+      "topic": "Light Waves",
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_041",
+      "subject": "jamb-physics",
+      "question": "A 2kg mass attached to a spring oscillates with amplitude 0.1m and period 2s. What is the maximum velocity?",
+      "options": [
+        "0.314 m/s",
+        "0.1 m/s",
+        "0.2 m/s",
+        "0.628 m/s"
+      ],
+      "correctAnswer": "A",
+      "explanation": "For SHM: v_max = ωA = (2π/T) × A = (2π/2) × 0.1 = π × 0.1 ≈ 0.314 m/s",
+      "taxonomyType": "mathematical",
+      "informationType": "proofs",
+      "difficulty": "hard",
+      "timeLimit": 120,
+      "tags": ["simple-harmonic-motion", "amplitude", "velocity"],
+      "topic": "Simple Harmonic Motion",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_042",
+      "subject": "jamb-physics",
+      "question": "The photoelectric effect demonstrates that light has:",
+      "options": [
+        "Particle nature",
+        "Wave nature only",
+        "No energy",
+        "Constant frequency"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The photoelectric effect can only be explained if light behaves as particles (photons) with discrete energy packets E = hf",
+      "taxonomyType": "logical",
+      "informationType": "abstract",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["photoelectric-effect", "light", "particle-nature"],
+      "topic": "Modern Physics",
+      "unit": "Modern Physics"
+    },
+    {
+      "id": "jamb_phy_043",
+      "subject": "jamb-physics",
+      "question": "Two parallel resistors of 6Ω each have a combined resistance of:",
+      "options": [
+        "3Ω",
+        "12Ω",
+        "6Ω",
+        "36Ω"
+      ],
+      "correctAnswer": "A",
+      "explanation": "For parallel resistors: 1/R = 1/R₁ + 1/R₂ = 1/6 + 1/6 = 2/6, so R = 3Ω",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["parallel-circuit", "resistance", "electricity"],
+      "topic": "Current Electricity",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_044",
+      "subject": "jamb-physics",
+      "question": "The force between two point charges is given by:",
+      "options": [
+        "Coulomb's Law: F = kq₁q₂/r²",
+        "Newton's Law: F = ma",
+        "Ohm's Law: V = IR",
+        "Hooke's Law: F = kx"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Coulomb's Law describes the electrostatic force between two point charges separated by distance r",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "easy",
+      "timeLimit": 45,
+      "tags": ["coulombs-law", "electric-force", "charges"],
+      "topic": "Electric Field and Potential",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_045",
+      "subject": "jamb-physics",
+      "question": "A ball is dropped from rest and falls for 3 seconds. How far does it fall? (g = 10 m/s²)",
+      "options": [
+        "45 m",
+        "30 m",
+        "90 m",
+        "15 m"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Using s = ut + ½gt²: s = 0 + ½ × 10 × 3² = 5 × 9 = 45 m",
+      "taxonomyType": "mathematical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["free-fall", "gravity", "kinematics"],
+      "topic": "Motion in One Dimension",
+      "unit": "Mechanics"
+    },
+    {
+      "id": "jamb_phy_046",
+      "subject": "jamb-physics",
+      "question": "The work done in moving a charge in an electric field depends on:",
+      "options": [
+        "The path taken",
+        "Only the initial and final positions",
+        "The speed of movement",
+        "The time taken"
+      ],
+      "correctAnswer": "B",
+      "explanation": "Electric field is conservative, so work done depends only on initial and final positions, not on the path taken",
+      "taxonomyType": "logical",
+      "informationType": "abstract",
+      "difficulty": "medium",
+      "timeLimit": 90,
+      "tags": ["electric-field", "work", "conservative-force"],
+      "topic": "Electric Field and Potential",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_047",
+      "subject": "jamb-physics",
+      "question": "In AC circuits, the effective (RMS) value of current is related to peak current by:",
+      "options": [
+        "I_rms = I_peak/√2",
+        "I_rms = I_peak × √2",
+        "I_rms = I_peak/2",
+        "I_rms = 2 × I_peak"
+      ],
+      "correctAnswer": "A",
+      "explanation": "For sinusoidal AC, RMS value = Peak value/√2, so I_rms = I_peak/√2 ≈ 0.707 × I_peak",
+      "taxonomyType": "mathematical",
+      "informationType": "proofs",
+      "difficulty": "hard",
+      "timeLimit": 120,
+      "tags": ["ac-circuits", "rms", "peak-current"],
+      "topic": "Alternating Current",
+      "unit": "Electricity"
+    },
+    {
+      "id": "jamb_phy_048",
+      "subject": "jamb-physics",
+      "question": "The principle of superposition applies to:",
+      "options": [
+        "Wave interference",
+        "Particle collisions",
+        "Electric circuits only",
+        "Gravitational force only"
+      ],
+      "correctAnswer": "A",
+      "explanation": "The principle of superposition states that when two or more waves meet, the resultant displacement is the algebraic sum of individual displacements",
+      "taxonomyType": "logical",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["superposition", "waves", "interference"],
+      "topic": "Wave Motion",
+      "unit": "Waves"
+    },
+    {
+      "id": "jamb_phy_049",
+      "subject": "jamb-physics",
+      "question": "A convex mirror always produces images that are:",
+      "options": [
+        "Virtual, upright, and diminished",
+        "Real, inverted, and magnified",
+        "Virtual, inverted, and diminished",
+        "Real, upright, and magnified"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Convex mirrors always produce virtual images that are upright and smaller than the object, regardless of object position",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["convex-mirror", "images", "optics"],
+      "topic": "Optical Instruments",
+      "unit": "Optics"
+    },
+    {
+      "id": "jamb_phy_050",
+      "subject": "jamb-physics",
+      "question": "The binding energy of a nucleus is the energy required to:",
+      "options": [
+        "Separate all nucleons from the nucleus",
+        "Add one more proton",
+        "Remove one electron",
+        "Fuse two nuclei"
+      ],
+      "correctAnswer": "A",
+      "explanation": "Nuclear binding energy is the energy needed to completely separate a nucleus into its individual protons and neutrons",
+      "taxonomyType": "canon",
+      "informationType": "essential",
+      "difficulty": "medium",
+      "timeLimit": 75,
+      "tags": ["nuclear-physics", "binding-energy", "nucleons"],
+      "topic": "Nuclear Physics",
+      "unit": "Modern Physics"
+    }
+  ]
+}
