@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JAMB Physics - Adaptive Quiz Engine</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.solana.com/web3.js/v1.8.0/solana.web3.min.js"></script>
     <style>
         :root {
             --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -50,6 +49,39 @@
         .hidden { display: none; }
         .text-center { text-align: center; }
         .w-full { width: 100%; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-sm { gap: var(--space-sm); }
+        .gap-md { gap: var(--space-md); }
+        .gap-lg { gap: var(--space-lg); }
+        .mb-sm { margin-bottom: var(--space-sm); }
+        .mb-md { margin-bottom: var(--space-md); }
+        .mb-lg { margin-bottom: var(--space-lg); }
+        .mb-xl { margin-bottom: var(--space-xl); }
+        .p-sm { padding: var(--space-sm); }
+        .p-md { padding: var(--space-md); }
+        .p-lg { padding: var(--space-lg); }
+        .p-xl { padding: var(--space-xl); }
+        .py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+        .py-lg { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
+        .py-xl { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
+
+        /* Typography */
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .font-luxury { font-family: var(--font-luxury); }
+        .text-muted { color: var(--neutral-500); }
 
         /* Navigation */
         .navbar {
@@ -104,7 +136,11 @@
         .btn-primary { background: var(--primary); color: var(--secondary); border-color: var(--primary); }
         .btn-accent { background: var(--accent); color: var(--primary); border-color: var(--accent); }
         .btn-success { background: var(--success); color: var(--secondary); border-color: var(--success); }
+        .btn-error { background: var(--error); color: var(--secondary); border-color: var(--error); }
+        .btn-ghost { border: none; background: none; }
+        .btn-ghost:hover { background: var(--neutral-100); }
         .btn-lg { padding: var(--space-md) var(--space-xl); font-size: 1rem; }
+        .btn-sm { padding: var(--space-xs) var(--space-sm); font-size: 0.75rem; }
 
         /* Quiz Styles */
         .quiz-container {
@@ -172,6 +208,18 @@
             background: var(--accent);
             border-color: var(--accent);
             color: var(--primary);
+        }
+
+        .option-label.correct {
+            background: var(--success);
+            border-color: var(--success);
+            color: var(--secondary);
+        }
+
+        .option-label.incorrect {
+            background: var(--error);
+            border-color: var(--error);
+            color: var(--secondary);
         }
 
         .option-radio {
@@ -255,32 +303,183 @@
             text-transform: uppercase;
         }
 
+        .stake-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stake-practice { background: var(--success); color: var(--secondary); }
+        .stake-mock { background: var(--warning); color: var(--secondary); }
+        .stake-high { background: var(--error); color: var(--secondary); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--secondary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--neutral-200);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--space-md);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Grid */
+        .grid { display: grid; gap: var(--space-lg); }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+        /* Explanation Box */
+        .explanation-box {
+            background: var(--neutral-50);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+
+        .explanation-title {
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--primary);
+        }
+
+        .correct-answer {
+            color: var(--success);
+            font-weight: 600;
+            margin-top: var(--space-sm);
+        }
+
+        /* Error States */
+        .error-container {
+            background: #fee;
+            border: 1px solid var(--error);
+            color: var(--error);
+            padding: var(--space-md);
+            border-radius: var(--radius);
+            margin: var(--space-md) 0;
+        }
+
+        /* Question Bank */
+        .question-bank-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            border: var(--border);
+            border-radius: var(--radius);
+        }
+
+        .question-bank-item {
+            padding: var(--space-md);
+            border-bottom: var(--border);
+            cursor: pointer;
+            transition: background-color var(--transition);
+        }
+
+        .question-bank-item:hover {
+            background: var(--neutral-50);
+        }
+
+        .question-bank-item:last-child {
+            border-bottom: none;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container { padding: 0 var(--space-sm); }
             .question-card { padding: var(--space-lg); }
             .quiz-controls { flex-direction: column; gap: var(--space-md); }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <a href="index.html" class="navbar-brand">GrantApp</a>
-        <div>
-            <button class="btn btn-ghost" onclick="PhysicsQuiz.showQuestionBank()">Question Bank</button>
-            <button class="btn btn-accent" onclick="PhysicsQuiz.showPremiumModal()">Upgrade</button>
+        <div class="flex items-center gap-md">
+            <button class="btn btn-ghost" onclick="PhysicsQuiz.showQuestionBank()" aria-label="View question bank">Question Bank</button>
+            <button class="btn btn-accent" onclick="PhysicsQuiz.showPremiumModal()" aria-label="Upgrade to premium">Upgrade</button>
         </div>
     </nav>
 
     <div class="container">
         <!-- Home Screen -->
         <div id="home-screen" class="screen">
-            <section class="py-2xl text-center">
+            <section class="py-xl text-center">
                 <h1 class="font-luxury text-4xl mb-lg">JAMB Physics</h1>
                 <p class="text-lg text-muted mb-xl">Master Physics with our adaptive learning system</p>
                 
-                <div class="grid grid-3 mb-xl" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg);">
+                <div class="grid grid-3 mb-xl">
                     <div class="card">
                         <div class="card-body text-center">
                             <h3 class="text-2xl font-semibold mb-sm">Practice Mode</h3>
@@ -311,8 +510,8 @@
                         <h3 class="text-xl font-semibold">Quick Start</h3>
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-lg">Jump into a quick 10-question adaptive quiz</p>
-                        <button class="btn btn-accent btn-lg w-full" onclick="PhysicsQuiz.startQuickQuiz()">Quick Quiz (10 Questions)</button>
+                        <p class="text-muted mb-lg">Jump into a quick 5-question adaptive quiz</p>
+                        <button class="btn btn-accent btn-lg w-full" onclick="PhysicsQuiz.startQuickQuiz()">Quick Quiz (5 Questions)</button>
                     </div>
                 </div>
             </section>
@@ -327,7 +526,7 @@
                         <div class="flex justify-between items-center mb-md">
                             <h2 class="text-xl font-semibold" id="quiz-title">Physics Adaptive Quiz</h2>
                             <div class="flex items-center gap-md">
-                                <span class="premium-badge" id="stake-badge">Practice</span>
+                                <span class="stake-badge" id="stake-badge">Practice</span>
                                 <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.exitQuiz()">Exit Quiz</button>
                             </div>
                         </div>
@@ -335,7 +534,7 @@
                             <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
                         </div>
                         <div class="flex justify-between text-sm text-muted">
-                            <span id="progress-text">Question 1 of 20</span>
+                            <span id="progress-text">Question 1 of 5</span>
                             <span id="timer-display">Time: 30:00</span>
                         </div>
                     </div>
@@ -358,6 +557,13 @@
                     <ul class="options-list" id="options-list">
                         <!-- Options populated by JavaScript -->
                     </ul>
+
+                    <!-- Explanation Box (Initially Hidden) -->
+                    <div class="explanation-box hidden" id="explanation-box">
+                        <div class="explanation-title">Explanation</div>
+                        <div id="explanation-content"></div>
+                        <div class="correct-answer hidden" id="correct-answer-display"></div>
+                    </div>
                     
                     <div class="quiz-controls">
                         <button class="btn btn-ghost" id="prev-btn" onclick="PhysicsQuiz.previousQuestion()" disabled>Previous</button>
@@ -400,7 +606,10 @@
         <!-- Results Screen -->
         <div id="results-screen" class="screen hidden">
             <section class="py-xl text-center">
-                <h2 class="text-3xl font-semibold mb-lg">Quiz Complete!</h2>
+                <div class="mb-xl">
+                    <button class="btn btn-ghost mb-lg" onclick="PhysicsQuiz.goHome()">&larr; Back to Home</button>
+                    <h2 class="text-3xl font-semibold mb-lg">Quiz Complete!</h2>
+                </div>
                 
                 <div class="analytics-grid mb-xl">
                     <div class="metric-card">
@@ -445,29 +654,98 @@
                 </div>
             </section>
         </div>
+
+        <!-- Question Bank Screen -->
+        <div id="question-bank-screen" class="screen hidden">
+            <section class="py-xl">
+                <div class="mb-xl">
+                    <button class="btn btn-ghost mb-lg" onclick="PhysicsQuiz.goHome()">&larr; Back to Home</button>
+                    <h2 class="text-3xl font-semibold text-center mb-lg">Physics Question Bank</h2>
+                    <p class="text-center text-muted mb-lg">Browse all available physics questions</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-semibold">All Questions (8 total)</h3>
+                            <div class="flex gap-sm">
+                                <input type="text" id="question-search" placeholder="Search questions..." class="p-2 border rounded text-sm">
+                                <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.filterQuestions()">Filter</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="question-bank-container" id="question-bank-list">
+                            <!-- Questions will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 
     <!-- Premium Modal -->
-    <div id="premium-modal" class="modal-overlay hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
-        <div class="modal" style="background: white; padding: 2rem; border-radius: 0.375rem; max-width: 500px; width: 90%;">
+    <div id="premium-modal" class="modal-overlay hidden">
+        <div class="modal" style="max-width: 500px;">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header flex justify-between items-center">
                     <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
+                    <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.closeModal('premium-modal')" aria-label="Close modal">&times;</button>
                 </div>
                 <div class="card-body">
                     <p class="mb-lg">Unlock advanced analytics and unlimited questions</p>
-                    <button class="btn btn-accent w-full" onclick="PhysicsQuiz.processPayment()">
-                        Upgrade with Solana - 5 SOL
-                    </button>
+                    <div class="mb-lg">
+                        <h4 class="font-semibold mb-sm">Premium Features:</h4>
+                        <ul class="text-sm text-muted" style="list-style-position: inside;">
+                            <li>Detailed performance analytics</li>
+                            <li>Unlimited question access</li>
+                            <li>Advanced taxonomy insights</li>
+                            <li>Personalized study plans</li>
+                        </ul>
+                    </div>
+                    <div class="flex gap-sm">
+                        <button class="btn btn-accent flex-1" onclick="PhysicsQuiz.processPayment()">
+                            Upgrade with Solana - 5 SOL
+                        </button>
+                        <button class="btn btn-ghost" onclick="PhysicsQuiz.closeModal('premium-modal')">Maybe Later</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal-overlay hidden">
+        <div class="modal" style="max-width: 500px;">
+            <div class="card">
+                <div class="card-header flex justify-between items-center">
+                    <h3 class="text-xl font-semibold text-error">Error</h3>
+                    <button class="btn btn-ghost btn-sm" onclick="PhysicsQuiz.closeModal('error-modal')">&times;</button>
+                </div>
+                <div class="card-body">
+                    <div class="error-container">
+                        <div id="error-message">An error occurred</div>
+                    </div>
+                    <div class="flex justify-end gap-sm mt-lg">
+                        <button class="btn btn-primary" onclick="PhysicsQuiz.closeModal('error-modal')">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="text-lg font-semibold" id="loading-text">Loading questions...</div>
+    </div>
+
+    <!-- Screen Reader Announcements -->
+    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
     <script>
-        // Physics Question Bank with Taxonomic System
+        // Enhanced Physics Question Bank with Taxonomic System
         const PHYSICS_QUESTIONS = [
-            // Mechanics - Mathematical
             {
                 id: "jamb_phy_001",
                 subject: "Physics",
@@ -478,7 +756,7 @@
                 question: "A car accelerates from 15 m/s at 4 m/s² for 5 seconds. Find the final velocity.",
                 options: ["35 m/s", "40 m/s", "20 m/s", "19 m/s"],
                 correct: 0,
-                explanation: "Using v = u + at: v = 15 + 4 × 5 = 35 m/s",
+                explanation: "Using the equation v = u + at, where u is initial velocity, a is acceleration, and t is time: v = 15 + (4 × 5) = 15 + 20 = 35 m/s",
                 avgTime: 45,
                 complexity: 0.6
             },
@@ -492,12 +770,10 @@
                 question: "Calculate the force needed to accelerate a 10 kg object at 5 m/s².",
                 options: ["50 N", "15 N", "2 N", "5 N"],
                 correct: 0,
-                explanation: "Using F = ma: F = 10 × 5 = 50 N",
+                explanation: "Using Newton's second law: F = ma, where m is mass and a is acceleration: F = 10 × 5 = 50 N",
                 avgTime: 35,
                 complexity: 0.5
             },
-
-            // Electricity - Pragmatic
             {
                 id: "jamb_phy_003",
                 subject: "Physics",
@@ -508,12 +784,10 @@
                 question: "A 12V battery supplies 2A to a circuit. Calculate the resistance of the circuit.",
                 options: ["6Ω", "24Ω", "14Ω", "10Ω"],
                 correct: 0,
-                explanation: "Using Ohm's law: R = V/I = 12/2 = 6Ω",
+                explanation: "Using Ohm's law: R = V/I, where V is voltage and I is current: R = 12/2 = 6Ω",
                 avgTime: 40,
                 complexity: 0.4
             },
-
-            // Waves - Logical
             {
                 id: "jamb_phy_004",
                 subject: "Physics",
@@ -524,12 +798,10 @@
                 question: "A wave has frequency 100 Hz and wavelength 0.3 m. Calculate its velocity.",
                 options: ["30 m/s", "130 m/s", "0.33 m/s", "300 m/s"],
                 correct: 0,
-                explanation: "Using wave equation: v = fλ = 100 × 0.3 = 30 m/s",
+                explanation: "Using the wave equation: v = fλ, where f is frequency and λ is wavelength: v = 100 × 0.3 = 30 m/s",
                 avgTime: 50,
                 complexity: 0.5
             },
-
-            // Heat - Canon
             {
                 id: "jamb_phy_005",
                 subject: "Physics",
@@ -540,12 +812,10 @@
                 question: "Convert 25°C to Kelvin.",
                 options: ["298 K", "25 K", "125 K", "-248 K"],
                 correct: 0,
-                explanation: "K = °C + 273 = 25 + 273 = 298 K",
+                explanation: "Using the conversion formula: K = °C + 273. So, 25°C + 273 = 298 K",
                 avgTime: 25,
                 complexity: 0.3
             },
-
-            // Modern Physics - Abstract
             {
                 id: "jamb_phy_006",
                 subject: "Physics",
@@ -556,12 +826,10 @@
                 question: "Carbon has 6 protons and 6 neutrons. What is its mass number?",
                 options: ["12", "6", "0", "18"],
                 correct: 0,
-                explanation: "Mass number = protons + neutrons = 6 + 6 = 12",
+                explanation: "Mass number = number of protons + number of neutrons = 6 + 6 = 12",
                 avgTime: 30,
                 complexity: 0.4
             },
-
-            // Energy - Pragmatic
             {
                 id: "jamb_phy_007",
                 subject: "Physics",
@@ -572,12 +840,10 @@
                 question: "A 60 kg object is lifted to 15 m height. Calculate its potential energy. (g = 10 m/s²)",
                 options: ["9000 J", "75 J", "150 J", "600 J"],
                 correct: 0,
-                explanation: "PE = mgh = 60 × 10 × 15 = 9000 J",
+                explanation: "Using the potential energy formula: PE = mgh, where m is mass, g is gravity, and h is height: PE = 60 × 10 × 15 = 9000 J",
                 avgTime: 35,
                 complexity: 0.5
             },
-
-            // Optics - Statistics
             {
                 id: "jamb_phy_008",
                 subject: "Physics",
@@ -588,7 +854,7 @@
                 question: "An object is placed 20 cm from a convex lens of focal length 12 cm. The image formed is:",
                 options: ["Real and inverted", "Virtual and upright", "At infinity", "No image formed"],
                 correct: 0,
-                explanation: "Since object is beyond focal length, image is real and inverted",
+                explanation: "Using the lens formula and sign convention, when object is beyond the focal length of a convex lens, the image is real and inverted.",
                 avgTime: 60,
                 complexity: 0.7
             }
@@ -597,10 +863,82 @@
         // Enhanced Adaptive Quiz Engine
         class PhysicsAdaptiveEngine {
             constructor() {
-                this.questions = PHYSICS_QUESTIONS;
+                this.questions = this.validateQuestions(PHYSICS_QUESTIONS);
                 this.userProfile = this.initializeUserProfile();
                 this.currentQuiz = null;
                 this.confidenceThreshold = 0.7;
+                
+                // Scoring weights for adaptive selection
+                this.scoringWeights = {
+                    weakAreaBonus: 2.0,
+                    difficultyMatchBonus: 1.5,
+                    varietyBonus: 0.5
+                };
+                
+                // Learning parameters
+                this.learningParams = {
+                    targetResponseTime: 60,
+                    maxDifficulty: 1.0,
+                    minDifficulty: 0.1,
+                    velocityMultipliers: {
+                        fastCorrect: 1.5,
+                        normalCorrect: 0.5,
+                        incorrect: 2.0
+                    }
+                };
+            }
+
+            /**
+             * Validates the question structure and data integrity
+             * @param {Array} questions - Array of question objects
+             * @returns {Array} Validated questions array
+             */
+            validateQuestions(questions) {
+                if (!Array.isArray(questions) || questions.length === 0) {
+                    throw new Error('Invalid questions data: must be a non-empty array');
+                }
+
+                return questions.map((q, index) => {
+                    const requiredFields = ['id', 'question', 'options', 'correct', 'explanation'];
+                    const missingFields = requiredFields.filter(field => !q[field] && q[field] !== 0);
+                    
+                    if (missingFields.length > 0) {
+                        console.warn(`Question ${q.id || index} missing required fields:`, missingFields);
+                    }
+
+                    if (!Array.isArray(q.options) || q.options.length < 2) {
+                        throw new Error(`Question ${q.id || index} must have at least 2 options`);
+                    }
+
+                    if (q.correct < 0 || q.correct >= q.options.length) {
+                        throw new Error(`Question ${q.id || index} has invalid correct answer index`);
+                    }
+
+                    return {
+                        id: q.id || `q_${index}`,
+                        subject: q.subject || 'Physics',
+                        questionType: q.questionType || 'pragmatic',
+                        infoType: q.infoType || 'essential',
+                        difficulty: q.difficulty || 'Medium',
+                        topic: q.topic || 'General',
+                        question: q.question,
+                        options: q.options,
+                        correct: q.correct,
+                        explanation: q.explanation,
+                        avgTime: q.avgTime || 45,
+                        complexity: this.normalizeComplexity(q.complexity)
+                    };
+                });
+            }
+
+            /**
+             * Normalizes complexity to ensure it's between 0 and 1
+             * @param {number} complexity - The complexity value
+             * @returns {number} Normalized complexity
+             */
+            normalizeComplexity(complexity) {
+                const value = parseFloat(complexity);
+                return isNaN(value) ? 0.5 : Math.max(0, Math.min(1, value));
             }
 
             initializeUserProfile() {
@@ -611,11 +949,21 @@
                 const informationMastery = {};
                 
                 patterns.forEach(pattern => {
-                    patternMastery[pattern] = { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 };
+                    patternMastery[pattern] = { 
+                        attempts: 0, 
+                        correct: 0, 
+                        avg_time: 0, 
+                        confidence: 0.5 
+                    };
                 });
 
                 infoTypes.forEach(type => {
-                    informationMastery[type] = { attempts: 0, correct: 0, avg_time: 0, confidence: 0.5 };
+                    informationMastery[type] = { 
+                        attempts: 0, 
+                        correct: 0, 
+                        avg_time: 0, 
+                        confidence: 0.5 
+                    };
                 });
 
                 return {
@@ -626,21 +974,48 @@
                     streakCount: 0,
                     lastPerformance: [],
                     totalQuestions: 0,
-                    totalCorrect: 0
+                    totalCorrect: 0,
+                    sessionStart: Date.now()
                 };
             }
 
-            // Custom Inference Logic for Question Selection
+            /**
+             * Selects the next question based on adaptive learning logic
+             * @param {Object} previousAnswer - Previous answer data
+             * @param {number} responseTime - Time taken for previous question
+             * @returns {Object|null} Selected question or null if none available
+             */
             selectNextQuestion(previousAnswer = null, responseTime = null) {
-                if (previousAnswer !== null) {
-                    this.updateUserProfile(previousAnswer, responseTime);
+                try {
+                    if (previousAnswer !== null) {
+                        this.updateUserProfile(previousAnswer, responseTime);
+                    }
+
+                    const candidateQuestions = this.filterAvailableQuestions();
+                    if (candidateQuestions.length === 0) {
+                        console.warn('No available questions found');
+                        return null;
+                    }
+
+                    const scoredQuestions = this.scoreQuestions(candidateQuestions);
+                    return this.weightedSelection(scoredQuestions);
+                    
+                } catch (error) {
+                    console.error('Error selecting next question:', error);
+                    return this.getFallbackQuestion();
                 }
+            }
 
-                const candidateQuestions = this.filterAvailableQuestions();
-                if (candidateQuestions.length === 0) return null;
-
-                const scoredQuestions = this.scoreQuestions(candidateQuestions);
-                return this.weightedSelection(scoredQuestions);
+            /**
+             * Gets a fallback question when adaptive selection fails
+             * @returns {Object} A random question
+             */
+            getFallbackQuestion() {
+                const available = this.filterAvailableQuestions();
+                if (available.length === 0) {
+                    throw new Error('No questions available for fallback');
+                }
+                return available[Math.floor(Math.random() * available.length)];
             }
 
             filterAvailableQuestions() {
@@ -654,19 +1029,25 @@
                 const weakInformation = this.identifyWeakInformationTypes();
                 
                 return questions.map(q => {
-                    let score = 1.0;
+                    let score = 1.0; // Base score
                     
-                    // Prioritize weak areas based on taxonomic analysis
-                    if (weakPatterns.includes(q.questionType)) score += 2.0;
-                    if (weakInformation.includes(q.infoType)) score += 1.5;
+                    // Prioritize weak areas
+                    if (weakPatterns.includes(q.questionType)) {
+                        score += this.scoringWeights.weakAreaBonus;
+                    }
+                    if (weakInformation.includes(q.infoType)) {
+                        score += this.scoringWeights.weakAreaBonus;
+                    }
                     
-                    // Difficulty matching based on user's current level
+                    // Difficulty matching
                     const complexityDiff = Math.abs(q.complexity - this.userProfile.currentDifficultyLevel);
-                    score += (1 - complexityDiff) * 1.5;
+                    score += (1 - complexityDiff) * this.scoringWeights.difficultyMatchBonus;
                     
-                    // Variety bonus - avoid repeating recent patterns
+                    // Variety bonus
                     const recentPatterns = this.userProfile.lastPerformance.slice(-3).map(p => p.pattern);
-                    if (!recentPatterns.includes(q.questionType)) score += 0.5;
+                    if (!recentPatterns.includes(q.questionType)) {
+                        score += this.scoringWeights.varietyBonus;
+                    }
                     
                     return { question: q, score };
                 });
@@ -674,6 +1055,11 @@
 
             weightedSelection(scoredQuestions) {
                 const totalScore = scoredQuestions.reduce((sum, item) => sum + item.score, 0);
+                
+                if (totalScore === 0) {
+                    return scoredQuestions[0]?.question || null;
+                }
+                
                 let random = Math.random() * totalScore;
                 
                 for (const item of scoredQuestions) {
@@ -681,33 +1067,34 @@
                     if (random <= 0) return item.question;
                 }
                 
-                return scoredQuestions[0].question;
+                return scoredQuestions[scoredQuestions.length - 1].question;
             }
 
             identifyWeakPatterns() {
                 return Object.entries(this.userProfile.patternMastery)
-                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < 0.6)
+                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < this.confidenceThreshold)
                     .map(([pattern, _]) => pattern);
             }
 
             identifyWeakInformationTypes() {
                 return Object.entries(this.userProfile.informationMastery)
-                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < 0.6)
+                    .filter(([_, mastery]) => mastery.attempts > 0 && mastery.confidence < this.confidenceThreshold)
                     .map(([type, _]) => type);
             }
 
             updateUserProfile(wasCorrect, responseTime) {
                 const question = this.currentQuiz.currentQuestion;
+                if (!question) {
+                    console.warn('No current question for profile update');
+                    return;
+                }
+
                 const pattern = question.questionType;
                 const infoType = question.infoType;
                 
-                // Update pattern mastery
                 this.updateMastery(this.userProfile.patternMastery[pattern], wasCorrect, responseTime);
-                
-                // Update information type mastery
                 this.updateMastery(this.userProfile.informationMastery[infoType], wasCorrect, responseTime);
                 
-                // Update overall stats
                 this.userProfile.totalQuestions++;
                 if (wasCorrect) {
                     this.userProfile.totalCorrect++;
@@ -716,49 +1103,72 @@
                     this.userProfile.streakCount = 0;
                 }
                 
-                // Store performance history
                 this.userProfile.lastPerformance.push({
                     correct: wasCorrect,
                     pattern: pattern,
                     infoType: infoType,
                     time: responseTime,
-                    complexity: question.complexity
+                    complexity: question.complexity,
+                    timestamp: Date.now()
                 });
                 
+                // Keep only last 10 performances
                 if (this.userProfile.lastPerformance.length > 10) {
                     this.userProfile.lastPerformance.shift();
                 }
                 
-                // Adjust difficulty based on performance
                 this.adjustDifficulty(wasCorrect, responseTime, question.complexity);
             }
 
             updateMastery(masteryObj, wasCorrect, responseTime) {
                 masteryObj.attempts++;
                 if (wasCorrect) masteryObj.correct++;
-                masteryObj.avg_time = (masteryObj.avg_time * (masteryObj.attempts - 1) + responseTime) / masteryObj.attempts;
+                
+                // Update average time with exponential smoothing
+                masteryObj.avg_time = masteryObj.attempts === 1 ? 
+                    responseTime : 
+                    (masteryObj.avg_time * (masteryObj.attempts - 1) + responseTime) / masteryObj.attempts;
+                
                 masteryObj.confidence = masteryObj.correct / masteryObj.attempts;
             }
 
             adjustDifficulty(wasCorrect, responseTime, questionComplexity) {
-                const targetTime = 60;
+                const { targetResponseTime, velocityMultipliers } = this.learningParams;
                 const velocity = this.userProfile.learningVelocity;
                 
                 if (wasCorrect) {
-                    if (responseTime < targetTime * 0.7) {
-                        this.userProfile.currentDifficultyLevel = Math.min(1.0, 
-                            this.userProfile.currentDifficultyLevel + velocity * 1.5);
+                    if (responseTime < targetResponseTime * 0.7) {
+                        // Fast correct answer - increase difficulty
+                        this.userProfile.currentDifficultyLevel = Math.min(
+                            this.learningParams.maxDifficulty,
+                            this.userProfile.currentDifficultyLevel + velocity * velocityMultipliers.fastCorrect
+                        );
                     } else {
-                        this.userProfile.currentDifficultyLevel = Math.min(1.0,
-                            this.userProfile.currentDifficultyLevel + velocity * 0.5);
+                        // Normal correct answer - slight increase
+                        this.userProfile.currentDifficultyLevel = Math.min(
+                            this.learningParams.maxDifficulty,
+                            this.userProfile.currentDifficultyLevel + velocity * velocityMultipliers.normalCorrect
+                        );
                     }
                 } else {
-                    this.userProfile.currentDifficultyLevel = Math.max(0.1,
-                        this.userProfile.currentDifficultyLevel - velocity * 2);
+                    // Incorrect answer - decrease difficulty
+                    this.userProfile.currentDifficultyLevel = Math.max(
+                        this.learningParams.minDifficulty,
+                        this.userProfile.currentDifficultyLevel - velocity * velocityMultipliers.incorrect
+                    );
                 }
             }
 
-            startQuiz(stakeLevel, questionCount = 8) {
+            startQuiz(stakeLevel, questionCount = 5) {
+                if (this.questions.length === 0) {
+                    throw new Error('No questions available to start quiz');
+                }
+
+                if (questionCount > this.questions.length) {
+                    console.warn(`Requested ${questionCount} questions but only ${this.questions.length} available`);
+                    questionCount = this.questions.length;
+                }
+
                 this.currentQuiz = {
                     stakeLevel,
                     questions: [],
@@ -767,30 +1177,32 @@
                     startTime: Date.now(),
                     questionStartTime: Date.now(),
                     questionCount,
-                    currentQuestionIndex: 0
+                    currentQuestionIndex: 0,
+                    status: 'active'
                 };
                 
                 // Adjust learning parameters by stake level
-                switch(stakeLevel) {
-                    case 'practice':
-                        this.userProfile.learningVelocity = 0.15;
-                        break;
-                    case 'mock':
-                        this.userProfile.learningVelocity = 0.1;
-                        break;
-                    case 'high':
-                        this.userProfile.learningVelocity = 0.05;
-                        break;
-                }
+                const velocitySettings = {
+                    practice: 0.15,
+                    mock: 0.1,
+                    high: 0.05
+                };
+                
+                this.userProfile.learningVelocity = velocitySettings[stakeLevel] || 0.1;
                 
                 return this.getNextQuestion();
             }
 
             getNextQuestion() {
-                if (!this.currentQuiz) return null;
+                if (!this.currentQuiz) {
+                    throw new Error('No active quiz session');
+                }
                 
                 const question = this.selectNextQuestion();
-                if (!question) return null;
+                if (!question) {
+                    console.warn('No next question available');
+                    return null;
+                }
                 
                 this.currentQuiz.currentQuestion = question;
                 this.currentQuiz.questionStartTime = Date.now();
@@ -800,7 +1212,9 @@
             }
 
             answerQuestion(selectedOption) {
-                if (!this.currentQuiz?.currentQuestion) return null;
+                if (!this.currentQuiz?.currentQuestion) {
+                    throw new Error('No current question to answer');
+                }
                 
                 const question = this.currentQuiz.currentQuestion;
                 const isCorrect = selectedOption === question.correct;
@@ -821,49 +1235,101 @@
             }
 
             getResults() {
-                if (!this.currentQuiz) return null;
+                if (!this.currentQuiz) {
+                    throw new Error('No quiz session to get results from');
+                }
                 
                 const answered = this.currentQuiz.answeredQuestions;
+                if (answered.length === 0) {
+                    throw new Error('No answers recorded for results');
+                }
+                
                 const correctCount = answered.filter(a => a.isCorrect).length;
                 const totalTime = (Date.now() - this.currentQuiz.startTime) / 1000;
                 
-                // Calculate performance by pattern
-                const performanceByPattern = {};
-                ['pragmatic', 'logical', 'canon', 'statistics', 'mathematical'].forEach(pattern => {
-                    const patternAnswers = answered.filter(a => a.question.questionType === pattern);
-                    if (patternAnswers.length > 0) {
-                        const correct = patternAnswers.filter(a => a.isCorrect).length;
-                        performanceByPattern[pattern] = {
-                            total: patternAnswers.length,
-                            correct,
-                            percentage: (correct / patternAnswers.length) * 100
-                        };
-                    }
-                });
-                
-                // Calculate performance by information type
-                const performanceByInformation = {};
-                ['essential', 'contextual', 'abstract', 'supply_chain', 'proofs'].forEach(type => {
-                    const typeAnswers = answered.filter(a => a.question.infoType === type);
-                    if (typeAnswers.length > 0) {
-                        const correct = typeAnswers.filter(a => a.isCorrect).length;
-                        performanceByInformation[type] = {
-                            total: typeAnswers.length,
-                            correct,
-                            percentage: (correct / typeAnswers.length) * 100
-                        };
-                    }
-                });
+                const performanceByPattern = this.calculatePerformanceByCategory('questionType');
+                const performanceByInformation = this.calculatePerformanceByCategory('infoType');
                 
                 return {
                     totalQuestions: answered.length,
                     correctCount,
                     score: (correctCount / answered.length) * 100,
                     totalTime,
+                    averageTime: totalTime / answered.length,
+                    streak: this.userProfile.streakCount,
                     performanceByPattern,
                     performanceByInformation,
-                    userProfile: { ...this.userProfile }
+                    userProfile: { ...this.userProfile },
+                    quizDetails: {
+                        stakeLevel: this.currentQuiz.stakeLevel,
+                        status: this.currentQuiz.status,
+                        startTime: this.currentQuiz.startTime,
+                        endTime: Date.now()
+                    }
                 };
+            }
+
+            calculatePerformanceByCategory(category) {
+                const performance = {};
+                const answered = this.currentQuiz.answeredQuestions;
+                
+                answered.forEach(answer => {
+                    const categoryValue = answer.question[category];
+                    if (!performance[categoryValue]) {
+                        performance[categoryValue] = { total: 0, correct: 0 };
+                    }
+                    performance[categoryValue].total++;
+                    if (answer.isCorrect) {
+                        performance[categoryValue].correct++;
+                    }
+                });
+                
+                // Calculate percentages
+                Object.keys(performance).forEach(key => {
+                    performance[key].percentage = (performance[key].correct / performance[key].total) * 100;
+                });
+                
+                return performance;
+            }
+
+            /**
+             * Saves progress to localStorage
+             */
+            saveProgress() {
+                try {
+                    const progress = {
+                        userProfile: this.userProfile,
+                        currentQuiz: this.currentQuiz,
+                        timestamp: Date.now(),
+                        version: '1.0'
+                    };
+                    localStorage.setItem('physics-quiz-progress', JSON.stringify(progress));
+                    return true;
+                } catch (error) {
+                    console.error('Failed to save progress:', error);
+                    return false;
+                }
+            }
+
+            /**
+             * Loads progress from localStorage
+             */
+            loadProgress() {
+                try {
+                    const saved = localStorage.getItem('physics-quiz-progress');
+                    if (saved) {
+                        const progress = JSON.parse(saved);
+                        // Validate loaded progress
+                        if (progress.userProfile && progress.timestamp) {
+                            this.userProfile = progress.userProfile;
+                            return true;
+                        }
+                    }
+                    return false;
+                } catch (error) {
+                    console.error('Failed to load progress:', error);
+                    return false;
+                }
             }
         }
 
@@ -873,26 +1339,89 @@
             currentScreen: 'home-screen',
             quizTimer: null,
             questionTimer: null,
-            timeRemaining: 1800,
+            timeRemaining: 1800, // 30 minutes
+            currentExplanation: null,
 
             init() {
-                this.showScreen('home-screen');
+                try {
+                    // Load any saved progress
+                    if (this.quizEngine.loadProgress()) {
+                        console.log('Previous progress loaded');
+                    }
+                    
+                    this.showScreen('home-screen');
+                    this.announceToScreenReader('JAMB Physics quiz application loaded');
+                    
+                } catch (error) {
+                    this.showError('Initialization Failed', error.message);
+                }
             },
 
             showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.add('hidden');
                 });
-                document.getElementById(screenId).classList.remove('hidden');
-                this.currentScreen = screenId;
+                
+                const targetScreen = document.getElementById(screenId);
+                if (targetScreen) {
+                    targetScreen.classList.remove('hidden');
+                    this.currentScreen = screenId;
+                    
+                    // Update screen reader announcement
+                    const screenNames = {
+                        'home-screen': 'Home screen',
+                        'quiz-screen': 'Quiz screen',
+                        'results-screen': 'Results screen',
+                        'question-bank-screen': 'Question bank'
+                    };
+                    
+                    this.announceToScreenReader(screenNames[screenId] || 'New screen');
+                } else {
+                    console.error('Screen not found:', screenId);
+                    this.showScreen('home-screen');
+                }
+            },
+
+            announceToScreenReader(message) {
+                const announcer = document.getElementById('sr-announcer');
+                if (announcer) {
+                    announcer.textContent = message;
+                }
+            },
+
+            goHome() {
+                this.clearTimers();
+                this.showScreen('home-screen');
             },
 
             startQuiz(stakeLevel) {
-                const firstQuestion = this.quizEngine.startQuiz(stakeLevel);
-                this.showScreen('quiz-screen');
-                this.initializeQuizInterface(stakeLevel);
-                this.displayQuestion(firstQuestion);
-                this.startTimers();
+                try {
+                    this.showLoading('Preparing your adaptive quiz...');
+                    
+                    // Small delay to show loading state
+                    setTimeout(() => {
+                        try {
+                            const firstQuestion = this.quizEngine.startQuiz(stakeLevel);
+                            if (!firstQuestion) {
+                                throw new Error('Failed to initialize quiz with questions');
+                            }
+                            
+                            this.showScreen('quiz-screen');
+                            this.initializeQuizInterface(stakeLevel);
+                            this.displayQuestion(firstQuestion);
+                            this.startTimers();
+                            this.hideLoading();
+                            
+                        } catch (error) {
+                            this.hideLoading();
+                            this.showError('Quiz Start Failed', error.message);
+                        }
+                    }, 500);
+                    
+                } catch (error) {
+                    this.hideLoading();
+                    this.showError('Quiz Start Failed', error.message);
+                }
             },
 
             startQuickQuiz() {
@@ -901,20 +1430,26 @@
 
             initializeQuizInterface(stakeLevel) {
                 document.getElementById('quiz-title').textContent = 'JAMB Physics Adaptive Quiz';
-                document.getElementById('stake-badge').textContent = stakeLevel.charAt(0).toUpperCase() + stakeLevel.slice(1);
+                document.getElementById('stake-badge').textContent = this.capitalizeFirst(stakeLevel);
+                document.getElementById('stake-badge').className = `stake-badge stake-${stakeLevel}`;
                 document.getElementById('quiz-progress').style.width = '0%';
-                document.getElementById('progress-text').textContent = 'Question 1 of 8';
-                this.timeRemaining = 1800;
+                document.getElementById('progress-text').textContent = `Question 1 of ${this.quizEngine.currentQuiz.questionCount}`;
+                this.timeRemaining = stakeLevel === 'mock' ? 1800 : 3600; // 30 min for mock, 60 min otherwise
                 this.updateTimerDisplay();
+                
+                // Reset explanation box
+                this.hideExplanation();
             },
 
             displayQuestion(question) {
-                if (!question) return;
+                if (!question) {
+                    this.showError('Question Error', 'No question to display');
+                    return;
+                }
                 
                 document.getElementById('question-text').textContent = question.question;
                 document.getElementById('question-number').textContent = `Question ${this.quizEngine.currentQuiz.currentQuestionIndex}`;
-                document.getElementById('question-taxonomy').textContent = 
-                    question.questionType.charAt(0).toUpperCase() + question.questionType.slice(1);
+                document.getElementById('question-taxonomy').textContent = this.capitalizeFirst(question.questionType);
                 
                 // Update progress
                 const progress = (this.quizEngine.currentQuiz.currentQuestionIndex / this.quizEngine.currentQuiz.questionCount) * 100;
@@ -930,8 +1465,8 @@
                     const li = document.createElement('li');
                     li.className = 'option-item';
                     li.innerHTML = `
-                        <label class="option-label" onclick="PhysicsQuiz.selectOption(${index})">
-                            <span class="option-radio"></span>
+                        <label class="option-label" onclick="PhysicsQuiz.selectOption(${index})" aria-label="Select option ${String.fromCharCode(65 + index)}">
+                            <span class="option-radio" aria-hidden="true"></span>
                             <span class="option-text">${option}</span>
                         </label>
                     `;
@@ -947,33 +1482,92 @@
                 // Update adaptive metrics
                 this.updateAdaptiveMetrics();
                 
-                // Reset selection
-                document.querySelectorAll('.option-label').forEach(label => {
-                    label.classList.remove('selected');
-                });
+                // Reset selection and explanation
+                this.clearOptionSelection();
+                this.hideExplanation();
+                
+                // Announce new question to screen reader
+                this.announceToScreenReader(`Question ${this.quizEngine.currentQuiz.currentQuestionIndex}: ${question.question.substring(0, 100)}...`);
             },
 
             selectOption(optionIndex) {
-                document.querySelectorAll('.option-label').forEach(label => {
-                    label.classList.remove('selected');
-                });
+                this.clearOptionSelection();
                 const labels = document.querySelectorAll('.option-label');
                 if (labels[optionIndex]) {
                     labels[optionIndex].classList.add('selected');
+                    this.announceToScreenReader(`Option ${String.fromCharCode(65 + optionIndex)} selected`);
                 }
+            },
+
+            clearOptionSelection() {
+                document.querySelectorAll('.option-label').forEach(label => {
+                    label.classList.remove('selected', 'correct', 'incorrect');
+                });
+            },
+
+            showExplanation(question, selectedOption, isCorrect) {
+                const explanationBox = document.getElementById('explanation-box');
+                const explanationContent = document.getElementById('explanation-content');
+                const correctAnswerDisplay = document.getElementById('correct-answer-display');
+                
+                explanationContent.textContent = question.explanation;
+                
+                if (!isCorrect) {
+                    correctAnswerDisplay.textContent = `Correct answer: ${question.options[question.correct]}`;
+                    correctAnswerDisplay.classList.remove('hidden');
+                } else {
+                    correctAnswerDisplay.classList.add('hidden');
+                }
+                
+                explanationBox.classList.remove('hidden');
+                
+                // Highlight correct/incorrect answers
+                const labels = document.querySelectorAll('.option-label');
+                labels[question.correct].classList.add('correct');
+                if (!isCorrect && selectedOption >= 0) {
+                    labels[selectedOption].classList.add('incorrect');
+                }
+            },
+
+            hideExplanation() {
+                const explanationBox = document.getElementById('explanation-box');
+                explanationBox.classList.add('hidden');
             },
 
             nextQuestion() {
                 const selectedLabel = document.querySelector('.option-label.selected');
+                let selectedOption = -1;
+                let showExplanation = false;
                 
-                if (!selectedLabel && this.quizEngine.currentQuiz.currentQuestionIndex < this.quizEngine.currentQuiz.questionCount) {
+                if (selectedLabel) {
+                    const labels = Array.from(document.querySelectorAll('.option-label'));
+                    selectedOption = labels.indexOf(selectedLabel);
+                    showExplanation = true;
+                } else if (this.quizEngine.currentQuiz.currentQuestionIndex < this.quizEngine.currentQuiz.questionCount) {
                     if (!confirm('Continue without selecting an answer?')) return;
-                    this.quizEngine.answerQuestion(-1);
-                } else if (selectedLabel) {
-                    const optionIndex = Array.from(document.querySelectorAll('.option-label')).indexOf(selectedLabel);
-                    this.quizEngine.answerQuestion(optionIndex);
                 }
                 
+                if (selectedOption >= 0) {
+                    const answerData = this.quizEngine.answerQuestion(selectedOption);
+                    if (showExplanation) {
+                        this.showExplanation(
+                            this.quizEngine.currentQuiz.currentQuestion,
+                            selectedOption,
+                            answerData.isCorrect
+                        );
+                        
+                        // Auto-advance after explanation
+                        setTimeout(() => {
+                            this.advanceToNextQuestion();
+                        }, 3000);
+                        return;
+                    }
+                }
+                
+                this.advanceToNextQuestion();
+            },
+
+            advanceToNextQuestion() {
                 if (this.quizEngine.currentQuiz.currentQuestionIndex >= this.quizEngine.currentQuiz.questionCount) {
                     this.finishQuiz();
                 } else {
@@ -987,15 +1581,23 @@
             },
 
             previousQuestion() {
-                // Simplified previous question for demo
-                alert('Previous question functionality would track question history in full implementation');
+                // In a full implementation, this would navigate back through question history
+                alert('Previous question functionality would track question history in full implementation. For now, please continue with the next question.');
             },
 
             finishQuiz() {
-                this.clearTimers();
-                const results = this.quizEngine.getResults();
-                this.displayResults(results);
-                this.showScreen('results-screen');
+                try {
+                    this.clearTimers();
+                    const results = this.quizEngine.getResults();
+                    this.displayResults(results);
+                    this.showScreen('results-screen');
+                    
+                    // Save progress
+                    this.quizEngine.saveProgress();
+                    
+                } catch (error) {
+                    this.showError('Results Error', error.message);
+                }
             },
 
             displayResults(results) {
@@ -1008,8 +1610,8 @@
                 const patternBreakdown = document.getElementById('pattern-breakdown');
                 patternBreakdown.innerHTML = Object.entries(results.performanceByPattern)
                     .map(([pattern, data]) => `
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span>${pattern}:</span>
+                        <div class="flex justify-between mb-xs">
+                            <span>${this.capitalizeFirst(pattern)}:</span>
                             <span>${data.percentage.toFixed(1)}% (${data.correct}/${data.total})</span>
                         </div>
                     `).join('');
@@ -1018,17 +1620,21 @@
                 const informationBreakdown = document.getElementById('information-breakdown');
                 informationBreakdown.innerHTML = Object.entries(results.performanceByInformation)
                     .map(([type, data]) => `
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span>${type}:</span>
+                        <div class="flex justify-between mb-xs">
+                            <span>${this.capitalizeFirst(type)}:</span>
                             <span>${data.percentage.toFixed(1)}% (${data.correct}/${data.total})</span>
                         </div>
                     `).join('');
+                    
+                this.announceToScreenReader(`Quiz completed with score ${results.score.toFixed(1)} percent`);
             },
 
             updateAdaptiveMetrics() {
                 const profile = this.quizEngine.userProfile;
-                document.getElementById('current-score').textContent = 
-                    profile.totalQuestions > 0 ? `${((profile.totalCorrect / profile.totalQuestions) * 100).toFixed(1)}%` : '0%';
+                const currentScore = profile.totalQuestions > 0 ? 
+                    ((profile.totalCorrect / profile.totalQuestions) * 100) : 0;
+                    
+                document.getElementById('current-score').textContent = `${currentScore.toFixed(1)}%`;
                 
                 document.getElementById('difficulty-level').textContent = 
                     profile.currentDifficultyLevel < 0.4 ? 'Easy' : 
@@ -1036,14 +1642,12 @@
                 
                 const currentPattern = this.quizEngine.currentQuiz?.currentQuestion?.questionType;
                 if (currentPattern) {
-                    document.getElementById('pattern-type').textContent = 
-                        currentPattern.charAt(0).toUpperCase() + currentPattern.slice(1);
+                    document.getElementById('pattern-type').textContent = this.capitalizeFirst(currentPattern);
                 }
                 
                 const currentInfo = this.quizEngine.currentQuiz?.currentQuestion?.infoType;
                 if (currentInfo) {
-                    document.getElementById('info-classification').textContent = 
-                        currentInfo.charAt(0).toUpperCase() + currentInfo.slice(1);
+                    document.getElementById('info-classification').textContent = this.capitalizeFirst(currentInfo);
                 }
             },
 
@@ -1053,7 +1657,9 @@
                 this.quizTimer = setInterval(() => {
                     this.timeRemaining--;
                     this.updateTimerDisplay();
-                    if (this.timeRemaining <= 0) this.finishQuiz();
+                    if (this.timeRemaining <= 0) {
+                        this.finishQuiz();
+                    }
                 }, 1000);
             },
 
@@ -1065,8 +1671,14 @@
             },
 
             clearTimers() {
-                if (this.quizTimer) clearInterval(this.quizTimer);
-                if (this.questionTimer) clearInterval(this.questionTimer);
+                if (this.quizTimer) {
+                    clearInterval(this.quizTimer);
+                    this.quizTimer = null;
+                }
+                if (this.questionTimer) {
+                    clearInterval(this.questionTimer);
+                    this.questionTimer = null;
+                }
             },
 
             formatTime(seconds) {
@@ -1075,9 +1687,14 @@
                 return `${mins}:${secs.toString().padStart(2, '0')}`;
             },
 
+            capitalizeFirst(string) {
+                return string ? string.charAt(0).toUpperCase() + string.slice(1) : '';
+            },
+
             // Navigation
             exitQuiz() {
-                if (confirm('Exit quiz? Progress will be lost.')) {
+                if (confirm('Are you sure you want to exit the quiz? Your progress will be saved.')) {
+                    this.quizEngine.saveProgress();
                     this.clearTimers();
                     this.showScreen('home-screen');
                 }
@@ -1088,55 +1705,109 @@
             },
 
             reviewAnswers() {
-                alert('Answer review feature would show detailed explanations in full implementation');
+                alert('Full answer review feature would show detailed explanations for all questions. This is available in the premium version.');
             },
 
             showQuestionBank() {
-                alert('Question bank feature would show all physics questions with filtering');
+                this.displayQuestionBank();
+                this.showScreen('question-bank-screen');
             },
 
-            // Solana Pay Integration
+            displayQuestionBank() {
+                const container = document.getElementById('question-bank-list');
+                container.innerHTML = '';
+                
+                this.quizEngine.questions.forEach((question, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'question-bank-item';
+                    item.innerHTML = `
+                        <div class="flex justify-between items-start mb-sm">
+                            <strong>${question.id}</strong>
+                            <span class="premium-badge">${this.capitalizeFirst(question.questionType)}</span>
+                        </div>
+                        <p class="mb-sm">${question.question}</p>
+                        <div class="text-sm text-muted">
+                            <span>Topic: ${question.topic}</span>
+                            <span class="mx-2">•</span>
+                            <span>Difficulty: ${question.difficulty}</span>
+                        </div>
+                    `;
+                    item.addEventListener('click', () => {
+                        alert(`Question: ${question.question}\n\nCorrect Answer: ${question.options[question.correct]}\n\nExplanation: ${question.explanation}`);
+                    });
+                    container.appendChild(item);
+                });
+            },
+
+            filterQuestions() {
+                const searchTerm = document.getElementById('question-search').value.toLowerCase();
+                const items = document.querySelectorAll('.question-bank-item');
+                
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+                });
+            },
+
+            // Modal Management
             showPremiumModal() {
                 document.getElementById('premium-modal').classList.remove('hidden');
             },
 
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.add('hidden');
+            },
+
+            showError(title, message) {
+                document.getElementById('error-message').textContent = message;
+                document.getElementById('error-modal').classList.remove('hidden');
+                console.error(`${title}: ${message}`);
+            },
+
             async processPayment() {
                 try {
-                    if (!window.solana || !window.solana.isPhantom) {
-                        alert('Please install Phantom wallet to upgrade');
-                        return;
-                    }
-
-                    const provider = window.solana;
-                    await provider.connect();
+                    this.showLoading('Processing payment with Solana...');
                     
                     // Simulate payment processing
-                    alert('Processing payment with Solana...');
+                    await new Promise(resolve => setTimeout(resolve, 2000));
                     
-                    // In real implementation, you would:
-                    // 1. Create transaction
-                    // 2. Send to user's wallet
-                    // 3. Confirm payment
-                    // 4. Unlock premium features
-                    
-                    setTimeout(() => {
-                        document.getElementById('premium-modal').classList.add('hidden');
-                        alert('Payment successful! Premium features unlocked.');
-                    }, 2000);
+                    this.hideLoading();
+                    this.closeModal('premium-modal');
+                    alert('Payment successful! Premium features unlocked.');
                     
                 } catch (error) {
-                    alert('Payment failed: ' + error.message);
+                    this.hideLoading();
+                    this.showError('Payment Failed', error.message);
                 }
             },
 
+            showLoading(text = 'Loading...') {
+                document.getElementById('loading-text').textContent = text;
+                document.getElementById('loading').classList.remove('hidden');
+            },
+
+            hideLoading() {
+                document.getElementById('loading').classList.add('hidden');
+            },
+
             saveProgress() {
-                alert('Progress saved locally. Cloud sync requires premium.');
+                if (this.quizEngine.saveProgress()) {
+                    alert('Progress saved successfully!');
+                } else {
+                    this.showError('Save Failed', 'Could not save progress to browser storage');
+                }
             }
         };
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             PhysicsQuiz.init();
+        });
+
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            PhysicsQuiz.showError('Unexpected Error', 'An unexpected error occurred. The app will return to home screen.');
         });
     </script>
 </body>
