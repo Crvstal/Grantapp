@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grant App - Exam Preparation Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Unified Design System Variables */
             --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-luxury: 'Playfair Display', Georgia, serif;
             --font-mono: 'SF Mono', 'Monaco', monospace;
@@ -42,7 +42,6 @@
             --border: 1px solid var(--neutral-200);
         }
 
-        /* Base Styles */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: var(--font-primary); 
@@ -51,7 +50,6 @@
             line-height: 1.6;
         }
 
-        /* Typography */
         .text-xs { font-size: 0.75rem; }
         .text-sm { font-size: 0.875rem; }
         .text-base { font-size: 1rem; }
@@ -67,7 +65,6 @@
         .font-semibold { font-weight: 600; }
         .font-bold { font-weight: 700; }
 
-        /* Layout */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); }
         .grid { display: grid; gap: var(--space-lg); }
         .grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -83,7 +80,6 @@
         .gap-md { gap: var(--space-md); }
         .gap-lg { gap: var(--space-lg); }
 
-        /* Spacing */
         .p-xs { padding: var(--space-xs); }
         .p-sm { padding: var(--space-sm); }
         .p-md { padding: var(--space-md); }
@@ -96,7 +92,6 @@
         .mb-lg { margin-bottom: var(--space-lg); }
         .mb-xl { margin-bottom: var(--space-xl); }
 
-        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -151,7 +146,6 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* Cards */
         .card {
             background: var(--secondary);
             border: var(--border);
@@ -164,7 +158,6 @@
         .card-body { padding: var(--space-lg); }
         .card-footer { padding: var(--space-lg); border-top: var(--border); }
 
-        /* Forms */
         .form-group { margin-bottom: var(--space-lg); }
         .form-label {
             display: block;
@@ -190,7 +183,6 @@
             box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
         }
 
-        /* Modals */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -222,7 +214,6 @@
         .modal-md { width: 600px; }
         .modal-lg { width: 800px; }
 
-        /* Notifications */
         .notification-container {
             position: fixed;
             top: var(--space-lg);
@@ -270,7 +261,6 @@
             line-height: 1;
         }
 
-        /* Loading */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -295,7 +285,6 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Navigation */
         .navbar {
             display: flex;
             align-items: center;
@@ -315,7 +304,6 @@
             letter-spacing: 0.05em;
         }
 
-        /* Progress */
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -330,7 +318,6 @@
             border-radius: var(--radius);
         }
 
-        /* Quiz Specific Styles */
         .quiz-container {
             max-width: 800px;
             margin: 0 auto;
@@ -473,14 +460,12 @@
             pointer-events: none;
         }
 
-        /* Utility Classes */
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         .hidden { display: none; }
         .w-full { width: 100%; }
         .text-muted { color: var(--neutral-500); }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
             .container { padding: 0 var(--space-sm); }
@@ -490,7 +475,6 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <a href="#" class="navbar-brand" onclick="goHome()">Grant App</a>
         <div class="flex items-center gap-md">
@@ -501,7 +485,6 @@
     </nav>
 
     <div class="container">
-        <!-- Home Screen -->
         <div id="home-screen" class="screen">
             <section class="py-2xl text-center mb-xl">
                 <h1 class="font-luxury text-4xl mb-lg">Grant App</h1>
@@ -553,7 +536,6 @@
             </section>
         </div>
 
-        <!-- Subject Selection Screen -->
         <div id="subject-selection" class="screen hidden">
             <section class="py-xl">
                 <div class="mb-xl">
@@ -563,15 +545,12 @@
                 </div>
 
                 <div class="grid grid-2 mb-xl" id="subject-grid">
-                    <!-- Subjects will be populated by JavaScript -->
                 </div>
             </section>
         </div>
 
-        <!-- Quiz Screen -->
         <div id="quiz-screen" class="screen hidden">
             <div class="quiz-container">
-                <!-- Quiz Header -->
                 <div class="card mb-lg">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-md">
@@ -588,7 +567,6 @@
                     </div>
                 </div>
 
-                <!-- Question Card -->
                 <div class="question-card">
                     <div class="question-header">
                         <span class="question-number" id="question-number">Question 1</span>
@@ -600,7 +578,6 @@
                     </div>
                     
                     <ul class="options-list" id="options-list">
-                        <!-- Options will be populated by JavaScript -->
                     </ul>
                     
                     <div class="quiz-controls">
@@ -612,21 +589,18 @@
                     </div>
                 </div>
 
-                <!-- Question Navigation -->
                 <div class="card">
                     <div class="card-header">
                         <h4 class="font-semibold">Question Navigation</h4>
                     </div>
                     <div class="card-body">
                         <div class="pagination" id="question-nav">
-                            <!-- Navigation will be populated by JavaScript -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Results Screen -->
         <div id="results-screen" class="screen hidden">
             <section class="py-xl text-center">
                 <h2 class="text-3xl font-semibold mb-lg">Quiz Complete!</h2>
@@ -660,7 +634,6 @@
                         <div class="mb-lg">
                             <h4 class="font-semibold mb-sm">Taxonomy Breakdown</h4>
                             <div id="taxonomy-breakdown">
-                                <!-- Will be populated by JavaScript -->
                             </div>
                         </div>
                         
@@ -675,7 +648,6 @@
         </div>
     </div>
 
-    <!-- Coming Soon Modal -->
     <div id="coming-soon-modal" class="modal-overlay">
         <div class="modal modal-sm">
             <div class="card-header">
@@ -692,7 +664,6 @@
         </div>
     </div>
 
-    <!-- Error Modal -->
     <div id="error-modal" class="modal-overlay">
         <div class="modal modal-sm">
             <div class="card-header">
@@ -708,126 +679,177 @@
         </div>
     </div>
 
-    <!-- Notification Container -->
     <div class="notification-container" id="notifications"></div>
 
-    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loading">
         <div class="loading-spinner"></div>
     </div>
 
     <script>
-        // Question Bank API Configuration - Updated to use GitHub Raw API
         const API_CONFIG = {
-            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/quizbank/',
+            BASE_URL: 'https://raw.githubusercontent.com/Crvstal/quizbank/main/',
             ENDPOINTS: {
-                mathematics: 'jamb-question-bank.tsx',
+                mathematics: 'jamb-mathematics.json',
                 physics: 'jamb-physics-bank.tsx',
-                chemistry: 'jamb-chemistry-bank.tsx',
-                english: 'jamb-question-bank.tsx',
-                sat_math: 'sat-question-taxonomy.tsx',
-                sat_english: 'sat-question-taxonomy.tsx'
+                chemistry: 'jamb-chemistry.json',
+                english: 'jamb-english.json',
+                sat_math: 'sat-mathematics.json',
+                sat_english: 'sat-english.json'
             },
-            CACHE_DURATION: 5 * 60 * 1000 // 5 minutes
+            CACHE_DURATION: 5 * 60 * 1000
         };
 
-        // Question Cache
+        const SOLANA_CONFIG = {
+            MERCHANT_WALLET: 'GR8TuDpbnDvuLzW4JBCLjbeLvGFs1p21XBytLx6rA7XD',
+            RPC_ENDPOINT: 'https://api.mainnet-beta.solana.com',
+            NETWORK: 'mainnet-beta',
+            
+            PRICING: {
+                premium_monthly: 9.99,
+                premium_yearly: 99.99,
+                professional_monthly: 19.99,
+                professional_yearly: 199.99
+            },
+
+            USDC_MINT: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+        };
+
+        class TSXQuestionParser {
+            static parseTSXContent(content) {
+                try {
+                    console.log('Starting TSX parsing...');
+                    
+                    const functionMatch = content.match(/const generatePhysicsQuestionBank = \(\) => \{([\s\S]*?)\n\};/);
+                    if (!functionMatch) {
+                        throw new Error('Could not find question generation function');
+                    }
+
+                    const topicsMatch = content.match(/const physicsTopics = \[([\s\S]*?)\];/);
+                    const topics = topicsMatch ? this.parseArray(topicsMatch[1]) : [];
+
+                    const templatesMatch = content.match(/const physicsQuestionTemplates = \[([\s\S]*?)\];/s);
+                    const templates = templatesMatch ? this.parseTemplates(templatesMatch[1]) : [];
+
+                    const questions = this.generateQuestionsFromTemplates(templates, topics);
+                    
+                    console.log(`Successfully parsed ${questions.length} questions from TSX`);
+                    return questions;
+                } catch (error) {
+                    console.error('TSX parsing error:', error);
+                    throw new Error(`Failed to parse TSX content: ${error.message}`);
+                }
+            }
+
+            static parseArray(arrayContent) {
+                return arrayContent
+                    .split('\n')
+                    .map(line => line.trim().replace(/['",]/g, '').trim())
+                    .filter(line => line && !line.startsWith('//'))
+                    .filter(Boolean);
+            }
+
+            static parseTemplates(templatesContent) {
+                const templates = [];
+                const templateRegex = /\{[\s\S]*?template: "([^"]+)",[\s\S]*?type: '([^']+)',[\s\S]*?info: '([^']+)',[\s\S]*?generator: \(\) => \{([\s\S]*?)\s*\}[^}]*\}/g;
+                
+                let match;
+                while ((match = templateRegex.exec(templatesContent)) !== null) {
+                    const [, template, type, info, generatorCode] = match;
+                    
+                    const generator = this.createSafeGenerator(generatorCode);
+                    
+                    if (generator) {
+                        templates.push({
+                            template,
+                            type,
+                            info,
+                            generator
+                        });
+                    }
+                }
+                
+                return templates;
+            }
+
+            static createSafeGenerator(generatorCode) {
+                try {
+                    const returnMatch = generatorCode.match(/return\s*\{([\s\S]*?)\}\s*;/);
+                    if (!returnMatch) return null;
+
+                    const returnContent = returnMatch[1];
+                    
+                    const questionMatch = returnContent.match(/question:\s*`([^`]*)`/);
+                    const optionsMatch = returnContent.match(/options:\s*\[([^\]]*)\]/);
+                    const correctMatch = returnContent.match(/correct:\s*(\d+)/);
+                    const explanationMatch = returnContent.match(/explanation:\s*`([^`]*)`/);
+
+                    if (!questionMatch || !optionsMatch || !correctMatch) return null;
+
+                    const optionsText = optionsMatch[1];
+                    const options = optionsText.split(',').map(opt => 
+                        opt.trim().replace(/^`|`$/g, '').replace(/^"|"$/g, '')
+                    );
+
+                    return () => ({
+                        question: questionMatch[1],
+                        options: options,
+                        correct: parseInt(correctMatch[1]),
+                        explanation: explanationMatch ? explanationMatch[1] : 'No explanation available'
+                    });
+                } catch (error) {
+                    console.error('Error creating generator:', error);
+                    return null;
+                }
+            }
+
+            static generateQuestionsFromTemplates(templates, topics) {
+                const questions = [];
+                const questionsPerTopic = Math.floor(300 / topics.length);
+                
+                topics.forEach((topic, topicIndex) => {
+                    const extraQuestions = topicIndex < (300 % topics.length) ? 1 : 0;
+                    const totalQuestions = questionsPerTopic + extraQuestions;
+                    
+                    for (let i = 0; i < totalQuestions; i++) {
+                        const template = templates[i % templates.length];
+                        if (template && template.generator) {
+                            try {
+                                const generated = template.generator();
+                                questions.push({
+                                    id: `jamb_phy_${(topicIndex * questionsPerTopic + i + 1).toString().padStart(3, '0')}`,
+                                    subject: 'Physics',
+                                    questionType: template.type,
+                                    infoType: template.info,
+                                    difficulty: ['Easy', 'Medium', 'Hard'][Math.floor(Math.random() * 3)],
+                                    topic: topic,
+                                    source: 'JAMB Physics Syllabus 2025',
+                                    examType: 'JAMB/UTME',
+                                    text: generated.question,
+                                    options: generated.options,
+                                    correct: generated.correct,
+                                    explanation: generated.explanation,
+                                    taxonomy: {
+                                        type: template.type,
+                                        info: template.info
+                                    }
+                                });
+                            } catch (error) {
+                                console.error('Error generating question:', error);
+                            }
+                        }
+                    }
+                });
+                
+                return questions;
+            }
+        }
+
         let questionCache = {};
 
-        // Fallback Questions (in case API fails)
-        const fallbackQuestions = [
-            {
-                id: 'fallback_1',
-                text: "If 3x - 2 = 10, find the value of x.",
-                options: ["A) 3", "B) 4", "C) 5", "D) 6"],
-                correct: 1,
-                taxonomy: { type: "mathematical", info: "essential" },
-                explanation: "3x - 2 = 10\n3x = 10 + 2\n3x = 12\nx = 4"
-            },
-            {
-                id: 'fallback_2',
-                text: "What is the area of a circle with radius 7cm? (Take π = 22/7)",
-                options: ["A) 154 cm²", "B) 44 cm²", "C) 22 cm²", "D) 308 cm²"],
-                correct: 0,
-                taxonomy: { type: "pragmatic", info: "applied" },
-                explanation: "Area = πr² = (22/7) × 7² = (22/7) × 49 = 154 cm²"
-            },
-            {
-                id: 'fallback_3',
-                text: "Simplify: 2⁴ × 2³",
-                options: ["A) 2⁷", "B) 2¹²", "C) 4⁷", "D) 8³"],
-                correct: 0,
-                taxonomy: { type: "canon", info: "essential" },
-                explanation: "When multiplying powers with same base, add the exponents: 2⁴ × 2³ = 2⁴⁺³ = 2⁷"
-            },
-            {
-                id: 'fallback_4',
-                text: "If the mean of 5 numbers is 12, what is their sum?",
-                options: ["A) 17", "B) 60", "C) 7", "D) 24"],
-                correct: 1,
-                taxonomy: { type: "statistics", info: "contextual" },
-                explanation: "Mean = Sum ÷ Count\n12 = Sum ÷ 5\nSum = 12 × 5 = 60"
-            },
-            {
-                id: 'fallback_5',
-                text: "If y varies inversely as x, and y = 8 when x = 3, find y when x = 6.",
-                options: ["A) 4", "B) 16", "C) 2", "D) 12"],
-                correct: 0,
-                taxonomy: { type: "logical", info: "abstract" },
-                explanation: "Inverse variation: y = k/x\n8 = k/3, so k = 24\nWhen x = 6: y = 24/6 = 4"
-            }
-        ];
-
-        // SAT-specific fallback questions
-        const satFallbackQuestions = [
-            {
-                id: 'sat_fallback_1',
-                text: "If 2x + 5 = 17, what is the value of x?",
-                options: ["A) 6", "B) 7", "C) 8", "D) 9"],
-                correct: 0,
-                taxonomy: { type: "algebra", info: "essential" },
-                explanation: "2x + 5 = 17\n2x = 17 - 5\n2x = 12\nx = 6"
-            },
-            {
-                id: 'sat_fallback_2',
-                text: "Which of the following is the best synonym for 'ubiquitous'?",
-                options: ["A) Rare", "B) Everywhere", "C) Hidden", "D) Ancient"],
-                correct: 1,
-                taxonomy: { type: "vocabulary", info: "contextual" },
-                explanation: "Ubiquitous means present, appearing, or found everywhere."
-            },
-            {
-                id: 'sat_fallback_3',
-                text: "In a right triangle, if one angle measures 30°, what is the measure of the other acute angle?",
-                options: ["A) 30°", "B) 45°", "C) 60°", "D) 90°"],
-                correct: 2,
-                taxonomy: { type: "geometry", info: "applied" },
-                explanation: "The sum of angles in a triangle is 180°. In a right triangle, one angle is 90°. So, 90° + 30° + x = 180° → x = 60°"
-            },
-            {
-                id: 'sat_fallback_4',
-                text: "Which word correctly completes the sentence: 'The committee _____ its decision yesterday.'",
-                options: ["A) announce", "B) announces", "C) announced", "D) has announced"],
-                correct: 2,
-                taxonomy: { type: "grammar", info: "essential" },
-                explanation: "The word 'yesterday' indicates past tense, so 'announced' is correct."
-            },
-            {
-                id: 'sat_fallback_5',
-                text: "If f(x) = 2x² - 3x + 1, what is f(2)?",
-                options: ["A) 3", "B) 5", "C) 7", "D) 9"],
-                correct: 0,
-                taxonomy: { type: "algebra", info: "applied" },
-                explanation: "f(2) = 2(2)² - 3(2) + 1 = 2(4) - 6 + 1 = 8 - 6 + 1 = 3"
-            }
-        ];
-
-        // API Functions - Updated to use GitHub Raw API
         async function fetchQuestions(subject) {
             const cacheKey = `${subject}_questions`;
             const cacheTimestamp = `${subject}_timestamp`;
             
-            // Check cache first
             const cachedQuestions = questionCache[cacheKey];
             const cacheTime = questionCache[cacheTimestamp];
             const now = Date.now();
@@ -840,8 +862,7 @@
             const endpoint = API_CONFIG.ENDPOINTS[subject];
             if (!endpoint) {
                 console.error(`No endpoint configured for subject: ${subject}`);
-                // Return appropriate fallback based on subject
-                return subject.includes('sat') ? satFallbackQuestions : fallbackQuestions;
+                return getFallbackQuestions(subject);
             }
 
             const url = `${API_CONFIG.BASE_URL}${endpoint}`;
@@ -849,11 +870,10 @@
             try {
                 console.log(`Fetching questions from: ${url}`);
                 
-                // Using GitHub Raw API which doesn't have CORS restrictions
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
-                        'Accept': 'application/json',
+                        'Accept': endpoint.endsWith('.tsx') ? 'text/plain' : 'application/json',
                         'Cache-Control': 'no-cache'
                     }
                 });
@@ -862,44 +882,100 @@
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
 
-                const data = await response.json();
+                let data;
                 
-                // Validate data structure
+                if (endpoint.endsWith('.tsx')) {
+                    const tsxContent = await response.text();
+                    data = TSXQuestionParser.parseTSXContent(tsxContent);
+                } else {
+                    data = await response.json();
+                }
+
                 if (!Array.isArray(data) || data.length === 0) {
                     throw new Error('Invalid question data structure');
                 }
 
-                // Ensure required fields exist
                 const validatedQuestions = data.filter(question => {
                     return question.id && 
-                           question.text && 
+                           (question.text || question.question) && 
                            Array.isArray(question.options) && 
                            question.options.length >= 4 &&
-                           typeof question.correct === 'number' &&
-                           question.taxonomy;
+                           typeof question.correct === 'number';
                 });
 
                 if (validatedQuestions.length === 0) {
                     throw new Error('No valid questions found in response');
                 }
 
-                // Cache the results
-                questionCache[cacheKey] = validatedQuestions;
+                const normalizedQuestions = validatedQuestions.map(q => ({
+                    id: q.id,
+                    text: q.text || q.question,
+                    options: q.options,
+                    correct: q.correct,
+                    explanation: q.explanation || 'No explanation available',
+                    taxonomy: q.taxonomy || { type: 'unknown', info: 'unknown' },
+                    subject: q.subject || subject,
+                    difficulty: q.difficulty || 'Medium',
+                    topic: q.topic || 'General'
+                }));
+
+                questionCache[cacheKey] = normalizedQuestions;
                 questionCache[cacheTimestamp] = now;
                 
-                console.log(`Successfully loaded ${validatedQuestions.length} questions for ${subject}`);
-                return validatedQuestions;
+                console.log(`Successfully loaded ${normalizedQuestions.length} questions for ${subject}`);
+                return normalizedQuestions;
 
             } catch (error) {
                 console.error(`Error fetching questions for ${subject}:`, error);
                 GrantApp.showNotification('warning', 'Using Offline Mode', `Could not load latest questions. Using cached content.`);
                 
-                // Return cached questions if available, otherwise appropriate fallback
-                return cachedQuestions || (subject.includes('sat') ? satFallbackQuestions : fallbackQuestions);
+                return cachedQuestions || getFallbackQuestions(subject);
             }
         }
 
-        // Question Selection and Filtering
+        function getFallbackQuestions(subject) {
+            const mathQuestions = [
+                {
+                    id: 'fallback_1',
+                    text: "If 3x - 2 = 10, find the value of x.",
+                    options: ["A) 3", "B) 4", "C) 5", "D) 6"],
+                    correct: 1,
+                    taxonomy: { type: "mathematical", info: "essential" },
+                    explanation: "3x - 2 = 10\n3x = 10 + 2\n3x = 12\nx = 4"
+                },
+                {
+                    id: 'fallback_2',
+                    text: "What is the area of a circle with radius 7cm? (Take π = 22/7)",
+                    options: ["A) 154 cm²", "B) 44 cm²", "C) 22 cm²", "D) 308 cm²"],
+                    correct: 0,
+                    taxonomy: { type: "pragmatic", info: "applied" },
+                    explanation: "Area = πr² = (22/7) × 7² = (22/7) × 49 = 154 cm²"
+                }
+            ];
+
+            const physicsQuestions = [
+                {
+                    id: 'physics_fallback_1',
+                    text: "A car accelerates from 15 m/s at 3 m/s² for 5 seconds. Find the final velocity.",
+                    options: ["A) 30 m/s", "B) 25 m/s", "C) 20 m/s", "D) 35 m/s"],
+                    correct: 0,
+                    taxonomy: { type: "mathematical", info: "essential" },
+                    explanation: "Using v = u + at: v = 15 + 3 × 5 = 30 m/s"
+                },
+                {
+                    id: 'physics_fallback_2',
+                    text: "Convert 25°C to Kelvin.",
+                    options: ["A) 298 K", "B) 273 K", "C) 250 K", "D) 300 K"],
+                    correct: 0,
+                    taxonomy: { type: "canon", info: "essential" },
+                    explanation: "K = °C + 273 = 25 + 273 = 298 K"
+                }
+            ];
+
+            if (subject.includes('physics')) return physicsQuestions;
+            return mathQuestions;
+        }
+
         function selectQuestionsByDifficulty(questions, difficulty = 'mixed', count = 20) {
             const shuffled = [...questions].sort(() => 0.5 - Math.random());
             
@@ -907,7 +983,6 @@
                 return shuffled.slice(0, count);
             }
             
-            // Filter by taxonomy complexity for difficulty
             const filtered = shuffled.filter(q => {
                 const taxonomyComplexity = getTaxonomyComplexity(q.taxonomy);
                 return taxonomyComplexity === difficulty;
@@ -916,26 +991,6 @@
             return filtered.slice(0, Math.min(count, filtered.length));
         }
 
-        // Solana Pay Configuration - Updated to your wallet
-        const SOLANA_CONFIG = {
-            // Your wallet address
-            MERCHANT_WALLET: 'GR8TuDpbnDvuLzW4JBCLjbeLvGFs1p21XBytLx6rA7XD',
-            RPC_ENDPOINT: 'https://api.mainnet-beta.solana.com',
-            NETWORK: 'mainnet-beta',
-            
-            // Pricing (in USDC)
-            PRICING: {
-                premium_monthly: 9.99,
-                premium_yearly: 99.99,
-                professional_monthly: 19.99,
-                professional_yearly: 199.99
-            },
-
-            // USDC Token Mint Address (mainnet)
-            USDC_MINT: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
-        };
-
-        // Solana Pay Functions
         function generateSolanaPayURL(amount, tier, reference) {
             const params = new URLSearchParams({
                 recipient: SOLANA_CONFIG.MERCHANT_WALLET,
@@ -951,8 +1006,6 @@
         }
 
         function createSolanaPayQR(paymentUrl) {
-            // For production, integrate with @solana/pay library
-            // This is a simplified version for demo
             const qrData = encodeURIComponent(paymentUrl);
             return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${qrData}`;
         }
@@ -963,7 +1016,6 @@
             const paymentUrl = generateSolanaPayURL(amount, tier, reference);
             const qrCodeUrl = createSolanaPayQR(paymentUrl);
 
-            // Store payment details for verification
             const paymentDetails = {
                 reference,
                 amount,
@@ -972,7 +1024,6 @@
                 status: 'pending'
             };
 
-            // In production, store in secure backend
             sessionStorage.setItem(`payment_${reference}`, JSON.stringify(paymentDetails));
 
             return {
@@ -988,19 +1039,15 @@
         }
 
         async function verifyPayment(reference) {
-            // In production, verify on Solana blockchain
-            // This is simplified for demo
             try {
                 const storedPayment = sessionStorage.getItem(`payment_${reference}`);
                 if (!storedPayment) throw new Error('Payment not found');
 
                 const paymentData = JSON.parse(storedPayment);
                 
-                // Simulate blockchain verification delay
                 await new Promise(resolve => setTimeout(resolve, 2000));
 
-                // For demo, randomly succeed/fail
-                const isVerified = Math.random() > 0.3; // 70% success rate for demo
+                const isVerified = Math.random() > 0.3;
 
                 if (isVerified) {
                     paymentData.status = 'completed';
@@ -1016,7 +1063,6 @@
             }
         }
 
-        // Application State
         let currentScreen = 'home';
         let currentExam = '';
         let currentQuiz = {
@@ -1025,13 +1071,11 @@
             currentQuestionIndex: 0,
             answers: {},
             startTime: null,
-            timeLimit: 30 * 60, // 30 minutes
+            timeLimit: 30 * 60,
             timer: null
         };
 
-        // System Controller
         const GrantApp = {
-            // Screen Management
             showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.add('hidden');
@@ -1040,7 +1084,6 @@
                 currentScreen = screenId;
             },
 
-            // Notification System
             notificationId: 0,
             showNotification(type, title, message, duration = 5000) {
                 const container = document.getElementById('notifications');
@@ -1070,7 +1113,6 @@
                 }
             },
 
-            // Modal Management
             openModal(modalId) {
                 const modal = document.getElementById(modalId);
                 if (modal) {
@@ -1087,7 +1129,6 @@
                 }
             },
 
-            // Loading Management
             showLoading() {
                 document.getElementById('loading').classList.add('active');
             },
@@ -1096,13 +1137,11 @@
                 document.getElementById('loading').classList.remove('active');
             },
 
-            // Error Handling
             showError(message) {
                 document.getElementById('error-message').textContent = message;
                 this.openModal('error-modal');
             },
 
-            // Timer Management
             startTimer() {
                 if (currentQuiz.timer) clearInterval(currentQuiz.timer);
                 
@@ -1130,18 +1169,15 @@
                 }
             },
 
-            // Question Management
             loadQuestion(index) {
                 if (index < 0 || index >= currentQuiz.questions.length) return;
                 
                 const question = currentQuiz.questions[index];
                 currentQuiz.currentQuestionIndex = index;
 
-                // Update question display
                 document.getElementById('question-number').textContent = `Question ${index + 1}`;
                 document.getElementById('question-text').textContent = question.text;
 
-                // Update options
                 const optionsList = document.getElementById('options-list');
                 optionsList.innerHTML = '';
 
@@ -1165,25 +1201,21 @@
                     optionsList.appendChild(li);
                 });
 
-                // Update progress
                 const progress = ((index + 1) / currentQuiz.questions.length) * 100;
                 document.getElementById('quiz-progress').style.width = `${progress}%`;
                 document.getElementById('progress-text').textContent = 
                     `Question ${index + 1} of ${currentQuiz.questions.length}`;
 
-                // Update navigation buttons
                 document.getElementById('prev-btn').disabled = index === 0;
                 const nextBtn = document.getElementById('next-btn');
                 nextBtn.textContent = index === currentQuiz.questions.length - 1 ? 'Finish Quiz' : 'Next Question';
 
-                // Update question navigation
                 this.updateQuestionNavigation();
             },
 
             selectOption(questionId, optionIndex) {
                 currentQuiz.answers[questionId] = optionIndex;
                 
-                // Update visual selection
                 const labels = document.querySelectorAll('.option-label');
                 labels.forEach((label, index) => {
                     if (index === optionIndex) {
@@ -1219,12 +1251,10 @@
                 });
             },
 
-            // Quiz Flow - Updated with API integration
             async startQuiz(subject, questionCount = 20) {
                 this.showLoading();
                 
                 try {
-                    // Fetch questions from external repo using GitHub Raw API
                     const allQuestions = await fetchQuestions(subject);
                     const selectedQuestions = selectQuestionsByDifficulty(allQuestions, 'mixed', questionCount);
                     
@@ -1246,16 +1276,17 @@
                     this.hideLoading();
                     this.showScreen('quiz-screen');
                     
-                    // Update quiz title based on exam and subject
                     const examName = currentExam === 'jamb' ? 'JAMB' : 'SAT';
                     const subjectName = subject.includes('math') ? 'Mathematics' : 
-                                       subject.includes('english') ? 'English' : subject;
+                                       subject.includes('english') ? 'English' : 
+                                       subject.includes('physics') ? 'Physics' : subject;
                     document.getElementById('quiz-title').textContent = `${examName} ${subjectName} - Practice Mode`;
                     
                     this.loadQuestion(0);
                     this.startTimer();
                     
-                    this.showNotification('success', 'Quiz Loaded', `${selectedQuestions.length} questions loaded from question bank.`);
+                    const sourceType = API_CONFIG.ENDPOINTS[subject].endsWith('.tsx') ? 'TSX component' : 'JSON file';
+                    this.showNotification('success', 'Quiz Loaded', `${selectedQuestions.length} questions loaded from ${sourceType}.`);
                     
                 } catch (error) {
                     this.hideLoading();
@@ -1284,7 +1315,6 @@
                     if (!confirm(confirmMsg)) return;
                 }
 
-                // Show submission confirmation
                 const modal = this.createSubmissionModal();
                 document.body.appendChild(modal);
             },
@@ -1356,11 +1386,9 @@
                     </div>
                 `;
                 
-                // Close upgrade modal
                 this.closeUpgradeModal();
                 document.body.appendChild(modal);
                 
-                // Auto-check payment status
                 this.startPaymentStatusCheck(paymentData.reference);
             },
 
@@ -1380,7 +1408,6 @@
                             this.handleSuccessfulPayment(reference);
                         }, 2000);
                     } else {
-                        // Update progress
                         const currentWidth = parseInt(progressBar?.style.width) || 0;
                         if (progressBar && currentWidth < 90) {
                             progressBar.style.width = `${Math.min(currentWidth + 10, 90)}%`;
@@ -1388,7 +1415,6 @@
                     }
                 }, 3000);
                 
-                // Stop checking after 5 minutes
                 setTimeout(() => {
                     clearInterval(interval);
                     const statusText = document.getElementById('payment-status');
@@ -1410,13 +1436,11 @@
             },
 
             handleSuccessfulPayment(reference) {
-                // Activate premium features
                 sessionStorage.setItem('premium_active', 'true');
                 sessionStorage.setItem('payment_reference', reference);
                 
                 this.showNotification('success', 'Payment Successful!', 'Premium features activated. Enjoy your enhanced analytics!');
                 
-                // Return to quiz with premium results
                 this.confirmSubmission();
             },
 
@@ -1528,7 +1552,6 @@
                         </div>
                         <div class="card-body">
                             <div class="grid grid-2 gap-lg mb-lg">
-                                <!-- Premium Plan -->
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="font-semibold">Premium Monthly</h4>
@@ -1548,7 +1571,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Professional Plan -->
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="font-semibold">Professional Monthly</h4>
@@ -1589,7 +1611,6 @@
                     
                     if (isCorrect) correct++;
 
-                    // Track taxonomy performance
                     const key = `${question.taxonomy.type}-${question.taxonomy.info}`;
                     if (!taxonomyStats[key]) {
                         taxonomyStats[key] = { correct: 0, total: 0 };
@@ -1600,12 +1621,10 @@
 
                 const score = Math.round((correct / total) * 100);
 
-                // Update results display
                 document.getElementById('score-display').textContent = `${score}%`;
                 document.getElementById('correct-display').textContent = correct;
                 document.getElementById('incorrect-display').textContent = total - correct;
 
-                // Update taxonomy breakdown
                 const breakdown = document.getElementById('taxonomy-breakdown');
                 breakdown.innerHTML = '';
                 
@@ -1627,7 +1646,6 @@
             }
         };
 
-        // Global Functions
         function goHome() {
             GrantApp.showScreen('home-screen');
             GrantApp.stopTimer();
@@ -1648,10 +1666,8 @@
             currentExam = exam;
             GrantApp.showScreen('subject-selection');
             
-            // Update title based on exam
             document.getElementById('exam-title').textContent = `Select ${exam.toUpperCase()} Subject`;
             
-            // Populate subjects based on exam
             const subjectGrid = document.getElementById('subject-grid');
             subjectGrid.innerHTML = '';
             
@@ -1659,9 +1675,9 @@
             
             if (exam === 'jamb') {
                 subjects = [
-                    { id: 'mathematics', name: 'Mathematics', status: 'available', questions: '10,000+ Questions' },
+                    { id: 'mathematics', name: 'Mathematics', status: 'available', questions: '300+ Questions' },
                     { id: 'english', name: 'English', status: 'coming-soon', questions: 'Coming Soon' },
-                    { id: 'physics', name: 'Physics', status: 'coming-soon', questions: 'Coming Soon' },
+                    { id: 'physics', name: 'Physics', status: 'available', questions: '300+ Questions (TSX)' },
                     { id: 'chemistry', name: 'Chemistry', status: 'coming-soon', questions: 'Coming Soon' }
                 ];
             } else if (exam === 'sat') {
@@ -1716,15 +1732,10 @@
             const isLast = currentQuiz.currentQuestionIndex === currentQuiz.questions.length - 1;
             
             if (isLast) {
-                // Show submit quiz modal instead of auto-finishing
                 GrantApp.submitQuiz();
             } else {
                 GrantApp.loadQuestion(currentQuiz.currentQuestionIndex + 1);
             }
-        }
-
-        function finishQuiz() {
-            GrantApp.submitQuiz();
         }
 
         function exitQuiz() {
@@ -1737,10 +1748,8 @@
 
         function reviewAnswers() {
             if (GrantApp.isPremiumActive()) {
-                // Would show detailed answer review
                 showComingSoon('Detailed Answer Review');
             } else {
-                // Prompt for upgrade
                 GrantApp.showNotification('info', 'Premium Feature', 'Upgrade to access detailed answer reviews.');
                 setTimeout(() => GrantApp.createUpgradeModal(), 1000);
             }
@@ -1773,9 +1782,7 @@
             GrantApp.closeModal(modalId);
         }
 
-        // Initialize Application
         document.addEventListener('DOMContentLoaded', function() {
-            // Modal click-outside-to-close
             document.querySelectorAll('.modal-overlay').forEach(modal => {
                 modal.addEventListener('click', function(e) {
                     if (e.target === this) {
@@ -1784,7 +1791,6 @@
                 });
             });
 
-            // Keyboard navigation
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     const activeModal = document.querySelector('.modal-overlay.active');
@@ -1793,7 +1799,6 @@
                     }
                 }
 
-                // Quiz navigation shortcuts
                 if (currentScreen === 'quiz-screen') {
                     if (e.key === 'ArrowLeft') {
                         e.preventDefault();
@@ -1812,7 +1817,6 @@
                 }
             });
 
-            // Welcome message
             setTimeout(() => {
                 GrantApp.showNotification('info', 'Welcome to Grant App', 'Your exam preparation journey starts here!');
             }, 1000);
