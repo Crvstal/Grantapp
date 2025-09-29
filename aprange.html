@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP Mathematics - Adaptive Quiz Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-luxury: 'Playfair Display', Georgia, serif;
+            --primary: #000000;
+            --secondary: #FFFFFF;
+            --accent: #2563EB;
+            --success: #059669;
+            --warning: #D97706;
+            --error: #DC2626;
+            --info: #2563EB;
+            --neutral-50: #FAFAFA;
+            --neutral-100: #F5F5F5;
+            --neutral-200: #E5E5E5;
+            --neutral-300: #D4D4D4;
+            --neutral-500: #737373;
+            --neutral-700: #404040;
+            --neutral-900: #171717;
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --radius: 0.375rem;
+            --border: 1px solid var(--neutral-200);
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        body { 
+            font-family: var(--font-primary); 
+            color: var(--primary); 
+            background: var(--secondary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 var(--space-md); 
+        }
+
+        .hidden { 
+            display: none !important; 
+        }
+
+        .text-center { text-align: center; }
+        .w-full { width: 100%; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-sm { gap: var(--space-sm); }
+        .gap-md { gap: var(--space-md); }
+        .gap-lg { gap: var(--space-lg); }
+        .mb-sm { margin-bottom: var(--space-sm); }
+        .mb-md { margin-bottom: var(--space-md); }
+        .mb-lg { margin-bottom: var(--space-lg); }
+        .mb-xl { margin-bottom: var(--space-xl); }
+        .p-sm { padding: var(--space-sm); }
+        .p-md { padding: var(--space-md); }
+        .p-lg { padding: var(--space-lg); }
+        .p-xl { padding: var(--space-xl); }
+        .py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+        .py-lg { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
+        .py-xl { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
+
+        /* Typography */
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .font-luxury { font-family: var(--font-luxury); }
+        .text-muted { color: var(--neutral-500); }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--secondary);
+            border-bottom: var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .navbar-brand {
+            font-family: var(--font-luxury);
+            font-size: 1.25rem;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all var(--transition);
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .card-header { padding: var(--space-lg); border-bottom: var(--border); }
+        .card-body { padding: var(--space-lg); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-lg);
+            border: var(--border);
+            background: transparent;
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            border-radius: var(--radius);
+        }
+
+        .btn:hover:not(:disabled) { 
+            transform: translateY(-1px); 
+            box-shadow: var(--shadow); 
+        }
+        
+        .btn:disabled { 
+            opacity: 0.5; 
+            cursor: not-allowed; 
+            transform: none; 
+        }
+        
+        .btn-primary { 
+            background: var(--primary); 
+            color: var(--secondary); 
+            border-color: var(--primary); 
+        }
+        
+        .btn-accent { 
+            background: var(--accent); 
+            color: var(--secondary); 
+            border-color: var(--accent); 
+        }
+        
+        .btn-success { 
+            background: var(--success); 
+            color: var(--secondary); 
+            border-color: var(--success); 
+        }
+        
+        .btn-error { 
+            background: var(--error); 
+            color: var(--secondary); 
+            border-color: var(--error); 
+        }
+        
+        .btn-ghost { 
+            border: none; 
+            background: none; 
+        }
+        
+        .btn-ghost:hover { 
+            background: var(--neutral-100); 
+        }
+        
+        .btn-lg { 
+            padding: var(--space-md) var(--space-xl); 
+            font-size: 1rem; 
+        }
+        
+        .btn-sm { 
+            padding: var(--space-xs) var(--space-sm); 
+            font-size: 0.75rem; 
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-card {
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: var(--border);
+        }
+
+        .question-number {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+            font-weight: 600;
+        }
+
+        .question-timer {
+            font-size: 0.875rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+
+        .options-list {
+            list-style: none;
+            margin-bottom: var(--space-xl);
+        }
+
+        .option-item {
+            margin-bottom: var(--space-md);
+        }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            border: var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all var(--transition);
+            background: var(--secondary);
+        }
+
+        .option-label:hover {
+            background: var(--neutral-50);
+            border-color: var(--primary);
+        }
+
+        .option-label.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neutral-300);
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .option-label.selected .option-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .option-label.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+
+        /* Progress */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--neutral-200);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width var(--transition);
+            border-radius: var(--radius);
+        }
+
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: var(--space-lg);
+            background: var(--secondary);
+            border: var(--border);
+            border-radius: var(--radius);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Premium Features */
+        .premium-badge {
+            background: linear-gradient(45deg, var(--accent), #3b82f6);
+            color: var(--secondary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stake-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stake-practice { background: var(--success); color: var(--secondary); }
+        .stake-mock { background: var(--warning); color: var(--secondary); }
+        .stake-high { background: var(--error); color: var(--secondary); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--secondary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--neutral-200);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--space-md);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Grid */
+        .grid { 
+            display: grid; 
+            gap: var(--space-lg); 
+        }
+        
+        .grid-2 { 
+            grid-template-columns: repeat(2, 1fr); 
+        }
+        
+        .grid-3 { 
+            grid-template-columns: repeat(3, 1fr); 
+        }
+
+        /* Subject Navigation */
+        .subject-nav {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl);
+            overflow-x: auto;
+            padding: var(--space-sm) 0;
+        }
+
+        .subject-btn {
+            padding: var(--space-sm) var(--space-md);
+            border: var(--border);
+            border-radius: var(--radius);
+            background: var(--secondary);
+            color: var(--primary);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all var(--transition);
+        }
+
+        .subject-btn:hover {
+            background: var(--neutral-100);
+        }
+
+        .subject-btn.active {
+            background: var(--accent);
+            color: var(--secondary);
+            border-color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { 
+                padding: 0 var(--space-sm); 
+            }
+            
+            .question-card { 
+                padding: var(--space-lg); 
+            }
+            
+            .quiz-controls { 
+                flex-direction: column; 
+                gap: var(--space-md); 
+            }
+            
+            .grid-2, .grid-3 { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .question-header { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: var(--space-sm); 
+            }
+
+            .navbar {
+                padding: var(--space-sm) var(--space-md);
+            }
+
+            .navbar .flex {
+                flex-direction: row;
+                gap: var(--space-sm);
+            }
+
+            .btn {
+                font-size: 0.75rem;
+                padding: var(--space-xs) var(--space-sm);
+            }
+
+            .subject-nav {
+                gap: var(--space-xs);
+            }
+            
+            .subject-btn {
+                padding: var(--space-xs) var(--space-sm);
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand" onclick="MathQuiz.goHome(); return false;">GrantApp</a>
+        <div class="flex items-center gap-md">
+            <button class="btn btn-ghost" onclick="MathQuiz.showQuestionBank()">Question Bank</button>
+            <button class="btn btn-accent" onclick="MathQuiz.showPremiumModal()">Upgrade</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Subject Navigation -->
+        <div class="subject-nav">
+            <a href="#" class="subject-btn active" onclick="MathQuiz.showSubject('ap-math')">AP Mathematics</a>
+            <a href="#" class="subject-btn" onclick="MathQuiz.showComingSoon('AP English')">AP English</a>
+            <a href="#" class="subject-btn" onclick="MathQuiz.showComingSoon('SAT Math')">SAT Math</a>
+            <a href="#" class="subject-btn" onclick="MathQuiz.showComingSoon('SAT English')">SAT English</a>
+            <a href="#" class="subject-btn" onclick="MathQuiz.showComingSoon('SAT Physics')">SAT Physics</a>
+            <a href="#" class="subject-btn" onclick="MathQuiz.showComingSoon('SAT Chemistry')">SAT Chemistry</a>
+        </div>
+
+        <!-- Home Screen -->
+        <div id="home-screen" class="screen">
+            <section class="py-xl text-center">
+                <h1 class="font-luxury text-4xl mb-lg">AP Mathematics</h1>
+                <p class="text-lg text-muted mb-xl">Master Calculus with our adaptive learning system</p>
+                
+                <div class="grid grid-3 mb-xl">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-2xl font-semibold mb-sm">Practice Mode</h3>
+                            <p class="text-muted mb-lg">Adaptive practice with instant feedback</p>
+                            <button class="btn btn-primary w-full" onclick="MathQuiz.startQuiz('practice')">Start Practice</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-2xl font-semibold mb-sm">Mock Exam</h3>
+                            <p class="text-muted mb-lg">Timed AP simulation</p>
+                            <button class="btn btn-accent w-full" onclick="MathQuiz.startQuiz('mock')">Start Mock</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h3 class="text-2xl font-semibold mb-sm">High Stakes</h3>
+                            <p class="text-muted mb-lg">Advanced questions &amp; analytics</p>
+                            <button class="btn btn-success w-full" onclick="MathQuiz.startQuiz('high')">Start Challenge</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 600px; margin: 0 auto;">
+                    <div class="card-header">
+                        <h3 class="text-xl font-semibold">Quick Start</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-lg">Jump into a quick 5-question adaptive quiz</p>
+                        <button class="btn btn-accent btn-lg w-full" onclick="MathQuiz.startQuickQuiz()">Quick Quiz (5 Questions)</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen hidden">
+            <div class="quiz-container">
+                <!-- Quiz Header -->
+                <div class="card mb-lg">
+                    <div class="card-body">
+                        <div class="flex justify-between items-center mb-md">
+                            <h2 class="text-xl font-semibold" id="quiz-title">AP Mathematics Adaptive Quiz</h2>
+                            <div class="flex items-center gap-md">
+                                <span class="stake-badge" id="stake-badge">Practice</span>
+                                <button class="btn btn-ghost btn-sm" onclick="MathQuiz.exitQuiz()">Exit Quiz</button>
+                            </div>
+                        </div>
+                        <div class="progress-bar mb-md">
+                            <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-muted">
+                            <span id="progress-text">Question 1 of 5</span>
+                            <span id="timer-display">Time: 30:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="question-card">
+                    <div class="question-header">
+                        <div>
+                            <span class="question-number" id="question-number">Question 1</span>
+                            <span class="premium-badge" id="question-taxonomy" style="margin-left: 10px;">Pragmatic</span>
+                        </div>
+                        <span class="question-timer" id="question-timer">01:00</span>
+                    </div>
+                    
+                    <div class="question-text" id="question-text">
+                        Loading question...
+                    </div>
+                    
+                    <ul class="options-list" id="options-list">
+                        <!-- Options populated by JavaScript -->
+                    </ul>
+                    
+                    <div class="quiz-controls">
+                        <button class="btn btn-ghost" id="prev-btn" onclick="MathQuiz.previousQuestion()" disabled>Previous</button>
+                        <div class="flex gap-md">
+                            <button class="btn btn-ghost" onclick="MathQuiz.saveProgress()">Save Progress</button>
+                            <button class="btn btn-primary" id="next-btn" onclick="MathQuiz.nextQuestion()">Next Question</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adaptive Metrics -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="font-semibold">Adaptive Metrics &amp; Taxonomy Analysis</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="analytics-grid">
+                            <div class="metric-card">
+                                <div class="metric-value" id="current-score">0%</div>
+                                <div>Current Score</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="difficulty-level">Medium</div>
+                                <div>Difficulty Level</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="pattern-type">Pragmatic</div>
+                                <div>Question Pattern</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="info-classification">Essential</div>
+                                <div>Information Type</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen hidden">
+            <section class="py-xl text-center">
+                <div class="mb-xl">
+                    <button class="btn btn-ghost mb-lg" onclick="MathQuiz.goHome()">&larr; Back to Home</button>
+                    <h2 class="text-3xl font-semibold mb-lg">Quiz Complete!</h2>
+                </div>
+                
+                <div class="analytics-grid mb-xl">
+                    <div class="metric-card">
+                        <div class="metric-value" id="score-display">0%</div>
+                        <div>Overall Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="correct-display">0</div>
+                        <div>Correct Answers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="incorrect-display">0</div>
+                        <div>Incorrect Answers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="time-display">0:00</div>
+                        <div>Time Taken</div>
+                    </div>
+                </div>
+
+                <div class="card mb-xl" style="max-width: 800px; margin: 0 auto;">
+                    <div class="card-header">
+                        <h3 class="text-xl font-semibold">Taxonomy Analysis &amp; Performance Matrix</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-lg">
+                            <h4 class="font-semibold mb-sm">Question Pattern Performance</h4>
+                            <div id="pattern-breakdown"></div>
+                        </div>
+                        
+                        <div class="mb-lg">
+                            <h4 class="font-semibold mb-sm">Information Classification Mastery</h4>
+                            <div id="information-breakdown"></div>
+                        </div>
+                        
+                        <div class="flex gap-md justify-center">
+                            <button class="btn btn-primary" onclick="MathQuiz.reviewAnswers()">Review Answers</button>
+                            <button class="btn btn-ghost" onclick="MathQuiz.retakeQuiz()">Retake Quiz</button>
+                            <button class="btn btn-accent" onclick="MathQuiz.showPremiumModal()">Detailed Analytics</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Premium Modal -->
+    <div id="premium-modal" class="modal-overlay hidden" onclick="MathQuiz.handleModalBackdrop(event, 'premium-modal')">
+        <div class="modal" style="max-width: 500px;" onclick="event.stopPropagation()">
+            <div class="card">
+                <div class="card-header flex justify-between items-center">
+                    <h3 class="text-xl font-semibold">Upgrade to Premium</h3>
+                    <button class="btn btn-ghost btn-sm" onclick="MathQuiz.closeModal('premium-modal')">&times;</button>
+                </div>
+                <div class="card-body">
+                    <p class="mb-lg">Unlock advanced analytics and unlimited questions</p>
+                    <div class="mb-lg">
+                        <h4 class="font-semibold mb-sm">Premium Features:</h4>
+                        <ul class="text-sm text-muted" style="list-style-position: inside;">
+                            <li>Detailed performance analytics</li>
+                            <li>Unlimited question access</li>
+                            <li>Advanced taxonomy insights</li>
+                            <li>Personalized study plans</li>
+                        </ul>
+                    </div>
+                    <div class="flex gap-sm">
+                        <button class="btn btn-accent flex-1" onclick="MathQuiz.processPayment()">
+                            Upgrade with Solana - 5 SOL
+                        </button>
+                        <button class="btn btn-ghost" onclick="MathQuiz.closeModal('premium-modal')">Maybe Later</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div id="coming-soon-modal" class="modal-overlay hidden" onclick="MathQuiz.handleModalBackdrop(event, 'coming-soon-modal')">
+        <div class="modal" style="max-width: 400px;" onclick="event.stopPropagation()">
+            <div class="card">
+                <div class="card-header flex justify-between items-center">
+                    <h3 class="text-xl font-semibold">Coming Soon</h3>
+                    <button class="btn btn-ghost btn-sm" onclick="MathQuiz.closeModal('coming-soon-modal')">&times;</button>
+                </div>
+                <div class="card-body text-center">
+                    <i class="fas fa-tools text-4xl mb-md" style="color: var(--accent);"></i>
+                    <p class="mb-lg" id="coming-soon-text">This feature is currently under development.</p>
+                    <button class="btn btn-accent w-full" onclick="MathQuiz.closeModal('coming-soon-modal')">Got It</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="text-lg font-semibold" id="loading-text">Loading questions...</div>
+    </div>
+
+    <script>
+        // AP Mathematics Question Bank (inline)
+        const AP_MATH_QUESTIONS = [
+            {
+                id: "ap_math_001",
+                subject: "ap-mathematics",
+                questionType: "mathematical",
+                infoType: "essential",
+                difficulty: "Easy",
+                topic: "Derivatives",
+                question: "Find the derivative of f(x) = 3x² + 2x - 5",
+                options: [
+                    "6x + 2",
+                    "3x² + 2",
+                    "6x - 5",
+                    "3x + 2"
+                ],
+                correct: 0,
+                explanation: "Using the power rule: d/dx(3x²) = 6x, d/dx(2x) = 2, d/dx(-5) = 0. Therefore f'(x) = 6x + 2",
+                avgTime: 90,
+                complexity: 0.3
+            },
+            {
+                id: "ap_math_002",
+                subject: "ap-mathematics",
+                questionType: "logical",
+                infoType: "abstract",
+                difficulty: "Medium",
+                topic: "Limits",
+                question: "What is the limit of (x² - 4)/(x - 2) as x approaches 2?",
+                options: [
+                    "0",
+                    "4",
+                    "2",
+                    "undefined"
+                ],
+                correct: 1,
+                explanation: "Factor the numerator: (x² - 4) = (x - 2)(x + 2). The expression becomes (x + 2), and lim(x→2) (x + 2) = 4",
+                avgTime: 120,
+                complexity: 0.5
+            },
+            {
+                id: "ap_math_003",
+                subject: "ap-mathematics",
+                questionType: "mathematical",
+                infoType: "essential",
+                difficulty: "Easy",
+                topic: "Integration",
+                question: "Evaluate ∫(2x + 3)dx",
+                options: [
+                    "x² + 3x + C",
+                    "2x + C",
+                    "2x² + 3x + C",
+                    "x² + 3 + C"
+                ],
+                correct: 0,
+                explanation: "∫2x dx = x² and ∫3 dx = 3x, so ∫(2x + 3)dx = x² + 3x + C",
+                avgTime: 90,
+                complexity: 0.3
+            },
+            {
+                id: "ap_math_004",
+                subject: "ap-mathematics",
+                questionType: "pragmatic",
+                infoType: "applied",
+                difficulty: "Medium",
+                topic: "Applications of Derivatives",
+                question: "A particle moves along a line with position function s(t) = t³ - 6t² + 9t. At what time(s) is the velocity zero?",
+                options: [
+                    "t = 1 and t = 3",
+                    "t = 0 and t = 2",
+                    "t = 2 only",
+                    "t = 3 only"
+                ],
+                correct: 0,
+                explanation: "Velocity v(t) = s'(t) = 3t² - 12t + 9. Setting v(t) = 0: 3t² - 12t + 9 = 0, which gives t = 1 and t = 3",
+                avgTime: 150,
+                complexity: 0.6
+            },
+            {
+                id: "ap_math_005",
+                subject: "ap-mathematics",
+                questionType: "canon",
+                infoType: "essential",
+                difficulty: "Medium",
+                topic: "Fundamental Theorem of Calculus",
+                question: "According to the Fundamental Theorem of Calculus, if F(x) = ∫[a to x] f(t)dt, then F'(x) equals:",
+                options: [
+                    "f(x)",
+                    "∫f(x)dx",
+                    "f'(x)",
+                    "0"
+                ],
+                correct: 0,
+                explanation: "The Fundamental Theorem of Calculus states that if F(x) = ∫[a to x] f(t)dt, then F'(x) = f(x)",
+                avgTime: 90,
+                complexity: 0.5
+            },
+            {
+                id: "ap_math_006",
+                subject: "ap-mathematics",
+                questionType: "pragmatic",
+                infoType: "applied",
+                difficulty: "Medium",
+                topic: "Applications of Integration",
+                question: "Find the area under the curve y = x² from x = 0 to x = 3",
+                options: [
+                    "6",
+                    "9",
+                    "18",
+                    "27"
+                ],
+                correct: 1,
+                explanation: "Area = ∫[0 to 3] x² dx = [x³/3] from 0 to 3 = 27/3 - 0 = 9",
+                avgTime: 120,
+                complexity: 0.5
+            },
+            {
+                id: "ap_math_007",
+                subject: "ap-mathematics",
+                questionType: "mathematical",
+                infoType: "proofs",
+                difficulty: "Medium",
+                topic: "Advanced Derivatives",
+                question: "If y = ln(x²), find dy/dx",
+                options: [
+                    "1/x²",
+                    "2/x",
+                    "2x",
+                    "1/(2x)"
+                ],
+                correct: 1,
+                explanation: "Using chain rule: dy/dx = 1/(x²) · 2x = 2x/x² = 2/x",
+                avgTime: 120,
+                complexity: 0.6
+            },
+            {
+                id: "ap_math_008",
+                subject: "ap-mathematics",
+                questionType: "mathematical",
+                infoType: "essential",
+                difficulty: "Medium",
+                topic: "Higher-Order Derivatives",
+                question: "What is the second derivative of f(x) = x⁴ - 2x³ + x²?",
+                options: [
+                    "12x² - 12x + 2",
+                    "4x³ - 6x² + 2x",
+                    "4x - 6",
+                    "12x - 12"
+                ],
+                correct: 0,
+                explanation: "f'(x) = 4x³ - 6x² + 2x, then f''(x) = 12x² - 12x + 2",
+                avgTime: 120,
+                complexity: 0.5
+            },
+            {
+                id: "ap_math_009",
+                subject: "ap-mathematics",
+                questionType: "canon",
+                infoType: "essential",
+                difficulty: "Easy",
+                topic: "Continuity",
+                question: "A function is continuous at x = a if and only if:",
+                options: [
+                    "lim(x→a) f(x) = f(a)",
+                    "f(a) exists",
+                    "lim(x→a) f(x) exists",
+                    "f'(a) exists"
+                ],
+                correct: 0,
+                explanation: "A function is continuous at x = a if three conditions are met: f(a) exists, lim(x→a) f(x) exists, and lim(x→a) f(x) = f(a)",
+                avgTime: 90,
+                complexity: 0.4
+            },
+            {
+                id: "ap_math_010",
+                subject: "ap-mathematics",
+                questionType: "canon",
+                infoType: "contextual",
+                difficulty: "Medium",
+                topic: "Theorems of Calculus",
+                question: "The Mean Value Theorem applies to functions that are:",
+                options: [
+                    "Continuous on [a,b] and differentiable on (a,b)",
+                    "Only continuous",
+                    "Only differentiable",
+                    "Neither continuous nor differentiable"
+                ],
+                correct: 0,
+                explanation: "The Mean Value Theorem requires the function to be continuous on the closed interval [a,b] and differentiable on the open interval (a,b)",
+                avgTime: 90,
+                complexity: 0.5
+            }
+        ];
+
+        // AP English Question Bank (inline)
+        const AP_ENGLISH_QUESTIONS = [
+            {
+                id: "ap_eng_001",
+                subject: "ap-english",
+                questionType: "rhetorical",
+                infoType: "contextual",
+                difficulty: "Medium",
+                topic: "Rhetorical Analysis",
+                question: "In the passage, the author primarily uses which rhetorical device to persuade the audience?",
+                options: [
+                    "Ethos",
+                    "Pathos",
+                    "Logos",
+                    "All of the above"
+                ],
+                correct: 1,
+                explanation: "The author appeals to the audience's emotions throughout the passage, making pathos the primary rhetorical device.",
+                avgTime: 120,
+                complexity: 0.5
+            },
+            {
+                id: "ap_eng_002",
+                subject: "ap-english",
+                questionType: "literary",
+                infoType: "abstract",
+                difficulty: "Medium",
+                topic: "Literary Devices",
+                question: "The phrase 'the stars danced playfully in the moonlit sky' is an example of:",
+                options: [
+                    "Simile",
+                    "Metaphor",
+                    "Personification",
+                    "Hyperbole"
+                ],
+                correct: 2,
+                explanation: "This is personification because it gives human qualities (dancing) to non-human objects (stars).",
+                avgTime: 90,
+                complexity: 0.4
+            }
+        ];
+
+        // SAT Math Question Bank (inline)
+        const SAT_MATH_QUESTIONS = [
+            {
+                id: "sat_math_001",
+                subject: "sat-mathematics",
+                questionType: "algebraic",
+                infoType: "essential",
+                difficulty: "Easy",
+                topic: "Linear Equations",
+                question: "If 2x + 5 = 17, what is the value of x?",
+                options: [
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
+                correct: 0,
+                explanation: "2x + 5 = 17 → 2x = 12 → x = 6",
+                avgTime: 60,
+                complexity: 0.3
+            }
+        ];
+
+        // Quiz Engine
+        const MathQuiz = {
+            // State
+            currentScreen: 'home-screen',
+            currentQuiz: null,
+            currentQuestionIndex: 0,
+            userAnswers: [],
+            quizStartTime: null,
+            questionStartTime: null,
+            timerInterval: null,
+            quizTimerInterval: null,
+            remainingTime: 0,
+            totalQuizTime: 0,
+            quizType: 'practice',
+            questions: [],
+            
+            // Initialize the application
+            init() {
+                console.log("MathQuiz initialized");
+                this.showScreen('home-screen');
+                this.updateSubjectNav();
+            },
+            
+            // Navigation functions
+            showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.add('hidden');
+                });
+                document.getElementById(screenId).classList.remove('hidden');
+                this.currentScreen = screenId;
+            },
+            
+            goHome() {
+                this.showScreen('home-screen');
+                this.stopAllTimers();
+                this.updateSubjectNav();
+            },
+            
+            updateSubjectNav() {
+                document.querySelectorAll('.subject-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector('.subject-btn').classList.add('active');
+            },
+            
+            // Quiz functions
+            startQuiz(type) {
+                this.quizType = type;
+                this.questions = this.selectQuestions(type);
+                this.currentQuestionIndex = 0;
+                this.userAnswers = [];
+                this.quizStartTime = new Date();
+                this.totalQuizTime = 0;
+                
+                // Set time limits based on quiz type
+                if (type === 'mock') {
+                    this.remainingTime = 30 * 60; // 30 minutes
+                } else if (type === 'high') {
+                    this.remainingTime = 20 * 60; // 20 minutes
+                } else {
+                    this.remainingTime = 0; // No time limit for practice
+                }
+                
+                this.showScreen('quiz-screen');
+                this.updateQuizHeader();
+                this.displayQuestion();
+                this.startTimers();
+            },
+            
+            startQuickQuiz() {
+                this.quizType = 'quick';
+                this.questions = this.selectQuestions('quick');
+                this.currentQuestionIndex = 0;
+                this.userAnswers = [];
+                this.quizStartTime = new Date();
+                this.totalQuizTime = 0;
+                this.remainingTime = 10 * 60; // 10 minutes for quick quiz
+                
+                this.showScreen('quiz-screen');
+                this.updateQuizHeader();
+                this.displayQuestion();
+                this.startTimers();
+            },
+            
+            selectQuestions(type) {
+                let filteredQuestions = [...AP_MATH_QUESTIONS];
+                
+                // Filter by difficulty based on quiz type
+                if (type === 'practice') {
+                    return filteredQuestions.slice(0, 10);
+                } else if (type === 'mock') {
+                    // Mix of difficulties for mock exam
+                    return this.shuffleArray(filteredQuestions).slice(0, 15);
+                } else if (type === 'high') {
+                    // More difficult questions for high stakes
+                    return filteredQuestions.filter(q => q.difficulty === 'Medium' || q.difficulty === 'Hard').slice(0, 10);
+                } else if (type === 'quick') {
+                    return this.shuffleArray(filteredQuestions).slice(0, 5);
+                }
+                
+                return filteredQuestions.slice(0, 5);
+            },
+            
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            },
+            
+            updateQuizHeader() {
+                const quizTitle = document.getElementById('quiz-title');
+                const stakeBadge = document.getElementById('stake-badge');
+                
+                if (this.quizType === 'practice') {
+                    quizTitle.textContent = 'AP Mathematics Practice Quiz';
+                    stakeBadge.textContent = 'Practice';
+                    stakeBadge.className = 'stake-badge stake-practice';
+                } else if (this.quizType === 'mock') {
+                    quizTitle.textContent = 'AP Mathematics Mock Exam';
+                    stakeBadge.textContent = 'Mock Exam';
+                    stakeBadge.className = 'stake-badge stake-mock';
+                } else if (this.quizType === 'high') {
+                    quizTitle.textContent = 'AP Mathematics High Stakes Quiz';
+                    stakeBadge.textContent = 'High Stakes';
+                    stakeBadge.className = 'stake-badge stake-high';
+                } else if (this.quizType === 'quick') {
+                    quizTitle.textContent = 'AP Mathematics Quick Quiz';
+                    stakeBadge.textContent = 'Quick Quiz';
+                    stakeBadge.className = 'stake-badge stake-practice';
+                }
+                
+                this.updateProgress();
+            },
+            
+            updateProgress() {
+                const progress = document.getElementById('quiz-progress');
+                const progressText = document.getElementById('progress-text');
+                const progressPercent = (this.currentQuestionIndex / this.questions.length) * 100;
+                
+                progress.style.width = `${progressPercent}%`;
+                progressText.textContent = `Question ${this.currentQuestionIndex + 1} of ${this.questions.length}`;
+                
+                // Update navigation buttons
+                document.getElementById('prev-btn').disabled = this.currentQuestionIndex === 0;
+                
+                if (this.currentQuestionIndex === this.questions.length - 1) {
+                    document.getElementById('next-btn').textContent = 'Finish Quiz';
+                } else {
+                    document.getElementById('next-btn').textContent = 'Next Question';
+                }
+            },
+            
+            displayQuestion() {
+                if (this.currentQuestionIndex >= this.questions.length) {
+                    this.finishQuiz();
+                    return;
+                }
+                
+                const question = this.questions[this.currentQuestionIndex];
+                document.getElementById('question-number').textContent = `Question ${this.currentQuestionIndex + 1}`;
+                document.getElementById('question-text').textContent = question.question;
+                document.getElementById('question-taxonomy').textContent = question.questionType.charAt(0).toUpperCase() + question.questionType.slice(1);
+                
+                // Update adaptive metrics
+                document.getElementById('current-score').textContent = this.calculateCurrentScore() + '%';
+                document.getElementById('difficulty-level').textContent = question.difficulty;
+                document.getElementById('pattern-type').textContent = question.questionType.charAt(0).toUpperCase() + question.questionType.slice(1);
+                document.getElementById('info-classification').textContent = question.infoType.charAt(0).toUpperCase() + question.infoType.slice(1);
+                
+                // Display options
+                const optionsList = document.getElementById('options-list');
+                optionsList.innerHTML = '';
+                
+                question.options.forEach((option, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'option-item';
+                    
+                    const label = document.createElement('label');
+                    label.className = 'option-label';
+                    if (this.userAnswers[this.currentQuestionIndex] === index) {
+                        label.classList.add('selected');
+                    }
+                    
+                    const radio = document.createElement('div');
+                    radio.className = 'option-radio';
+                    
+                    const text = document.createElement('div');
+                    text.className = 'option-text';
+                    text.textContent = option;
+                    
+                    label.appendChild(radio);
+                    label.appendChild(text);
+                    
+                    label.onclick = () => this.selectOption(index);
+                    
+                    li.appendChild(label);
+                    optionsList.appendChild(li);
+                });
+                
+                // Start question timer
+                this.questionStartTime = new Date();
+                
+                this.updateProgress();
+            },
+            
+            selectOption(optionIndex) {
+                this.userAnswers[this.currentQuestionIndex] = optionIndex;
+                
+                // Update UI to show selected option
+                document.querySelectorAll('.option-label').forEach((label, index) => {
+                    if (index === optionIndex) {
+                        label.classList.add('selected');
+                    } else {
+                        label.classList.remove('selected');
+                    }
+                });
+            },
+            
+            previousQuestion() {
+                if (this.currentQuestionIndex > 0) {
+                    this.currentQuestionIndex--;
+                    this.displayQuestion();
+                }
+            },
+            
+            nextQuestion() {
+                if (this.currentQuestionIndex < this.questions.length - 1) {
+                    this.currentQuestionIndex++;
+                    this.displayQuestion();
+                } else {
+                    this.finishQuiz();
+                }
+            },
+            
+            finishQuiz() {
+                this.stopAllTimers();
+                this.showScreen('results-screen');
+                this.calculateResults();
+            },
+            
+            calculateResults() {
+                let correctCount = 0;
+                
+                this.userAnswers.forEach((answer, index) => {
+                    if (answer === this.questions[index].correct) {
+                        correctCount++;
+                    }
+                });
+                
+                const score = (correctCount / this.questions.length) * 100;
+                
+                document.getElementById('score-display').textContent = Math.round(score) + '%';
+                document.getElementById('correct-display').textContent = correctCount;
+                document.getElementById('incorrect-display').textContent = this.questions.length - correctCount;
+                
+                // Calculate time taken
+                const endTime = new Date();
+                const timeTaken = Math.floor((endTime - this.quizStartTime) / 1000);
+                const minutes = Math.floor(timeTaken / 60);
+                const seconds = timeTaken % 60;
+                document.getElementById('time-display').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update pattern breakdown
+                this.updatePatternBreakdown();
+            },
+            
+            updatePatternBreakdown() {
+                const patternBreakdown = document.getElementById('pattern-breakdown');
+                patternBreakdown.innerHTML = '';
+                
+                const patternCounts = {};
+                const patternCorrect = {};
+                
+                this.questions.forEach((question, index) => {
+                    const pattern = question.questionType;
+                    if (!patternCounts[pattern]) {
+                        patternCounts[pattern] = 0;
+                        patternCorrect[pattern] = 0;
+                    }
+                    
+                    patternCounts[pattern]++;
+                    
+                    if (this.userAnswers[index] === question.correct) {
+                        patternCorrect[pattern]++;
+                    }
+                });
+                
+                for (const pattern in patternCounts) {
+                    const count = patternCounts[pattern];
+                    const correct = patternCorrect[pattern];
+                    const percentage = Math.round((correct / count) * 100);
+                    
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between mb-sm';
+                    div.innerHTML = `
+                        <span>${pattern.charAt(0).toUpperCase() + pattern.slice(1)}</span>
+                        <span>${correct}/${count} (${percentage}%)</span>
+                    `;
+                    patternBreakdown.appendChild(div);
+                }
+                
+                // Update information breakdown
+                const infoBreakdown = document.getElementById('information-breakdown');
+                infoBreakdown.innerHTML = '';
+                
+                const infoCounts = {};
+                const infoCorrect = {};
+                
+                this.questions.forEach((question, index) => {
+                    const infoType = question.infoType;
+                    if (!infoCounts[infoType]) {
+                        infoCounts[infoType] = 0;
+                        infoCorrect[infoType] = 0;
+                    }
+                    
+                    infoCounts[infoType]++;
+                    
+                    if (this.userAnswers[index] === question.correct) {
+                        infoCorrect[infoType]++;
+                    }
+                });
+                
+                for (const infoType in infoCounts) {
+                    const count = infoCounts[infoType];
+                    const correct = infoCorrect[infoType];
+                    const percentage = Math.round((correct / count) * 100);
+                    
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between mb-sm';
+                    div.innerHTML = `
+                        <span>${infoType.charAt(0).toUpperCase() + infoType.slice(1)}</span>
+                        <span>${correct}/${count} (${percentage}%)</span>
+                    `;
+                    infoBreakdown.appendChild(div);
+                }
+            },
+            
+            calculateCurrentScore() {
+                if (this.currentQuestionIndex === 0) return 0;
+                
+                let correctCount = 0;
+                for (let i = 0; i < this.currentQuestionIndex; i++) {
+                    if (this.userAnswers[i] === this.questions[i].correct) {
+                        correctCount++;
+                    }
+                }
+                
+                return Math.round((correctCount / this.currentQuestionIndex) * 100);
+            },
+            
+            // Timer functions
+            startTimers() {
+                // Clear any existing timers
+                this.stopAllTimers();
+                
+                // Start quiz timer if applicable
+                if (this.remainingTime > 0) {
+                    this.quizTimerInterval = setInterval(() => {
+                        this.remainingTime--;
+                        this.totalQuizTime++;
+                        
+                        const minutes = Math.floor(this.remainingTime / 60);
+                        const seconds = this.remainingTime % 60;
+                        document.getElementById('timer-display').textContent = `Time: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                        
+                        if (this.remainingTime <= 0) {
+                            this.finishQuiz();
+                        }
+                    }, 1000);
+                }
+                
+                // Start question timer
+                this.questionStartTime = new Date();
+                this.timerInterval = setInterval(() => {
+                    const elapsed = Math.floor((new Date() - this.questionStartTime) / 1000);
+                    const remaining = Math.max(0, 60 - elapsed); // 60 seconds per question
+                    
+                    const minutes = Math.floor(remaining / 60);
+                    const seconds = remaining % 60;
+                    document.getElementById('question-timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
+            },
+            
+            stopAllTimers() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                }
+                
+                if (this.quizTimerInterval) {
+                    clearInterval(this.quizTimerInterval);
+                    this.quizTimerInterval = null;
+                }
+            },
+            
+            // Utility functions
+            exitQuiz() {
+                if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
+                    this.goHome();
+                }
+            },
+            
+            saveProgress() {
+                this.showComingSoon('Save Progress');
+            },
+            
+            reviewAnswers() {
+                this.showComingSoon('Answer Review');
+            },
+            
+            retakeQuiz() {
+                this.startQuiz(this.quizType);
+            },
+            
+            showQuestionBank() {
+                this.showComingSoon('Question Bank');
+            },
+            
+            // Modal functions
+            showPremiumModal() {
+                document.getElementById('premium-modal').classList.remove('hidden');
+            },
+            
+            showComingSoon(feature) {
+                document.getElementById('coming-soon-text').textContent = `${feature} is currently under development.`;
+                document.getElementById('coming-soon-modal').classList.remove('hidden');
+            },
+            
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.add('hidden');
+            },
+            
+            handleModalBackdrop(event, modalId) {
+                if (event.target.id === modalId) {
+                    this.closeModal(modalId);
+                }
+            },
+            
+            processPayment() {
+                this.showComingSoon('Payment Processing');
+            },
+            
+            showSubject(subject) {
+                if (subject === 'ap-math') {
+                    this.goHome();
+                } else {
+                    this.showComingSoon(subject.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '));
+                }
+            }
+        };
+
+        // Initialize the application when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            MathQuiz.init();
+        });
+    </script>
+</body>
+</html>
